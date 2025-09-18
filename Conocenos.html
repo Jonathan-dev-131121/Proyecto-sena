@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIENVENIDO A SMARTAQUA PRO</title>
+    <link rel="PRELOAD" href="css/estilos.css" as="style">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body>
+
+    <nav class="navegacion">
+        <a href="INDEX.html">Página principal |</a>
+        <a href="Inicio_de_sesion.html">Inicio de sesión |</a>
+        <a href="Lo_mas_nuevo.html">Lo más nuevo |</a>
+    </nav>
+
+    <header>
+        <h1 class="somos">¿QUIENES SOMOS?</h1>
+    </header>
+
+    <main>
+        <section>
+            <div  class="historia">           
+            <h2>Nuestra historia</h2>
+            <p id="parrafo_historia"></p>
+            <script>
+             fetch('historia.txt')
+             .then(response => response.text())
+             .then(data => {
+             const lineas = data.split('\n');
+             const contenedor = document.getElementById('parrafo_historia');
+             lineas.forEach(linea => {
+             const elemento = document.createElement('div');
+             if (linea.startsWith('#')) {
+             elemento.className = 'titulo_parrafo';
+             elemento.textContent = linea.replace(/^#\s*/, '');
+             } else {
+             elemento.textContent = linea;
+            }
+            contenedor.appendChild(elemento);
+            });
+            })
+            .catch(error => {
+            console.error('Error al cargar el archivo:', error);
+            });
+            </script>
+            </div>
+            
+            <div  class="asi_somos">
+            <h2>Así somos</h2>
+            <p id="parrafo_somos"></p>
+            <script>
+             fetch('somos.txt')
+             .then(response => response.text())
+             .then(data => {
+             const lineas = data.split('\n');
+             const contenedor = document.getElementById('parrafo_somos');
+             lineas.forEach(linea => {
+             const elemento = document.createElement('div');
+             if (linea.startsWith('#')) {
+             elemento.className = 'titulo_parrafo';
+             elemento.textContent = linea.replace(/^#\s*/, '');
+             } else {
+             elemento.textContent = linea;
+             }
+             contenedor.appendChild(elemento);
+             });
+             })
+             .catch(error => {
+             console.error('Error al cargar el archivo:', error);
+             });
+            </script>
+            </div>
+
+            <div>
+            <h2 class="nuestros_clientes">Nuestros clientes</h2>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <section  class="contactanos">
+            <h3>Contáctanos</h3>
+            <p>correo electrónico: contacto@dominio.com</p>
+            <p>teléfono: +57 3072844801 - +57 3133734165</p>
+            <p>Dirección: Transversal 10500 via trenes salida principal</p>
+            <p>Escríbenos</p>
+            <fieldset>
+                <legend>Diligencia todos los campos</legend>
+                    <form id="form-contacto" autocomplete="on">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Nombre completo" autocomplete="name" />
+                    <br>
+                    <label for="email">Correo electrónico:</label>
+                    <input type="email" id="email" name="email" placeholder="Correo electrónico" autocomplete="email" />
+                    <br>
+                    <label for="mensaje">Mensaje:</label>
+                    <textarea id="mensaje" name="mensaje" placeholder="El texto debe contener mínimo 10 palabras" autocomplete="off"></textarea>
+                    <br>
+                    <button type="submit">Enviar</button>
+                    </form>
+            </fieldset>
+        </section>
+    </footer>
+
+    <div id="notificacion-exito" class="notificacion">
+        <span class="cerrar-notificacion">&times;</span>
+        <div class="icono">&#10004;</div>
+        <p>¡Mensaje enviado correctamente!</p>
+        </div>
+        <audio id="sonido-exito" src="https://www.soundjay.com/buttons/sounds/button-3.mp3" preload="auto"></audio>
+    <script src="contacto.js"></script>
+</body>
+
+</html>

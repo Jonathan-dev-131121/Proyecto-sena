@@ -1,0 +1,36 @@
+[2025-08-26 09:08:00] Error de conexión: SQLSTATE[08006] [7] fe_sendauth: no password supplied
+[2025-08-26 09:10:57] Error de conexión: SQLSTATE[08006] [7] fe_sendauth: no password supplied
+[2025-08-26 09:11:02] Error de conexión: SQLSTATE[08006] [7] fe_sendauth: no password supplied
+[2025-08-26 09:12:30] Error de conexión: SQLSTATE[08006] [7] fe_sendauth: no password supplied
+[2025-08-26 09:12:42] Error de conexión: SQLSTATE[08006] [7] fe_sendauth: no password supplied
+[2025-08-26 09:12:50] Error de conexión: SQLSTATE[08006] [7] fe_sendauth: no password supplied
+[2025-08-26 09:13:34] SQLSTATE[42P01]: Undefined table: 7 ERROR:  no existe la relación «usuarios»
+LINE 1: SELECT tipo_usuario FROM usuarios WHERE usuario = $1 AND cla...
+                                 ^
+[2025-08-26 09:13:44] SQLSTATE[42P01]: Undefined table: 7 ERROR:  no existe la relación «usuarios»
+LINE 1: SELECT tipo_usuario FROM usuarios WHERE usuario = $1 AND cla...
+                                 ^
+[2025-08-26 09:13:57] SQLSTATE[42P01]: Undefined table: 7 ERROR:  no existe la relación «usuarios»
+LINE 1: SELECT tipo_usuario FROM usuarios WHERE usuario = $1 AND cla...
+                                 ^
+[2025-08-26 09:15:23] SQLSTATE[42P01]: Undefined table: 7 ERROR:  no existe la relación «usuarios»
+LINE 1: SELECT tipo_usuario FROM usuarios WHERE usuario = $1 AND cla...
+                                 ^
+[2025-08-26 09:17:35] SQLSTATE[42P01]: Undefined table: 7 ERROR:  no existe la relación «usuarios»
+LINE 1: SELECT tipo_usuario FROM usuarios WHERE usuario = $1 AND cla...
+                                 ^
+[2025-08-26 09:18:10] SQLSTATE[42P01]: Undefined table: 7 ERROR:  no existe la relación «usuarios»
+LINE 1: SELECT tipo_usuario FROM usuarios WHERE usuario = $1 AND cla...
+                                 ^
+[2025-08-26 09:30:06] SQLSTATE[42P01]: Undefined table: 7 ERROR:  no existe la relación «usuarios»
+LINE 1: SELECT tipo_usuario FROM usuarios WHERE usuario = $1 AND cla...
+                                 ^
+[2025-08-26 09:32:44] SQLSTATE[42P01]: Undefined table: 7 ERROR:  no existe la relación «usuarios»
+LINE 1: SELECT tipo_usuario FROM usuarios WHERE usuario = $1 AND cla...
+                                 ^
+[2025-08-26 09:43:34] SQLSTATE[42P01]: Undefined table: 7 ERROR:  no existe la relación «usuarios»
+LINE 1: SELECT tipo_usuario FROM usuarios WHERE usuario = $1 AND cla...
+                                 ^
+[2025-08-26 09:45:07] SQLSTATE[42P01]: Undefined table: 7 ERROR:  no existe la relación «usuarios»
+LINE 1: SELECT tipo_usuario FROM usuarios WHERE usuario = $1 AND cla...
+                                 ^

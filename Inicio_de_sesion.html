@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIENVENIDO A SMARTAQUA PRO</title>
+    <link rel="preload" href="css/estilos.css" as="style">
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+
+    <nav class="navegacion">
+        <a href="Conocenos.html">Conócenos |</a>
+        <a href="INDEX.html">Página principal |</a>
+        <a href="Lo_mas_nuevo.html">Lo más nuevo |</a>
+    </nav>
+
+    <main>
+    <div class="seccion_formulario"> 
+        <section>
+        <div class="acceso_usuario"><h2>Acceso de usuario</h2></div>
+        <form id="loginForm" action="login.php" method="POST" class="formulario">
+            <label for="username">Usuario:</label>
+            <input type="text" id="username" name="usuario" placeholder="Digite su usuario"/>
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="clave" placeholder="Digite su contraseña"/>
+            <button type="submit">Iniciar sesión</button>
+        </form>
+        <!-- Mensaje de error -->
+        <div id="error-msg" style="color:white; display:none; margin-top:10px;"></div>
+        </section>
+    </div>  
+    </main>
+    <script>
+        // Validación cliente: evita enviar formulario si usuario o contraseña están vacíos
+        (function(){
+            const form = document.getElementById('loginForm');
+            const errorEl = document.getElementById('error-msg');
+            form.addEventListener('submit', function(e){
+                const user = document.getElementById('username').value.trim();
+                const pass = document.getElementById('password').value.trim();
+                if (!user || !pass) {
+                    e.preventDefault();
+                    errorEl.textContent = 'Por favor ingresa usuario y contraseña.';
+                    errorEl.style.display = 'block';
+                    setTimeout(() => { errorEl.style.display = 'none'; }, 4000);
+                    return false;
+                }
+                return true;
+            });
+        })();
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("logout") === "1") {
+        document.getElementById("logout-msg").style.display = "block";
+        setTimeout(() => {
+            document.getElementById("logout-msg").style.display = "none";
+        }, 4000);
+    }
+    if (params.get("error") === "credenciales") {
+        document.getElementById("error-msg").textContent = "Usuario o contraseña incorrectos.";
+        document.getElementById("error-msg").style.display = "block"; 
+        setTimeout(() => {
+            document.getElementById("error-msg").style.display = "none";
+        }, 4000);
+    }
+    if (params.get("error") === "noregistrado") {
+        document.getElementById("error-msg").textContent = "Usuario no registrado.";
+        document.getElementById("error-msg").style.display = "block";
+        setTimeout(() => {
+            document.getElementById("error-msg").style.display = "none";
+        }, 4000);
+    }
+    if (params.get("error") === "vacio") {
+        document.getElementById("error-msg").textContent = "Por favor ingresa usuario y contraseña.";
+        document.getElementById("error-msg").style.display = "block";
+        setTimeout(() => {
+            document.getElementById("error-msg").style.display = "none";
+        }, 4000);
+    }
+    if (params.get("error") === "conexion") {
+        document.getElementById("error-msg").textContent = "Error de conexión. Por favor, inténtalo más tarde.";
+        document.getElementById("error-msg").style.display = "block";
+        setTimeout(() => {
+            document.getElementById("error-msg").style.display = "none";
+        }, 4000);
+    }
+    </script>
+</body>
+
+</html>
