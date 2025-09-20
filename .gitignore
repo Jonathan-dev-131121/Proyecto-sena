@@ -3,3 +3,8 @@ seguridad/conexion.php
 seguridad/funciones.php
 conf.php
 img/
+db_errors.log
+sim_users.json
+.env
+usuario_administrador.php
+scripts/usuario_administrador.php

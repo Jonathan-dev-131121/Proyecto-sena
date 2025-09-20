@@ -232,36 +232,37 @@ $initialPh = [];
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link href="css/operario.css" rel="stylesheet">
+    <link href="css/comun.css" rel="stylesheet">
+    <link href="css/estilos.css" rel="stylesheet">
     <style>
         .card-subtitle { font-size: .85rem; }
         .badge { min-width: 72px; text-align:center; }
         .table-fixed { max-height: 60vh; overflow:auto; display:block; }
     </style>
 </head>
-<body class="bg-light">
+<body class="bg-light operario-page has-hero">
 <div class="container-fluid operario-wrap">
     <div class="container operario-inner">
     <div class="operario-top d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
             <i class="bi bi-droplet-fill text-info" style="font-size:28px"></i>
             <div class="ms-2">
-                <div class="operario-title mb-0">Panel del Operario</div>
+                <div class="operario-title mb-0">Panel Operario</div>
                 <div class="small text-muted"><?php echo htmlspecialchars($_SESSION['usuario'], ENT_QUOTES, 'UTF-8'); ?></div>
             </div>
         </div>
 
         <div class="d-flex align-items-center">
-            <span id="modoBadge" class="me-3 badge <?php echo $modoFicticio ? 'bg-info text-dark' : 'bg-secondary text-white'; ?>">
+            <span id="modoBadge" class="me-3 badge <?php echo $modoFicticio ? 'status-att text-dark' : 'status-ok text-white'; ?>">
                 <?php echo $modoFicticio ? 'MODO FICTICIO' : 'MODO REAL (BD)'; ?>
             </span>
-            <a href="cerrar_sesion.php" class="btn btn-outline-dark btn-sm ms-2"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
+            <a href="cerrar_sesion.php" class="btn btn-outline-primary btn-sm ms-2"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
         </div>
     </div>
 
     <div class="row g-3 mt-3">
         <div class="col-12 col-md-6 col-lg-3">
-            <div class="card h-100">
+            <div class="card glass h-100">
                         <div class="card-body metric-nivel">
                             <h6 class="card-title">Nivel de tanque</h6>
                             <div class="metric-row">
@@ -276,7 +277,7 @@ $initialPh = [];
             </div>
         </div>
         <div class="col-12 col-md-6 col-lg-3">
-            <div class="card h-100">
+            <div class="card glass h-100">
                 <div class="card-body metric-caudal">
                     <h6 class="card-title">Caudal entrada</h6>
                     <div class="metric-row">
@@ -291,7 +292,7 @@ $initialPh = [];
             </div>
         </div>
         <div class="col-12 col-md-6 col-lg-3">
-            <div class="card h-100">
+            <div class="card glass h-100">
                 <div class="card-body metric-ph">
                     <h6 class="card-title">pH</h6>
                     <div class="metric-row">
@@ -306,7 +307,7 @@ $initialPh = [];
             </div>
         </div>
         <div class="col-12 col-md-6 col-lg-3">
-            <div class="card h-100">
+            <div class="card glass h-100">
                 <div class="card-body d-flex flex-column">
                     <h6 class="card-title">Acciones</h6>
                     <div class="mt-auto">
@@ -339,18 +340,18 @@ $initialPh = [];
                     <small class="text-muted">Indicadores</small>
                 </div>
                 <div class="status-list">
-                    <div class="status-item d-flex justify-content-between align-items-center">
-                        <div>Bomba 1</div>
-                        <div><span id="bombaBadge" class="badge bg-secondary">—</span></div>
-                    </div>
-                    <div class="status-item d-flex justify-content-between align-items-center">
-                        <div>Filtro A</div>
-                        <div><span id="filtroBadge" class="badge bg-secondary">—</span></div>
-                    </div>
-                    <div class="status-item d-flex justify-content-between align-items-center">
-                        <div>Sensor pH</div>
-                        <div><span id="phBadge" class="badge bg-secondary">—</span></div>
-                    </div>
+                        <div class="status-item d-flex justify-content-between align-items-center">
+                            <div>Bomba 1</div>
+                            <div><span id="bombaBadge" class="badge status-ok">—</span></div>
+                        </div>
+                        <div class="status-item d-flex justify-content-between align-items-center">
+                            <div>Filtro A</div>
+                            <div><span id="filtroBadge" class="badge status-ok">—</span></div>
+                        </div>
+                        <div class="status-item d-flex justify-content-between align-items-center">
+                            <div>Sensor pH</div>
+                            <div><span id="phBadge" class="badge status-ok">—</span></div>
+                        </div>
                 </div>
 
                 <div class="small text-muted mt-3">
@@ -465,21 +466,21 @@ $initialPh = [];
 
         let bombaLabel, bombaClass;
         if (caudal > 720) {
-            bombaLabel = 'Alarma'; bombaClass = 'bg-danger';
+            bombaLabel = 'Alarma'; bombaClass = 'status-alarm';
         } else if (nivel > 100) {
-            bombaLabel = 'Alarma'; bombaClass = 'bg-danger';
+            bombaLabel = 'Alarma'; bombaClass = 'status-alarm';
         } else if (nivel >= 80) {
-            bombaLabel = 'Atención'; bombaClass = 'bg-warning text-dark';
+            bombaLabel = 'Atención'; bombaClass = 'status-att';
         } else {
             if (nivel < 10 || caudal < 20) {
-                bombaLabel = 'Alarma'; bombaClass = 'bg-danger';
+                bombaLabel = 'Alarma'; bombaClass = 'status-alarm';
             } else {
-                bombaLabel = 'OK'; bombaClass = 'bg-success';
+                bombaLabel = 'OK'; bombaClass = 'status-ok';
             }
         }
 
         const DROP_ALARMA = 25, DROP_ATENCION = 8, CAUDAL_BAJO = 50;
-        let filtroLabel = 'OK', filtroClass = 'bg-success';
+    let filtroLabel = 'OK', filtroClass = 'status-ok';
         if (Array.isArray(history) && history.length >= 2) {
             const last = history[history.length - 1];
             const prev = history[history.length - 2];
@@ -487,19 +488,19 @@ $initialPh = [];
             const lastCaudal = parseFloat(last.caudal ?? 0);
             if (prevCaudal > 0) {
                 const drop = ((prevCaudal - lastCaudal) / prevCaudal) * 100;
-                if (drop > DROP_ALARMA) { filtroLabel = 'Alarma'; filtroClass = 'bg-danger'; }
-                else if (drop > DROP_ATENCION) { filtroLabel = 'Atención'; filtroClass = 'bg-warning text-dark'; }
+                if (drop > DROP_ALARMA) { filtroLabel = 'Alarma'; filtroClass = 'status-alarm'; }
+                else if (drop > DROP_ATENCION) { filtroLabel = 'Atención'; filtroClass = 'status-att'; }
             } else {
-                if (lastCaudal < CAUDAL_BAJO) { filtroLabel = 'Atención'; filtroClass = 'bg-warning text-dark'; }
+                if (lastCaudal < CAUDAL_BAJO) { filtroLabel = 'Atención'; filtroClass = 'status-att'; }
             }
         } else {
-            if (caudal < CAUDAL_BAJO) { filtroLabel = 'Atención'; filtroClass = 'bg-warning text-dark'; }
+            if (caudal < CAUDAL_BAJO) { filtroLabel = 'Atención'; filtroClass = 'status-att'; }
         }
 
         let phLabel, phClass;
-        if (ph < 6.5 || ph > 8.5) { phLabel = 'Alarma'; phClass = 'bg-danger'; }
-        else if (ph < 6.8 || ph > 7.6) { phLabel = 'Atención'; phClass = 'bg-warning text-dark'; }
-        else { phLabel = 'OK'; phClass = 'bg-success'; }
+    if (ph < 6.5 || ph > 8.5) { phLabel = 'Alarma'; phClass = 'status-alarm'; }
+    else if (ph < 6.8 || ph > 7.6) { phLabel = 'Atención'; phClass = 'status-att'; }
+    else { phLabel = 'OK'; phClass = 'status-ok'; }
 
         setBadge('bombaBadge', bombaLabel, bombaClass);
         setBadge('filtroBadge', filtroLabel, filtroClass);

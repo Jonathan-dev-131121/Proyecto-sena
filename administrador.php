@@ -36,17 +36,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($accion === 'crear') {
             $user = limpiar($_POST['username'] ?? '');
             $pass = $_POST['password'] ?? '';
-            if ($user === '' || $pass === '') {
-                $mensaje = 'Usuario y contraseña son obligatorios.';
+            $role = $_POST['role'] ?? ''; 
+            if ($user === '' || $pass === '' || $role === '') {
+                $mensaje = 'Usuario, contraseña y rol son obligatorios.';
             } else {
                 if (defined('MODO_FICTICIO') && MODO_FICTICIO) {
                     // Inicializar estructuras si no existen
-                    if (!isset($_SESSION['sim_users']) || !is_array($_SESSION['sim_users'])) {
-                        $_SESSION['sim_users'] = [];
-                    }
-                    if (!isset($_SESSION['sim_usuarios']) || !is_array($_SESSION['sim_usuarios'])) {
-                        $_SESSION['sim_usuarios'] = [];
-                    }
+                    require_once __DIR__ . '/seguridad/funciones.php';
+                    ensureSimUsersInSession();
 
                     // Verificar existencia por username
                     $exists = false;
@@ -59,93 +56,127 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         // Crear nuevo registro con id incremental
                         $max = 0; foreach ($_SESSION['sim_users'] as $u) { if (($u['id'] ?? 0) > $max) $max = $u['id']; }
                         $newId = $max + 1;
-                        $new = ['id' => $newId, 'username' => $user, 'password' => $pass, 'rol' => 'operario'];
+                        $new = ['id' => $newId, 'username' => $user, 'password' => $pass, 'rol' => $role];
                         $_SESSION['sim_users'][] = $new;
                         // Añadir al mapa de login
-                        $_SESSION['sim_usuarios'][$user] = ['clave' => $pass, 'rol' => 'operario'];
-                        $mensaje = 'Modo ficticio: usuario simulado creado.';
+                        $_SESSION['sim_usuarios'][$user] = ['clave' => $pass, 'rol' => $role];
+                        // Persistir en disco
+                        saveSimUsers($_SESSION['sim_usuarios']);
+                        $mensaje = 'Modo ficticio: usuario simulado creado y guardado.';
                     }
                 } else {
                     if (usuarioExiste($pdo, $user)) {
                         $mensaje = 'El usuario ya existe.';
                     } else {
-                        $ok = registrarUsuario($pdo, $user, $pass);
+                        // pasar el rol seleccionado al registrarUsuario
+                        $ok = registrarUsuario($pdo, $user, $pass, $role);
                         $mensaje = $ok ? 'Usuario creado correctamente.' : 'Error al crear el usuario.';
                     }
                 }
             }
         } elseif ($accion === 'eliminar') {
-            $id = intval($_POST['id'] ?? 0);
-            if ($id <= 0) {
-                $mensaje = 'ID de usuario inválido.';
+            // aceptar tanto id numérico (input 'id') como usuario (input 'usuario')
+            $target = $_POST['id'] ?? $_POST['usuario'] ?? '';
+            if ($target === '') {
+                $mensaje = 'ID o usuario no proporcionado.';
             } else {
+                // si target es numérico usar id, si no usar username
+                $isId = is_numeric($target);
                 if (defined('MODO_FICTICIO') && MODO_FICTICIO) {
-                    if (!isset($_SESSION['sim_users']) || !is_array($_SESSION['sim_users'])) {
-                        $mensaje = 'No hay usuarios simulados.';
-                    } else {
-                        $idx = false;
-                        foreach ($_SESSION['sim_users'] as $i => $u) { if ((int)($u['id'] ?? 0) === $id) { $idx = $i; break; } }
-                        if ($idx === false) {
-                            $mensaje = 'Usuario no encontrado (modo simulado).';
+                    require_once __DIR__ . '/seguridad/funciones.php';
+                    ensureSimUsersInSession();
+                    $idx = false;
+                    foreach ($_SESSION['sim_users'] as $i => $u) {
+                        if ($isId) {
+                            if ((int)($u['id'] ?? 0) === (int)$target) { $idx = $i; break; }
                         } else {
-                            // evitar eliminar último admin
-                            $adminCount = 0; foreach ($_SESSION['sim_users'] as $u) { if (($u['rol'] ?? '') === 'administrador') $adminCount++; }
-                            if (($_SESSION['sim_users'][$idx]['rol'] ?? '') === 'administrador' && $adminCount <= 1) {
-                                $mensaje = 'No se puede eliminar al último administrador (modo simulado).';
+                            if (($u['username'] ?? '') === (string)$target) { $idx = $i; break; }
+                        }
+                    }
+                    if ($idx === false) {
+                        $mensaje = 'Usuario no encontrado (modo simulado).';
+                    } else {
+                        // evitar eliminar al último admin
+                        $adminCount = 0; foreach ($_SESSION['sim_users'] as $u) { if (($u['rol'] ?? '') === 'administrador') $adminCount++; }
+                        if (($_SESSION['sim_users'][$idx]['rol'] ?? '') === 'administrador' && $adminCount <= 1) {
+                            $mensaje = 'No se puede eliminar al último administrador (modo simulado).';
+                        } else {
+                            // impedir eliminar al usuario actual
+                            if (($_SESSION['sim_users'][$idx]['username'] ?? '') === ($_SESSION['usuario'] ?? '')) {
+                                $mensaje = 'No puede eliminar su propia cuenta.';
                             } else {
-                                // impedir eliminar al usuario actual
-                                if (($_SESSION['sim_users'][$idx]['username'] ?? '') === ($_SESSION['usuario'] ?? '')) {
-                                    $mensaje = 'No puede eliminar su propia cuenta.';
-                                } else {
-                                    $delUser = $_SESSION['sim_users'][$idx]['username'];
-                                    array_splice($_SESSION['sim_users'], $idx, 1);
-                                    if (isset($_SESSION['sim_usuarios'][$delUser])) unset($_SESSION['sim_usuarios'][$delUser]);
-                                    $mensaje = 'Modo ficticio: usuario simulado eliminado.';
-                                }
+                                $delUser = $_SESSION['sim_users'][$idx]['username'];
+                                array_splice($_SESSION['sim_users'], $idx, 1);
+                                if (isset($_SESSION['sim_usuarios'][$delUser])) unset($_SESSION['sim_usuarios'][$delUser]);
+                                // Persistir cambios
+                                saveSimUsers($_SESSION['sim_usuarios']);
+                                $mensaje = 'Modo ficticio: usuario simulado eliminado y guardado.';
                             }
                         }
                     }
                 } else {
-                    $ok = eliminarUsuario($pdo, $id);
+                    // modo real: la función eliminarUsuario acepta usuario o id
+                    $ok = eliminarUsuario($pdo, $isId ? (int)$target : (string)$target);
                     $mensaje = $ok ? 'Usuario eliminado.' : 'No se pudo eliminar el usuario (¿último admin?).';
                 }
             }
         } elseif ($accion === 'editar') {
-            $id = intval($_POST['id'] ?? 0);
-            $newRol = limpiar($_POST['rol'] ?? '');
+            // aceptar id o usuario
+            $target = $_POST['id'] ?? $_POST['usuario'] ?? '';
+            $newRol = limpiar($_POST['tipo_usuario'] ?? $_POST['rol'] ?? '');
             $newPass = $_POST['password_edit'] ?? null; // opcional
-            if ($id <= 0) {
-                $mensaje = 'ID de usuario inválido.';
+            if ($target === '') {
+                $mensaje = 'ID o usuario no proporcionado.';
             } else {
+                $isId = is_numeric($target);
                 if (defined('MODO_FICTICIO') && MODO_FICTICIO) {
-                    if (!isset($_SESSION['sim_users']) || !is_array($_SESSION['sim_users'])) {
-                        $mensaje = 'No hay usuarios simulados.';
-                    } else {
-                        $idx = false;
-                        foreach ($_SESSION['sim_users'] as $i => $u) { if ((int)($u['id'] ?? 0) === $id) { $idx = $i; break; } }
-                        if ($idx === false) {
-                            $mensaje = 'Usuario no encontrado (modo simulado).';
+                    require_once __DIR__ . '/seguridad/funciones.php';
+                    ensureSimUsersInSession();
+                    $idx = false;
+                    foreach ($_SESSION['sim_users'] as $i => $u) {
+                        if ($isId) {
+                            if ((int)($u['id'] ?? 0) === (int)$target) { $idx = $i; break; }
                         } else {
-                            if ($newRol !== '') $_SESSION['sim_users'][$idx]['rol'] = $newRol;
-                            if ($newPass !== null && $newPass !== '') $_SESSION['sim_users'][$idx]['password'] = $newPass;
-                            // sync map
-                            $uname = $_SESSION['sim_users'][$idx]['username'];
-                            if (!isset($_SESSION['sim_usuarios']) || !is_array($_SESSION['sim_usuarios'])) $_SESSION['sim_usuarios'] = [];
-                            if ($newPass !== null && $newPass !== '') $_SESSION['sim_usuarios'][$uname]['clave'] = $newPass;
-                            if ($newRol !== '') $_SESSION['sim_usuarios'][$uname]['rol'] = $newRol;
-                            $mensaje = 'Modo ficticio: usuario simulado editado.';
+                            if (($u['username'] ?? '') === (string)$target) { $idx = $i; break; }
                         }
                     }
-                } else {
-                    if ($newPass === '') {
-                        $newPass = null; // no cambiar contraseña si campo vacío
-                    }
-                    // Validar rol
-                    if ($newRol !== '' && !validarRol($newRol)) {
-                        $mensaje = 'Rol no válido.';
+                    if ($idx === false) {
+                        $mensaje = 'Usuario no encontrado (modo simulado).';
                     } else {
-                        $ok = updateUsuario($pdo, $id, $newPass, $newRol !== '' ? $newRol : null);
-                        $mensaje = $ok ? 'Usuario actualizado.' : 'No se pudo actualizar el usuario.';
+                        if ($newRol !== '') $_SESSION['sim_users'][$idx]['rol'] = $newRol;
+                        if ($newPass !== null && $newPass !== '') $_SESSION['sim_users'][$idx]['password'] = $newPass;
+                        // sync map
+                        $uname = $_SESSION['sim_users'][$idx]['username'];
+                        if (!isset($_SESSION['sim_usuarios']) || !is_array($_SESSION['sim_usuarios'])) $_SESSION['sim_usuarios'] = [];
+                        if ($newPass !== null && $newPass !== '') $_SESSION['sim_usuarios'][$uname]['clave'] = $newPass;
+                        if ($newRol !== '') $_SESSION['sim_usuarios'][$uname]['rol'] = $newRol;
+                        // Persistir cambios
+                        saveSimUsers($_SESSION['sim_usuarios']);
+                        $mensaje = 'Modo ficticio: usuario simulado editado y guardado.';
+                    }
+                } else {
+                    // modo real: si target es usuario (string) obtener id antes de update
+                    $idForUpdate = null;
+                    if ($isId) {
+                        $idForUpdate = (int)$target;
+                    } else {
+                        $stmt = $pdo->prepare('SELECT usuario FROM usuarios WHERE usuario = :usuario');
+                        $stmt->bindParam(':usuario', $target, PDO::PARAM_STR);
+                        $stmt->execute();
+                        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                        $idForUpdate = $row['usuario'] ?? null;
+                    }
+
+                    if ($idForUpdate === null) {
+                        $mensaje = 'Usuario no encontrado (DB).';
+                    } else {
+                        if ($newPass === '') $newPass = null;
+                        if ($newRol !== '' && !validarRol($newRol)) {
+                            $mensaje = 'Rol no válido.';
+                        } else {
+                            $ok = updateUsuario($pdo, $idForUpdate, $newPass, $newRol !== '' ? $newRol : null);
+                            $mensaje = $ok ? 'Usuario actualizado.' : 'No se pudo actualizar el usuario.';
+                        }
                     }
                 }
             }
@@ -163,9 +194,16 @@ if (defined('MODO_FICTICIO') && MODO_FICTICIO) {
             $_SESSION['sim_usuarios'] = [];
             foreach ($pdo as $k => $v) {
                 $id = isset($v['id']) ? (int)$v['id'] : (count($_SESSION['sim_users']) + 1);
-                $rol = $v['rol'] ?? 'usuario';
+                $rol = $v['rol'] ?? ($v['tipo_usuario'] ?? 'usuario');
                 $pass = $v['clave'] ?? ($v['password'] ?? '');
-                $entry = ['id' => $id, 'username' => $k, 'password' => $pass, 'rol' => $rol];
+                $entry = [
+                    'id' => $id,
+                    'username' => $k,
+                    'usuario' => $k,
+                    'password' => $pass,
+                    'rol' => $rol,
+                    'tipo_usuario' => $rol,
+                ];
                 $_SESSION['sim_users'][] = $entry;
                 $_SESSION['sim_usuarios'][$k] = ['clave' => $pass, 'rol' => $rol];
             }
@@ -177,8 +215,16 @@ if (defined('MODO_FICTICIO') && MODO_FICTICIO) {
     }
 
     // Build $usuarios desde la sesión para que la UI refleje los usuarios creados
+    // Normalizar claves para que la plantilla espere `usuario` y `tipo_usuario` (compatibilidad con DB)
     foreach ($_SESSION['sim_users'] as $u) {
-        $usuarios[] = ['id' => $u['id'] ?? 0, 'username' => $u['username'] ?? '', 'rol' => $u['rol'] ?? 'usuario'];
+        $usuarios[] = [
+            'id' => $u['id'] ?? 0,
+            'usuario' => $u['username'] ?? ($u['usuario'] ?? ''),
+            'tipo_usuario' => $u['rol'] ?? ($u['tipo_usuario'] ?? 'usuario'),
+            // mantener compatibilidad con otros lugares que usan 'rol' o 'username'
+            'rol' => $u['rol'] ?? ($u['tipo_usuario'] ?? 'usuario'),
+            'username' => $u['username'] ?? ($u['usuario'] ?? ''),
+        ];
     }
 } else {
     if ($pdo instanceof PDO) {
@@ -193,36 +239,27 @@ if (defined('MODO_FICTICIO') && MODO_FICTICIO) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Panel del Administrador</title>
+    <link rel="stylesheet" href="css/comun.css">
     <link rel="stylesheet" href="css/estilos.css">
     <!-- Bootstrap CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
-        :root{--accent:#2563eb;--accent-2:#7c3aed}
-        body{background:linear-gradient(180deg, rgba(37,99,235,0.06), #fff);min-height:100vh}
-        .app-container{max-width:1100px;margin:28px auto;padding:20px}
-        .card-spot{box-shadow:0 6px 18px rgba(15,23,42,0.06);border-radius:12px}
-        .brand {font-weight:700;color:var(--accent)}
-        .role-badge.administrador{background:#ff6b6b;color:#fff}
-        .role-badge.tecnico{background:#ffd166;color:#000}
-        .role-badge.operario{background:#6ee7b7;color:#084c41}
-        .msg{padding:10px;border-radius:8px}
-        .create-input{max-width:260px}
-    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/admin.css">    
+
 </head>
-<body>
+<body class="has-hero">
 <div class="app-container">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div class="d-flex align-items-center gap-3">
             <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width:54px;height:54px;font-size:22px">A</div>
             <div>
-                <div class="brand">Panel del Administrador</div>
-                <div class="text-muted small">Sesión: <?php echo htmlspecialchars($_SESSION['usuario']); ?></div>
+                    <div class="brand">Panel del Administrador</div>
+                    <div class="text-muted">Sesión: <?php echo htmlspecialchars($_SESSION['usuario']); ?></div>
             </div>
         </div>
         <div class="d-flex gap-2">
-            <a href="cerrar_sesion.php" class="btn btn-outline-secondary"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
+            <a href="cerrar_sesion.php" class="btn btn-primary-ghost btn-primary"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
         </div>
     </div>
 
@@ -243,12 +280,18 @@ if (defined('MODO_FICTICIO') && MODO_FICTICIO) {
                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
                     <input id="username" name="username" type="text" class="form-control create-input" placeholder="Usuario" required>
                     <input id="password" name="password" type="password" class="form-control create-input" placeholder="Contraseña" required>
+                    <select id="role" name="role" class="form-select create-input" required>
+                        <option value="" disabled selected>Seleccionar rol</option>
+                        <option value="administrador">administrador</option>
+                        <option value="tecnico">técnico</option>
+                        <option value="operario">operario</option>
+                    </select>
                     <div class="d-flex gap-2 mt-2">
                         <button type="submit" class="btn btn-primary"><i class="bi bi-check2-circle"></i> Crear</button>
-                        <button type="reset" class="btn btn-outline-secondary"><i class="bi bi-x-circle"></i> Limpiar</button>
+                        <button type="reset" class="btn btn-primary"><i class="bi bi-x-circle"></i> Limpiar</button>
                     </div>
                 </form>
-                <div class="text-muted small mt-3">Los usuarios creados en modo ficticio se almacenan en la sesión del navegador.</div>
+                <div class="texto">Gracias por registrarte en nuestro sistema.</div>
             </div>
         </div>
 
@@ -258,7 +301,7 @@ if (defined('MODO_FICTICIO') && MODO_FICTICIO) {
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
                         <thead class="table-light">
-                            <tr><th style="width:8%">ID</th><th>Usuario</th><th style="width:18%">Rol</th><th style="width:30%">Acciones</th></tr>
+                            <tr><th style="width:8%">Usuario</th><th style="width:18%">Rol</th><th style="width:30%">Acciones</th></tr>
                         </thead>
                         <tbody>
                             <?php if (count($usuarios) === 0): ?>
@@ -266,36 +309,35 @@ if (defined('MODO_FICTICIO') && MODO_FICTICIO) {
                             <?php else: ?>
                                 <?php foreach ($usuarios as $u): ?>
                                     <tr>
-                                        <td><?php echo htmlspecialchars($u['id']); ?></td>
-                                        <td><?php echo htmlspecialchars($u['username']); ?></td>
+                                        
+                                        <td><?php echo htmlspecialchars($u['usuario']); ?></td>
                                         <td>
-                                            <?php $r = $u['rol'] ?? 'usuario'; ?>
+                                            <?php $r = $u['tipo_usuario'] ?? 'usuario'; ?>
                                             <span class="badge role-badge <?php echo htmlspecialchars($r); ?>"><?php echo htmlspecialchars($r); ?></span>
                                         </td>
                                         <td>
-                                            <?php if ($u['username'] !== $_SESSION['usuario']): ?>
-                                                <button class="btn btn-sm btn-danger btn-eliminar me-2" data-id="<?php echo htmlspecialchars($u['id']); ?>" data-username="<?php echo htmlspecialchars($u['username']); ?>"><i class="bi bi-trash"></i> Eliminar</button>
-
+                                            <?php if (($u['usuario'] ?? '') !== ($_SESSION['usuario'] ?? '')): ?>
+                                                <button class="btn btn-sm btn-danger btn-eliminar me-2" data-id="<?php echo htmlspecialchars($u['usuario'] ?? ''); ?>" data-username="<?php echo htmlspecialchars($u['usuario'] ?? ''); ?>"><i class="bi bi-trash"></i> Eliminar</button>
                                                 <form method="post" class="d-inline-block me-1">
                                                     <input type="hidden" name="accion" value="editar">
                                                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-                                                    <input type="hidden" name="id" value="<?php echo htmlspecialchars($u['id']); ?>">
+                                                    <input type="hidden" name="usuario" value="<?php echo htmlspecialchars($u['usuario'] ?? ''); ?>">
                                                     <div class="d-flex align-items-center gap-2">
-                                                        <select name="rol" class="form-select form-select-sm" style="width:140px">
+                                                        <select name="tipo_usuario" class="form-select form-select-sm" style="width:140px">
                                                             <?php
                                                                 $roles = ['administrador','tecnico','operario'];
                                                                 foreach ($roles as $r) {
-                                                                    $sel = ($u['rol'] ?? 'usuario') === $r ? 'selected' : '';
+                                                                    $sel = ($u['tipo_usuario'] ?? 'usuario') === $r ? 'selected' : '';
                                                                     echo '<option value="'.htmlspecialchars($r).'" '.$sel.'>'.htmlspecialchars($r).'</option>';
                                                                 }
                                                             ?>
                                                         </select>
                                                         <input name="password_edit" type="password" placeholder="Nueva contraseña" class="form-control form-control-sm" style="width:180px">
-                                                        <button type="submit" class="btn btn-sm btn-outline-primary"><i class="bi bi-save"></i> Guardar</button>
+                                                        <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Guardar</button>
                                                     </div>
                                                 </form>
                                             <?php else: ?>
-                                                <span class="text-muted">— (su cuenta)</span>
+                                                <span class="texto"> --- (su cuenta)</span>
                                             <?php endif; ?>
                                         </td>
                                     </tr>

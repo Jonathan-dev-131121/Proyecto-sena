@@ -1,13 +1,54 @@
-body {
-    background-image: url('img/planta_tratamiento_de_agua.jpg'); /* Ruta de tu imagen */
-    background-size: cover;              /* Escala para que cubra toda la pantalla */
-    background-repeat: no-repeat;        /* Evita que se repita */
-    min-height: 100vh; /* Asegura que cubra toda la altura del viewport */
-    margin: 0; /* Elimina el margen por defecto */
-    background-attachment: fixed ;  /* Fija la imagen de fondo al hacer scroll */
-    padding: 0; /* Elimina el padding por defecto */
-    z-index: -1; /* Asegura que el fondo esté detrás de otros elementos */
+/* El fondo grande se aplica solo cuando el body tiene la clase has-hero
+   (evita que el tema oscuro afecte a páginas que solo cargan comun.css) */
+
+body.has-hero {
+  background-image: url('img/planta_tratamiento_de_agua.jpg'); /* Ruta de tu imagen */
+  background-size: cover;              /* Escala para que cubra toda la pantalla */
+  background-position: center center;  /* Centra la imagen */
+  background-repeat: no-repeat;        /* Evita que se repita */
+  min-height: 100vh; /* Asegura que cubra toda la altura del viewport */
+  margin: 0; /* Elimina el margen por defecto */
+  background-attachment: fixed;  /* Fija la imagen de fondo al hacer scroll */
+  padding: 0; /* Elimina el padding por defecto */
+  margin-left: 10rem;  /* centra horizontalmente */
+  margin-right: 12rem; /* centra horizontalmente */
+}
+
+.navegacion {
+     display:inline-flex; /* Utiliza flexbox para el diseño */
+     flex-direction: row; /* Alinea los elementos en fila */
+     justify-content: flex-end; /* Alinea los elementos al centro horizontalmente */
+     margin-left: auto; /* Empuja la barra de navegación a la derecha */
+     position: absolute;  /* Posiciona la barra de navegación */
+     top: 1rem; /* Espacio desde la parte superior */
+     right: 1rem; /* Espacio desde la parte derecha */
+     gap: 0.8rem;  /* Espacio entre los enlaces */
+     background: rgba(216, 207, 240, 1); /* Fondo blanco con transparencia */
+     padding: 20px; /* Espacio interno */
+     border-radius: 50px; /* Hace el fondo circular */
+     box-shadow: 0.1rem 0.2rem 0.2rem rgba(6, 6, 6, 0.5); /* Sombra para dar profundidad */
+     z-index: 9999; /* Asegura que la barra esté por encima del fondo */
+     font-style: italic; /* Mejora la carga de la fuente */
+     font-weight: 600; /* Negrita para el texto */
+     font-size:medium; /* Tamaño del texto */
+     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; /* Fuente legible */
+     text-shadow: 0.1rem 0.1rem 0.2rem rgba(255, 255, 255, 0.5); /* Sombra para mejorar la legibilidad */
   }
+      
+.navegacion a{ 
+    color: #000; /* Color del texto */
+    text-decoration: none; /* Elimina el subrayado */
+    padding: 0.3rem 0.3rem; /* Espacio interno */
+    border-radius: 4px; /* Bordes redondeados */
+    transition: background-color 0.3s, color 0.3s; /* Transición suave */
+}
+
+.navegacion a:hover{ 
+  text-decoration: underline; /* Subraya el texto al pasar el mouse */
+  color: #1b06d6c3; /* Color del texto */
+  background-color: #f0ebe9c7; /* Fondo al pasar el mouse */
+  border-radius: 8px; /* Bordes redondeados */
+}
 
  .noticias {
     display: flex; /* Utiliza flexbox para el diseño */
@@ -16,7 +57,6 @@ body {
     justify-content: center; /* Centra horizontalmente */
     align-items: flex-start; /* Alinea arriba */
     margin-bottom: 20px; /* Espacio entre filas */
-    flex-wrap: wrap; /* Permite que los elementos se ajusten a múltiples líneas */
     position: relative; /* Posiciona el contenedor relativo al fondo */
   }
 
@@ -35,38 +75,6 @@ body {
       margin-top: 10px; /* Espacio entre el título y el contenido */
       text-align: center; /* Centra el texto */
     }
-
-  .navegacion {
-     display: flex; /* Utiliza flexbox para el diseño */
-     flex-direction: row; /* Alinea los elementos en fila */
-     justify-content: right; /* Alinea los elementos al centro horizontalmente */
-     position: absolute; /* Posiciona la barra de navegación */
-     top: 20px; /* Espacio desde la parte superior */
-     right: 15px; /* Espacio desde la parte derecha */
-     gap: 0.8rem;  /* Espacio entre los enlaces */
-     background: rgba(216, 207, 240, 1); /* Fondo blanco con transparencia */
-     padding: 20px; /* Espacio interno */
-     border-radius: 10px; /* Hace el fondo circular */
-     box-shadow: 0 2px 8px rgba(245, 5, 5, 0.5); /* Sombra para dar profundidad */
-     z-index: 10; /* Asegura que la barra esté por encima del fondo */
-     font-style: italic; /* Mejora la carga de la fuente */
-    font-weight: 600; /* Negrita para el texto */
-    font-size:medium; /* Tamaño del texto */
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; /* Fuente legible */
-  }
-
-  .navegacion a:hover {
-    color: #000; /* Cambia el color al pasar el mouse */
-    background-color: #0e06f375; /* Fondo al pasar el mouse */
- }
-
- .navegacion a {
-    color: #000; /* Color del texto */
-    text-decoration: none; /* Elimina el subrayado */
-    padding: 1px 1px; /* Espacio interno */
-    border-radius: 4px; /* Bordes redondeados */
-    transition: background-color 0.3s, color 0.3s; /* Transición suave */
-  }
 
   .titulo{
     position: relative; /* Posiciona el texto relativo al contenedor */
@@ -165,11 +173,12 @@ body {
     padding: 20px; /* Espacio interno */
     border-radius: 50px; /* Hace el fondo circular */
     box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* Sombra para dar profundidad */
-    margin-top: 110px; /* Centra verticalmente */
-    margin-bottom: 40px; /* Espacio debajo del título */
     width:fit-content; /* Ajusta el ancho al contenido */
     margin: 110px auto 40px auto; /* Centra horizontalmente */
     min-width: 600px; /* Ancho mínimo */
+    backdrop-filter: blur(8px) saturate(180%); /* efecto vidrio */
+    -webkit-backdrop-filter: blur(8px) saturate(180%); /* efecto vidrio para Safari */
+    background: linear-gradient(90deg, rgba(18, 224, 94, 0.567), rgba(7, 195, 220, 0.507)); /* Fondo degradado */
   }
 
   .historia {
@@ -294,68 +303,8 @@ body {
     margin: 0 auto; /* Centra el formulario horizontalmente */
   }
 
-  p::first-letter {
+    p::first-letter {
       text-transform: uppercase; /* Primera letra en mayúscula */
-    }
-  
-  .acceso_usuario {
-    text-align: center; /* Centra el texto */
-    font-size: 1.5em; /* Tamaño del texto */
-    background: rgba(70, 20, 200, 0.8); /* Fondo blanco con transparencia */ 
-    padding: 0rem; /* Espacio interno */
-    border-radius: 50px; /* Hace el fondo circular */
-    position: relative; /* Posiciona el texto relativo al contenedor */
-    z-index: 10; /* #f4f4f4ue el texto esté por encima del fondo */
-    color: #f8f3f3d3; /* Color del texto */
-    box-shadow: 0.2em 0.2em 0.8em rgba(14, 0, 0, 0.874); /* Sombra para dar profundidad */
-    text-shadow: 0.1em 0.1em 0.3em rgba(11, 0, 0, 0.659); /* Sombra para mejorar la legibilidad */
-    width:fit-content; /* Ajusta el ancho al contenido */
-    margin: 0 auto; /* Centra horizontalmente */
-    min-width: 400px; /* Ancho mínimo */
-    min-height: 0.5em; /* Altura mínima */
-    margin-top: 2em; /* Centra verticalmente */
-    margin-bottom: 2rem; /* Espacio debajo del título */
-    justify-content: center; /* Centra horizontalmente */
-    }
-    
-    .seccion_formulario {
-    padding: 0rem; /* Espacio interno */
-    border-radius: 50px; /* Hace el fondo circular */
-    position: relative; /* Posiciona el texto relativo al contenedor */
-    z-index: 10; /* Asegura que el texto esté por encima del fondo */
-    display: flex; /* Utiliza flexbox para el diseño */
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
-    background-color: #3408ac61; /* Opcional: fondo suave */
-    margin-top: 8em; /* Centra verticalmente */
-    margin-bottom: 2rem; /* Espacio debajo del título */
-    margin-left: 30rem; /* Centra horizontalmente */
-    margin-right: 30rem; /* Centra horizontalmente */
-    }
-
-  
-  .formulario {
-    margin: 0 auto; /* Centra el formulario horizontalmente */
-    width: 300px; /* Ancho del formulario */
-    margin-bottom: 1em; /* Espacio debajo del formulario */
-    }
-
-  .formulario label {
-    display: block; /* Hace que los labels sean bloques */
-    margin-top: 1em; /* Espacio encima de cada label */
-    font-weight: bold;  /* Negrita para los labels */
-    text-align: center; /* Centra el texto */
-    font-size: 1.5em; /* Tamaño del texto */
-    background: rgba(195, 4, 119, 0.595); /* Fondo verde con transparencia */
-    padding: 10px; /* Espacio interno */
-    border-radius: 50px; /* Hace el fondo circular */
-    position: relative; /* Posiciona el texto relativo al contenedor */
-    z-index: 10; /* Asegura que el texto esté por encima del fondo */
-    min-width: 1em; /* Ancho mínimo */
-    margin-bottom: 1em; /* Espacio debajo del label */
-    box-shadow: 0.2em 0.2em 0.8em rgba(14, 0, 0, 0.874); /* Sombra para dar profundidad */
-    text-shadow: 0.1em 0.1em 0.3em rgba(11, 0, 0, 0.659); /* Sombra para mejorar la legibilidad */
-    color: #f4f4f4; /* Color del texto */
     }
 
   input {
@@ -505,209 +454,419 @@ body {
 
 /* Estilos dashboard - Gestión Planta de Tratamiento de Agua */
 :root{
-    --bg:#0f1724;
-    --card:#0b1220;
-    --accent:#0ea5a4;
-    --accent-2:#06b6d4;
-    --muted:#93c5fd;
-    --text:#e6eef6;
-    --success:#16a34a;
-    --warning:#f59e0b;
-    --danger:#ef4444;
-    --glass: rgba(255,255,255,0.03);
-    --radius:10px;
-    --shadow: 0 6px 18px rgba(2,6,23,0.6);
-    font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial;
+  --bg:#0f1724;
+  --card:#0b1220;
+  --accent:#0ea5a4;
+  --accent-2:#06b6d4;
+  --muted:#93c5fd;
+  --text:#e6eef6;
+  --success:#16a34a;
+  --warning:#f59e0b;
+  --danger:#ef4444;
+  --glass: rgba(255,255,255,0.03);
+  --radius:10px;
+  --shadow: 0 6px 18px rgba(2,6,23,0.6);
+  font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial;
 }
 
-*{box-sizing:border-box;}
-a{color:var(--accent);text-decoration:none}
-button{font:inherit;border:0;cursor:pointer}
+*{box-sizing:border-box; /* Padding y border incluidos en el tamaño */}
+a{color:var(--accent);text-decoration:none; /* Sin subrayado */}
+button{font:inherit;border:0;cursor:pointer; /* Hereda fuente, sin borde, cursor puntero */}
 
-/* Layout */
+/* diseño */
 .dashboard{
-    display:grid;
-    grid-template-columns:240px 1fr;
-    gap:20px;
-    padding:20px;
-    min-height:100vh;
+    display:grid; /* Diseño de cuadrícula */
+    grid-template-columns:240px 1fr; /* Sidebar fijo y contenido flexible */
+    gap:20px; /* Espacio entre columnas */
+    padding:20px; /* Espacio interno */
+    min-height:100vh; /* Altura mínima de la pantalla */
 }
 
-/* Sidebar */
+/* barra lateral */
 .sidebar{
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
-    border-radius:var(--radius);
-    padding:18px;
-    box-shadow:var(--shadow);
-    position:sticky; top:20px; height:calc(100vh - 40px);
-    display:flex; flex-direction:column; gap:18px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); /* Fondo degradado */
+    border-radius:var(--radius); /* Bordes redondeados */
+    padding:18px; /* Espacio interno */
+    box-shadow:var(--shadow); /* Sombra para dar profundidad */
+    position:sticky; top:20px; height:calc(100vh - 40px); /* Fija la barra lateral */
+    display:flex; flex-direction:column; gap:18px; /* Flexbox en columna */
 }
 
-.brand{display:flex;align-items:center;gap:10px}
+.brand{
+  display:flex; /* Flexbox */
+  align-items:center; /* Centra verticalmente */
+  gap:10px;  /* Espacio entre elementos */
+}
 
 .brand .logo{
-  width:44px;height:44px;
-  background:var(--accent);
-  border-radius:8px;display:flex;
-  align-items:center;justify-content:center;
-  font-weight:700;
-  color:#06202a
+  width:44px;height:44px; /* Tamaño del logo */
+  background:var(--accent); /* Fondo del logo */
+  border-radius:8px;display:flex; /* Bordes redondeados y flexbox */
+  align-items:center;/* Centra verticalmente */
+  justify-content:center; /* Centra horizontalmente */
+  font-weight:700; /* Negrita */
+  color:#06202a; /* Color del texto */
 }
-.nav{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.nav{
+  display:flex; /* Flexbox */
+  flex-direction:column; /* En columna */
+  gap:8px; /* Espacio entre enlaces */
+  margin-top:6px; /* Espacio encima de la navegación */
+}
 
 .nav a{
-  padding:10px;
-  border-radius:8px;
-  color:var(--text);
-  display:flex;gap:10px;
-  align-items:center;background:transparent}
+  padding:10px; /* Espacio interno */
+  border-radius:8px; /* Bordes redondeados */
+  color:var(--text); /* Color del texto */
+  display:flex;gap:10px; /* Flexbox y espacio entre icono y texto */
+  align-items:center;background:transparent; /* Centra verticalmente y fondo transparente */
+}
 
-.nav a:hover{background:var(--glass)}
+.nav a:hover{background:var(--glass)} /* Fondo al pasar el mouse */
 
 /* Header / Topbar */
 .topbar{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    margin-bottom:16px;
+    display:flex;/* Flexbox */
+    align-items:center; /* Centra verticalmente */
+    justify-content:space-between; /* Espacio entre elementos */
+    gap:12px; /* Espacio entre elementos */
+    margin-bottom:16px; /* Espacio debajo de la barra superior */
 }
-.topbar .search{flex:1;max-width:540px}
-.topbar .user{display:flex;align-items:center;gap:10px}
 
-/* Main content */
-.main{
-    padding:6px 0;
+.topbar .search{
+  flex:1; /* Ocupa todo el espacio disponible */
+  max-width:540px; /* Ancho máximo */
 }
-.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px}
-.card{
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-radius:12px;padding:14px;box-shadow:var(--shadow);
-}
-.kpi .value{font-size:20px;font-weight:700;color:var(--text)}
-.kpi .label{font-size:12px;color:var(--muted)}
-
-/* Charts and map area */
-.grid{
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    gap:14px;
-    align-items:start;
-}
-.chart{
-    height:300px;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;
-    background:linear-gradient(180deg, rgba(255,255,255,0.015), transparent);
-}
-.plant-map{height:300px;padding:12px;border-radius:12px;overflow:auto}
-
-/* Status indicators and list */
-.status-list{display:flex;flex-direction:column;gap:10px}
-.status-item{
+.topbar .user{
   display:flex;
   align-items:center;
-  gap:12px;padding:10px;
-  border-radius:10px;background:rgba(239, 5, 5, 0.02)}
+  gap:10px; /* Espacio entre elementos */
+}
+.topbar .search{flex:1;max-width:540px} /* Ocupa todo el espacio disponible */
+.topbar .user{display:flex;align-items:center;gap:10px} /* Flexbox y espacio entre elementos */
 
-.status-indicator{width:14px;height:14px;border-radius:50%}
-.status-title{font-weight:600}
-.status-meta{color:var(--muted);font-size:12px}
-
-/* controles y tabla */
-.controls{display:flex;gap:8px;align-items:center}
-
-.btn{
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  color: var(--text);
-  transition: background 0.3s ease;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-weight: 600;
-  box-shadow: 0 6px 18px rgba(6, 182, 2, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.04);
+/* contenido principal*/
+.main{
+    padding:6px 0;/* Espacio interno arriba y abajo */
+    overflow:auto; /* Barra de desplazamiento si es necesario */
 }
 
-.btn:hover{box-shadow:0 8px 28px rgba(14, 14, 14, 0.35)}
+.kpis{
+  display:grid; /* Diseño de cuadrícula */
+  grid-template-columns:repeat(3,1fr); /* Tres columnas iguales */
+  gap:14px; /* Espacio entre tarjetas */
+  margin-bottom:14px; /* Espacio debajo de las tarjetas */
+}
 
-.table{width:100%;border-collapse:collapse;margin-top:8px}
+.kpi .value{font-size:20px;font-weight:700;color:var(--text)} /* Valor principal */
+.kpi .label{font-size:12px;color:var(--muted)} /* Etiqueta */
+
+/* mapa de area y gráficos */
+.grid{
+    display:grid; /* Diseño de cuadrícula */
+    grid-template-columns:2fr 1fr; /* Dos columnas, la primera el doble de ancha */
+    gap:14px; /* Espacio entre columnas */
+    align-items:start; /* Alinea al inicio */
+}
+
+.chart{
+    height:300px; /* Altura fija */
+    border-radius:12px; /* Bordes redondeados */
+    overflow:hidden; /* Oculta desbordamiento */
+    display:flex; /* Flexbox */
+    align-items:center; /* Centra verticalmente */
+    justify-content:center; /* Centra horizontalmente */
+    background:linear-gradient(180deg, rgba(255,255,255,0.015), transparent); /* Fondo degradado */
+}
+
+.plant-map{height:300px;padding:12px;border-radius:12px;overflow:auto} /* Mapa de área */
+
+/* indicadores de estado y lista */
+.status-list{display:flex;flex-direction:column;gap:10px} /* Flexbox en columna */
+
+.status-item{
+  display:flex; /* Flexbox */
+  align-items:center; /* Centra verticalmente */
+  gap:12px;padding:10px; /* Espacio interno y entre elementos */
+  border-radius:10px;background:rgba(239, 5, 5, 0.02); /* Bordes redondeados y fondo suave */
+} 
+
+.status-indicator{width:14px;height:14px;border-radius:50%} /* Indicador circular */
+
+.status-title{font-weight:600} /* Título */
+
+.status-meta{color:var(--muted);font-size:12px} /* Meta información */
+
+/* controles y tabla */
+.controls{display:flex;gap:8px;align-items:center} /* Flexbox y espacio entre elementos */
+
+.btn{
+  background: linear-gradient(90deg, var(--accent), var(--accent-2)); /* Fondo degradado */
+  color: var(--text); /* Color del texto */
+  transition: background 0.3s ease; /* Transición suave */
+  padding: 8px 12px; /* Espacio interno */
+  border-radius: 8px; /* Bordes redondeados */
+  font-weight: 600; /* Negrita */
+  box-shadow: 0 6px 18px rgba(6, 182, 2, 0.3); /* Sombra para dar profundidad */
+  border: 1px solid rgba(255, 255, 255, 0.04); /* Borde sutil */
+}
+
+.btn:hover{box-shadow:0 8px 28px rgba(14, 14, 14, 0.35)} /* Sombra al pasar el mouse */
+
+.table{width:100%;border-collapse:collapse;margin-top:8px} /* Tabla completa y sin espacios */
 
 .table th, .table td{
-  padding:10px;
-  text-align:left;
-  border-bottom:1px solid rgba(242, 8, 8, 0.03);
-  font-size:1.12rem}
+  padding:10px; /* Espacio interno */
+  text-align:left; /* Alinea texto a la izquierda */
+  border-bottom:1px solid rgba(242, 8, 8, 0.03); /* Línea inferior sutil */
+  font-size:1.12rem
+}
 
-.table th{color:var(--muted);font-weight:600}
+.table th{
+  color:var(--muted); /* Color de encabezado */
+  font-weight:600; /* Negrita */  
+}
 
 /* pequeños atributos */
-.badge{padding:4px 8px;border-radius:8px;font-size:12px;color:#012026}
-.badge.green{background:var(--success);color:white}
-.badge.warn{background:var(--warning);color:#08101a}
-.badge.red{background:var(--danger);color:white}
+.badge{
+  padding:4px 8px; /* Espacio interno */
+  border-radius:8px; /* Bordes redondeados */
+  font-size:12px; /* Tamaño de fuente */
+  color:#012026; /* Color de texto */
+}
+.badge.green{background:var(--success);color:white} /* Fondo verde */
+.badge.warn{background:var(--warning);color:#08101a} /* Fondo amarillo */
+.badge.red{background:var(--danger);color:white} /* Fondo rojo */
 
-/* Responsive */
+/* Responsivo */
 @media (max-width:900px){
-    .dashboard{grid-template-columns:1fr; padding:12px}
-    .kpis{grid-template-columns:repeat(2,1fr)}
-    .grid{grid-template-columns:1fr}
-    .sidebar{position:relative;height:auto}
+    .dashboard{grid-template-columns:1fr; padding:12px;} /* Una columna */
+    .kpis{grid-template-columns:repeat(2,1fr);} /* Dos columnas */
+    .grid{grid-template-columns:1fr;} /* Una columna */
+    .sidebar{position:relative;height:auto;} /* Barra lateral relativa */
 }
 
 /* Operario — tema llamativo */
-.operario-wrap{padding:28px 16px;}
-.operario-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
-.operario-title{font-size:1.35rem;font-weight:800;display:flex;align-items:center;gap:10px}
-.operario-title .oi{font-size:28px}
-.operario-badge{padding:6px 10px;border-radius:999px;font-weight:700;box-shadow:0 6px 18px rgba(2,6,23,0.5)}
-.modo-ficticio{background:linear-gradient(90deg,var(--warning),#f59e0b);color:#08101a}
-.modo-real{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#012026}
-
-.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
-.stat-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:16px;border:1px solid rgba(255,255,255,0.02);box-shadow:0 10px 30px rgba(7,18,36,0.35);}
-.stat-card .label{font-size:12px;color:var(--muted);margin-bottom:6px}
-.stat-card .value{font-size:22px;font-weight:800;color:var(--text);}
-.stat-card .sub { font-size:12px; color: rgba(255,255,255,0.55); }
-
-.operario-actions{display:flex;gap:8px;align-items:center}
-.operario-actions .btn{padding:10px 14px;border-radius:10px;font-weight:700}
-.btn-primary-ghost{background:transparent;border:1px solid rgba(244, 5, 5, 0.06);color:var(--text)}
-
-.chart-card{border-radius:14px;padding:10px;background:linear-gradient(180deg, rgba(14,165,164,0.06), rgba(6,182,212,0.03));box-shadow:0 12px 36px rgba(6,182,212,0.06)}
-.chart-card canvas{border-radius:10px}
-
-.status-card{border-radius:12px;padding:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:var(--shadow)}
-.status-list .list-group-item{background:transparent;border-radius:8px}
-
-/* Historico tabla */
-.table-fixed { max-height: 54vh; overflow:auto; display:block; border-radius:10px }
-.table-fixed table{border-radius:10px}
-
-/* Modal styling */
-.modal-content{border-radius:12px;overflow:hidden}
-.modal-header{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#012026}
-.modal-footer{background:linear-gradient(180deg, rgba(0,0,0,0.02), transparent)}
-
-/* Animated accent around important values */
-@keyframes pulseAccent { 0%{box-shadow:0 0 0 0 rgba(14,165,164,0.20)} 70%{box-shadow:0 0 0 14px rgba(14,165,164,0)} 100%{box-shadow:0 0 0 0 rgba(14,165,164,0)} }
-.pulse { animation: pulseAccent 2.4s infinite; }
-
-/* Responsive reductions */
-@media (max-width:900px){
-  .stat-grid{grid-template-columns:repeat(2,1fr)}
+/* Contenedor envolvente de la sección "Operario".
+  Añade espacio interior para separar los elementos dentro del panel. */
+.operario-wrap {
+  padding: 28px 16px; /* 28px arriba/abajo y 16px izquierda/derecha */
 }
 
-/* Finishing touches for Operario */
-.stat-card .value{color:var(--text); font-size:26px}
-.stat-card:hover{transform:translateY(-6px);transition:transform .22s ease, box-shadow .22s ease}
-.stat-card { transition: transform .22s ease, box-shadow .22s ease }
-.operario-actions .btn-primary{background:linear-gradient(90deg,#06b6d4,#0ea5a4);box-shadow:0 8px 28px rgba(6,182,212,0.12);border-radius:10px}
-.operario-actions .btn-primary-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);box-shadow:inset 0 -2px 0 rgba(255,255,255,0.02)}
-.operario-actions .btn i { margin-right:8px }
-.chart-card{padding:18px}
-.status-card .badge{min-width:54px}
-
-@media (max-width:600px){
-  .operario-top{flex-direction:column;align-items:flex-start}
-  .stat-grid{grid-template-columns:1fr}
+.operario-top{
+  display:flex; /* Flexbox */
+  justify-content:space-between; /* Espacio entre elementos */
+  align-items:center; /* Alineación vertical */
+  gap:12px;margin-bottom:18px; /* Espacio debajo */
 }
 
+.operario-title{
+  font-size:1.35rem; /* Tamaño de fuente */
+  font-weight:800; /* Negrita */
+  display:flex; /* Flexbox */
+  align-items:center; /* Alineación vertical */
+  gap:10px; /* Espacio entre icono y texto */
+  display:flex; /* Flexbox */
+  align-items:center; /* Alineación vertical */
+  gap:10px; /* Espacio entre icono y texto */
+  color:var(--accent-2); /* Color del texto */
+  letter-spacing:1px; /* espaciado entre letras */
+  background: #ffffffc0; /*blanco solido para legibilidad*/ 
+  border: 3px solid rgba(6, 58, 121, 0.53); /* borde sutil */
+  border-radius: var(--radius); box-shadow: 3px 5px 5px rgba(6, 9, 23, 0.54); /* sombra para profundidad */
+  padding:3px 6px; /* espacio interno */
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%); /* efecto vidrio para Safari */
+  backdrop-filter: blur(var(--glass-blur)) saturate(180%); /* efecto vidrio estándar para compatibilidad */
+  text-transform:uppercase;
+  font-family: 'Inter', roboto, poppins, montserrat, averta;
+  margin-bottom: 5px;
+}
 
+.operario-title .oi{font-size:40px} /* Tamaño del icono */
+
+.operario-badge{
+  padding:6px 10px; /* Espacio interno */
+  border-radius:999px; /* Bordes redondeados */
+  font-weight:700; /* Negrita */
+  box-shadow:0 6px 18px rgba(2,6,23,0.5); /* Sombra para dar profundidad */
+  border:1px solid rgba(255,255,255,0.04); /* Borde sutil */
+  font-size:12px; /* Tamaño de fuente */
+}
+
+.modo-ficticio{
+  background:linear-gradient(90deg,var(--warning),#f59e0b);color:#08101a; /* Fondo degradado y color de texto */
+}
+
+.modo-real{
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#012026; /* Fondo degradado y color de texto */
+}
+
+.stat-grid{ /* cuadrícula de estadísticas */
+  display:grid; /* Diseño de cuadrícula */
+  grid-template-columns:repeat(4,1fr); /* Cuatro columnas iguales */
+  gap:14px; /* Espacio entre tarjetas */
+  margin-bottom:18px; /* Espacio debajo de las tarjetas */
+}
+
+.stat-card{ /* tarjeta de estadística individual */
+  background:linear-gradient(180deg, rgba(246, 10, 10, 0.082), rgba(255, 255, 255, 0.082)); /* Fondo degradado */
+  border-radius:14px; /* Bordes redondeados */
+  padding:16px;border:1px solid rgba(244, 11, 11, 0.02);box-shadow:0 10px 30px rgba(7,18,36,0.35); /* Espacio interno, borde y sombra */
+  box-sizing:border-box; /* Incluye padding y border en el tamaño total */
+  background: linear-gradient(0deg, rgba(246,10,10,0.082), rgba(255,255,255,0.082)); /* Fondo degradado */
+  -webkit-backdrop-filter: blur(8px) saturate(180%); /* efecto vidrio para Safari */
+  backdrop-filter: blur(8px) saturate(180%); /* efecto vidrio estándar para compatibilidad */
+  border-radius: 14px; /* bordes redondeados */
+  padding: 16px; /* espacio interno */
+  border: 1px solid rgba(255,255,255,0.02); /* borde sutil */
+  box-shadow: 0 10px 30px rgba(7,18,36,0.35); /* sombra para dar profundidad */
+  box-sizing: border-box; /* incluye padding y border en el tamaño total */
+}
+
+.stat-card .label{ /* etiqueta de la estadística */
+  font-size:12px;color:var(--muted); /* Etiqueta */
+  margin-bottom:6px; /* Espacio debajo de la etiqueta */
+  text-transform:uppercase; /* Texto en mayúsculas */
+  letter-spacing:1px; /* Espaciado entre letras */
+  font-weight:600; /* Negrita */
+  font-family: 'Inter', roboto, poppins, montserrat, averta; /* Fuente legible */
+  margin-bottom: 6px; /* Espacio debajo de la etiqueta */
+}
+
+.stat-card .value{ /* valor de la estadística */
+  font-size:22px; /* Tamaño de fuente */
+  font-weight:800; /* Negrita */
+  color:var(--text);  /* Color del texto */
+  
+}
+
+.stat-card .sub { /* Subtítulo de la estadística */
+  font-size:50px; /* Tamaño de fuente */
+  color: rgba(255,255,255,0.55); /* Color del texto: blanco con 55% de opacidad */
+}
+
+.operario-actions{ /* contenedor de acciones del operario */ 
+  display:flex; /* usa flexbox para disponer los botones en fila */ 
+  gap:8px; /* espacio entre los elementos hijos */ 
+  align-items:center; /* alinea verticalmente los elementos al centro */ 
+} 
+
+.operario-actions .btn{ /* estilo base para botones dentro de acciones */ 
+  padding:10px 14px; /* relleno interno: 10px arriba/abajo y 14px izquierda/derecha */ 
+  border-radius:10px; /* bordes redondeados de 10px */ 
+  font-weight:700; /* texto en negrita */ 
+} /* fin .operario-actions .btn */
+
+.btn-primary-ghost{ /* variante "fantasma" de botón primario */ 
+  background:transparent; /* fondo transparente */ 
+  border:1px solid rgba(244, 5, 5, 0.255); /* borde sutil semitransparente */ 
+  color:var(--text); /* color del texto usando la variable --text */ 
+} /* fin .btn-primary-ghost */
+
+.chart-card{ /* tarjeta para gráficos */
+  border-radius:14px; /* bordes redondeados de la tarjeta */
+  padding:10px; /* espacio interno dentro de la tarjeta */
+  background:linear-gradient(180deg, rgba(213, 231, 231, 0.54), rgba(25, 27, 28, 0.49)); /* degradado de fondo suave */
+  backdrop-filter: blur(8px) saturate(180%); /* efecto vidrio estándar para compatibilidad */
+  -webkit-backdrop-filter: blur(8px) saturate(180%); /* efecto vidrio para Safari */
+  box-shadow:0 12px 36px rgba(6,182,212,0.06); /* sombra para dar profundidad */
+  color: #000; /* color del texto dentro de la tarjeta (negro) */
+  font-size: large; /* tamaño de fuente grande para mejor legibilidad */
+}
+
+.chart-card canvas{ /* lienzo de gráficos dentro de la tarjeta */ 
+  border-radius:10px; /* redondea las esquinas del canvas */ 
+  color: #000; /* color del texto dentro del canvas (si aplica) */
+} /* fin .chart-card canvas */
+
+.status-card{ /* tarjeta de estado */ 
+  border-radius:12px; /* bordes redondeados */ 
+  padding:12px; /* espacio interno */ 
+  background:linear-gradient(180deg, rgba(200, 106, 5, 0.574), rgba(25, 168, 204, 0.689)); /* fondo con degradado muy sutil */ 
+  backdrop-filter: blur(8px) saturate(180%); /* efecto vidrio estándar para compatibilidad */
+  -webkit-backdrop-filter: blur(8px) saturate(180%); /* efecto vidrio para Safari */
+  box-shadow:var(--shadow); /* sombra definida por la variable --shadow */ 
+  color: #000;  /* color del texto dentro de la tarjeta (si aplica) */
+} /* fin .status-card */
+
+.status-list .list-group-item{background:transparent;border-radius:8px} /* items de lista con fondo transparente y esquinas redondeadas */
+
+ /* Historico tabla */
+.table-fixed {  /* contenedor de tabla fija con scroll */ 
+  max-height: 54vh; /* altura máxima relativa al viewport */ 
+  overflow:auto; /* activa scroll si el contenido excede la altura */ 
+  display:block; /* hace que el contenedor sea bloque para permitir scroll */ 
+  border-radius:10px; /* esquinas redondeadas */ 
+} /* fin .table-fixed */
+
+.table-fixed table{ /* tabla dentro del contenedor fijo */ 
+  border-radius:10px; /* aplica bordes redondeados a la tabla */ 
+} /* fin .table-fixed table */
+
+ /* estilo de modal */
+.modal-content{ /* contenido del modal */ 
+  border-radius:12px; /* esquinas redondeadas */ 
+  overflow:hidden; /* oculta cualquier contenido que sobresalga */ 
+} /* fin .modal-content */
+
+.modal-header{ /* cabecera del modal */ 
+  background:linear-gradient(90deg,var(--accent),var(--accent-2)); /* degradado lateral usando variables */ 
+  color:#012026; /* color del texto en la cabecera */ 
+} /* fin .modal-header */
+
+.modal-footer{ /* pie del modal */ 
+  background:linear-gradient(180deg, rgba(0,0,0,0.02), transparent); /* degradado sutil en el pie */ 
+} /* fin .modal-footer */
+
+ /* valores animados de contorno */
+@keyframes pulseAccent { 0%{box-shadow:0 0 0 0 rgba(14,165,164,0.20)} 70%{box-shadow:0 0 0 14px rgba(14,165,164,0)} 100%{box-shadow:0 0 0 0 rgba(14,165,164,0)} } /* animación que crea un pulso en el contorno */ 
+.pulse { animation: pulseAccent 2.4s infinite; } /* clase que aplica la animación de pulso */
+
+ /* reducciones responsivas */
+@media (max-width:900px){ /* reglas para pantallas menores a 900px */ 
+  .stat-grid{grid-template-columns:repeat(2,1fr)} /* reduce columnas de estadística a 2 */ 
+} /* fin media query */
+
+ /* toques finales para Operario */
+.stat-card .value{ /* valor principal dentro de la tarjeta estadística */ 
+  color:var(--text); /* color del texto usando la variable --text */ 
+  font-size:22px; /* tamaño de fuente razonable para el KPI */ 
+} /* fin .stat-card .value */
+
+.stat-card:hover{ /* efecto al pasar el cursor sobre la tarjeta */ 
+  transform:translateY(-6px); /* eleva ligeramente la tarjeta */ 
+  transition:transform .22s ease, box-shadow .22s ease; /* transición suave para transform y sombra */ 
+} /* fin .stat-card:hover */
+
+.stat-card {  /* transición por defecto para las tarjetas */ 
+  transition: transform .22s ease, box-shadow .22s ease; /* transición para interacción */ 
+} /* fin .stat-card */
+
+.operario-actions .btn-primary{ /* botón primario dentro de acciones */ 
+  background:linear-gradient(90deg,#06b6d4,#0ea5a4); /* degradado horizontal vibrante */ 
+  box-shadow:0rem 1rem 1rem rgba(6,182,212,0.12); /* sombra para destacar el botón */ 
+  border-radius:10px; /* bordes redondeados */ 
+} /* fin .operario-actions .btn-primary */
+
+.operario-actions .btn-primary-ghost{ /* variante fantasma dentro de acciones */ 
+  background:transparent; /* fondo transparente */ 
+  border:1px solid rgba(255,255,255,0.06); /* borde sutil blanco semitransparente */ 
+  box-shadow:inset 0rem -2px 0rem rgba(255,255,255,0.02); /* ligera sombra interior para profundidad */ 
+} /* fin .operario-actions .btn-primary-ghost */
+
+.operario-actions .btn i { /* icono dentro de los botones en acciones */ 
+  margin-right:8px; /* espacio a la derecha del icono */ 
+} /* fin .operario-actions .btn i */
+
+.chart-card{ /* ajuste adicional para la tarjeta de gráfico */ 
+  padding:24px; /* mayor relleno para dar aire al contenido */ 
+} /* fin .chart-card (redefinido) */
+
+.status-card .badge{ /*indicadores */
+  min-width:54px; /* ancho mínimo para consistencia */ 
+} /* fin .status-card .badge */
+
+@media (max-width:600px){ /* reglas para pantallas menores a 600px */ 
+  .operario-top{flex-direction:column;align-items:flex-start} /* apila la cabecera del operario en columna y alinea al inicio */ 
+  .stat-grid{grid-template-columns:1fr} /* una columna para la grid de estadísticas */ 
+} /* fin media query */

@@ -1,37 +1,109 @@
-/* Styles specific to operario.php: badges, icons, microinteractions */
-:root{
-  --op-acc: #06b6d4;
-  --op-acc-2: #0ea5a4;
-  --op-ok: #16a34a;
-  --op-warn: #f59e0b;
-  --op-alarm: #ef4444;
-}
+/* Operario layout only: leave background/hero to comun.css (.has-hero) */ /* Diseño específico para la vista de operario; el fondo/hero se gestiona en comun.css (.has-hero) */ 
+.operario-wrap { 
+  min-height: 100vh; /* Contenedor principal de operario con altura mínima */ 
+  padding: 28px 16px; /* Padding del contenedor */ 
+} 
 
-/* Badge colors: green for real, orange for ficticio */
-#modoBadge.bg-real{ background: linear-gradient(90deg,var(--op-ok), #059669); color: #042018 }
-#modoBadge.bg-ficticio{ background: linear-gradient(90deg,var(--op-warn), #f59e0b); color: #2b1f05 }
+/* Use common status color variables */ /* Uso de variables comunes para estados (ok/warn/alarm) */ 
+:root { 
+  --op-ok: var(--success); /* Variable OK a partir de --success global */ 
+  --op-warn: var(--warning); /* Variable warning a partir de --warning global */ 
+  --op-alarm: var(--danger); /* Variable alarm a partir de --danger global */ 
+} 
 
-/* Card icons */
-.card .metric-icon{ width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;margin-right:10px;flex-shrink:0 }
-.card .metric-icon svg{ width:22px;height:22px;fill:currentColor }
+/* estilos especificos para operario.php microinteracciones */ /* Variables específicas para interacciones del operario */ 
+:root { 
+  --op-acc: #06b6d4; /* Color de acento primario */ 
+  --op-acc-2: #0ea5a4; /* Color de acento secundario */ 
+  --op-ok: #16a34a; /* Verde para OK */ 
+  --op-warn: #f59e0b; /* Naranja para aviso */ 
+  --op-alarm: #ef4444; /* Rojo para alarma */ 
+} 
 
-.metric-nivel .metric-icon{ background: linear-gradient(180deg, rgba(14,165,164,0.12), rgba(6,182,212,0.06)); color: var(--op-acc-2) }
-.metric-caudal .metric-icon{ background: linear-gradient(180deg, rgba(6,182,212,0.08), rgba(6,182,212,0.02)); color: var(--op-acc) }
-.metric-ph .metric-icon{ background: linear-gradient(180deg, rgba(249,115,22,0.08), rgba(249,115,22,0.02)); color: #fb923c }
+/* colores badge verde:correcto, naranja:ficticio, rojo:alarma, azul:informativo */ /* Comentario sobre significados de colores para badges */ 
+#modoBadge.bg-real { 
+  background: linear-gradient(90deg, var(--op-ok), #059669); /* Degradado para modo real */ 
+  color: #042018; /* Color de texto para modo real */ 
+} 
 
-/* Value area with icon */
-.metric-row{ display:flex; align-items:center; gap:8px }
+#modoBadge.bg-ficticio { 
+  background: linear-gradient(90deg, var(--op-warn), #f59e0b); /* Degradado para modo ficticio */ 
+  color: #2b1f05; /* Color de texto para modo ficticio */ 
+} 
 
-/* Alarm pulse only when class .alarm-active */
-@keyframes pulseAlarm { 0%{ box-shadow:0 0 0 0 rgba(239,68,68,0.35) } 70%{ box-shadow:0 0 0 14px rgba(239,68,68,0) } 100%{ box-shadow:0 0 0 0 rgba(239,68,68,0) } }
-.alarm-active { animation: pulseAlarm 1.6s infinite; }
+/* iconos de tarjeta */ /* Estilos para iconos dentro de tarjetas */ 
+.card .metric-icon { 
+  width: 40px; /* Ancho del icono */ 
+  height: 40px; /* Alto del icono */ 
+  display: inline-flex; /* Mostrar como inline-flex */ 
+  align-items: center; /* Centrar verticalmente */ 
+  justify-content: center; /* Centrar horizontalmente */ 
+  border-radius: 8px; /* Bordes redondeados */ 
+  margin-right: 10px; /* Margen derecho entre icono y contenido */ 
+  flex-shrink: 0; /* Evitar que el icono se reduzca */ 
+} 
 
-/* Small transition for values */
-#nivelValue, #caudalValue, #phValue{ transition: color .18s ease, transform .12s ease }
+.card .metric-icon svg { 
+  width: 22px; /* Ancho del SVG */ 
+  height: 22px; /* Alto del SVG */ 
+  fill: currentColor; /* Usar el color actual para el SVG */ 
+} 
 
-/* Make the action buttons slightly larger on hover */
-.card .btn{ transition: transform .12s ease, box-shadow .12s ease }
-.card .btn:hover{ transform: translateY(-3px); box-shadow:0 8px 20px rgba(2,6,23,0.12) }
+.metric-nivel .metric-icon { 
+  background: linear-gradient(180deg, rgba(14,165,164,0.12), rgba(6,182,212,0.06)); /* Degradado suave para nivel */ 
+  color: var(--op-acc-2); /* Color de acento secundario */ 
+} 
 
-/* Responsive small tweaks */
-@media (max-width:600px){ .card .metric-icon{ width:36px;height:36px } #nivelValue, #caudalValue, #phValue{ font-size:1.3rem } }
+.metric-caudal .metric-icon { 
+  background: linear-gradient(180deg, rgba(6,182,212,0.08), rgba(6,182,212,0.02)); /* Degradado para caudal */ 
+  color: var(--op-acc); /* Color de acento primario */ 
+} 
+
+.metric-ph .metric-icon { 
+  background: linear-gradient(180deg, rgba(249,115,22,0.08), rgba(249,115,22,0.02)); /* Degradado para pH */ 
+  color: #fb923c; /* Color específico para pH */ 
+} 
+
+/* area de valores con icono */ /* Fila que contiene valor e icono alineados */ 
+.metric-row { 
+  display: flex; /* Usar flexbox */ 
+  align-items: center; /* Alinear elementos verticalmente */ 
+  gap: 8px; /* Separación entre elementos */ 
+} 
+
+/* pulso de alarma solo cuando la clase .alarm-active está presente */ /* Animación de pulso para alarmas */ 
+@keyframes pulseAlarm { 
+  0% { box-shadow: 0 0 0 0 rgba(239,68,68,0.35); } /* Inicio del pulso */ 
+  70% { box-shadow: 0 0 0 14px rgba(239,68,68,0); } /* Pico del pulso */ 
+  100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); } /* Fin del pulso */ 
+} 
+
+.alarm-active { 
+  animation: pulseAlarm 1.6s infinite; /* Aplicar animación cuando está activa la alarma */ 
+} 
+
+/* Pequeña transición para valores */ /* Transiciones suaves para cambios de color y transformaciones en los valores */ 
+#nivelValue, #caudalValue, #phValue { 
+  transition: color .18s ease, transform .12s ease; /* Transición aplicada */ 
+} 
+
+/* Hacer que los botones de acción sean ligeramente más grandes al pasar el ratón */ /* Efecto hover para botones dentro de tarjetas */ 
+.card .btn { 
+  transition: transform .12s ease, box-shadow .12s ease; /* Transición para transform y sombra */ 
+} 
+
+.card .btn:hover { 
+  transform: translateY(-3px); /* Elevar ligeramente en hover */ 
+  box-shadow: 0 8px 20px rgba(2,6,23,0.12); /* Sombra en hover */ 
+} 
+
+/* pequeñas modificaciones responsivas */ /* Ajustes para pantallas pequeñas */ 
+@media (max-width: 600px) { 
+  .card .metric-icon { 
+    width: 36px; /* Reducir ancho en móvil */ 
+    height: 36px; /* Reducir alto en móvil */ 
+  } 
+  #nivelValue, #caudalValue, #phValue { 
+    font-size: 1.3rem; /* Aumentar tamaño de texto en móvil */ 
+  } 
+} 

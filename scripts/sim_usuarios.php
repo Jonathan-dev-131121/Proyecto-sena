@@ -2,6 +2,7 @@
 session_start();
 
 require_once __DIR__ . '/../conf.php';
+require_once __DIR__ . '/../seguridad/funciones.php';
 
 // Verificar token de protección: puede venir por GET o POST
 $provided = $_GET['token'] ?? $_POST['token'] ?? null;
@@ -12,13 +13,8 @@ if (!defined('SIM_USERS_TOKEN') || SIM_USERS_TOKEN === '' || $provided !== SIM_U
     exit;
 }
 
-// Simple page to manage simulated users in session for local testing.
-// Accessible at /scripts/sim_users.php
-
-// Initialize container
-if (!isset($_SESSION['sim_usuarios']) || !is_array($_SESSION['sim_usuarios'])) {
-    $_SESSION['sim_usuarios'] = [];
-}
+// Asegurar que la sesión esté inicializada con usuarios desde archivo si corresponde
+ensureSimUsersInSession();
 
 $action = $_POST['action'] ?? null;
 
@@ -28,8 +24,15 @@ if ($action === 'add') {
     $role = trim($_POST['role'] ?? 'operario');
     if ($username !== '') {
         $_SESSION['sim_usuarios'][$username] = ['clave' => $password, 'rol' => $role];
+        // rebuild index list
+        $_SESSION['sim_users'] = [];
+        $i = 1;
+        foreach ($_SESSION['sim_usuarios'] as $k => $v) {
+            $_SESSION['sim_users'][] = ['id' => $i++, 'username' => $k, 'password' => $v['clave'] ?? '', 'rol' => $v['rol'] ?? 'operario'];
+        }
+        saveSimUsers($_SESSION['sim_usuarios']);
     }
-    header('Location: sim_users.php?token=' . urlencode(SIM_USERS_TOKEN));
+    header('Location: sim_usuarios.php?token=' . urlencode(SIM_USERS_TOKEN));
     exit;
 }
 
@@ -37,18 +40,26 @@ if ($action === 'delete') {
     $username = $_POST['username'] ?? '';
     if ($username !== '' && isset($_SESSION['sim_usuarios'][$username])) {
         unset($_SESSION['sim_usuarios'][$username]);
+        // rebuild index list
+        $_SESSION['sim_users'] = [];
+        $i = 1;
+        foreach ($_SESSION['sim_usuarios'] as $k => $v) {
+            $_SESSION['sim_users'][] = ['id' => $i++, 'username' => $k, 'password' => $v['clave'] ?? '', 'rol' => $v['rol'] ?? 'operario'];
+        }
+        saveSimUsers($_SESSION['sim_usuarios']);
     }
-    header('Location: sim_users.php?token=' . urlencode(SIM_USERS_TOKEN));
+    header('Location: sim_usuarios.php?token=' . urlencode(SIM_USERS_TOKEN));
     exit;
 }
 
 if ($action === 'clear') {
     $_SESSION['sim_usuarios'] = [];
+    $_SESSION['sim_users'] = [];
+    saveSimUsers($_SESSION['sim_usuarios']);
     header('Location: sim_usuarios.php?token=' . urlencode(SIM_USERS_TOKEN));
     exit;
 }
 
-// HTML output
 ?>
 <!doctype html>
 <html lang="es">

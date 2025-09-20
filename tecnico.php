@@ -197,18 +197,21 @@ $initialChem = $modoFicticio ? $_SESSION['tec_chem'] : [];
 <title>Panel Técnico — Gestión de averías y químicos</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link href="css/estilos.css" rel="stylesheet">
+<link href="css/comun.css" rel="stylesheet">
+
 <style>
   .badge-threshold { min-width: 90px; text-align:center; }
   .table-fixed { max-height:50vh; overflow:auto; display:block; }
   .chem-label { font-weight:600; }
 </style>
 </head>
-<body class="bg-light">
+<body class="bg-light has-hero tecnico-page">
 <div class="container py-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h4 class="mb-0">Panel Técnico — <?php echo htmlspecialchars($_SESSION['usuario'],ENT_QUOTES,'UTF-8'); ?></h4>
     <div>
-      <span class="badge <?php echo $modoFicticio ? 'bg-secondary' : 'bg-success'; ?> me-2">
+      <span class="badge <?php echo $modoFicticio ? 'status-att' : 'status-ok'; ?> me-2">
         <?php echo $modoFicticio ? 'MODO FICTICIO' : 'MODO REAL (BD)'; ?>
       </span>
       <a href="cerrar_sesion.php" class="btn btn-outline-secondary btn-sm">Cerrar sesión</a>
@@ -217,7 +220,7 @@ $initialChem = $modoFicticio ? $_SESSION['tec_chem'] : [];
 
   <div class="row g-3">
     <div class="col-lg-4">
-      <div class="card">
+      <div class="card glass">
         <div class="card-header">Tickets de usuarios</div>
         <div class="card-body">
           <div class="d-grid gap-2 mb-2">
@@ -237,7 +240,7 @@ $initialChem = $modoFicticio ? $_SESSION['tec_chem'] : [];
     </div>
 
     <div class="col-lg-4">
-      <div class="card">
+      <div class="card glass">
         <div class="card-header">Historial de averías (bomba / filtro / válvulas)</div>
         <div class="card-body">
           <div class="table-responsive table-fixed">
@@ -253,7 +256,7 @@ $initialChem = $modoFicticio ? $_SESSION['tec_chem'] : [];
     </div>
 
     <div class="col-lg-4">
-      <div class="card">
+      <div class="card glass">
         <div class="card-header">Niveles de químicos <small class="text-muted">(30% Atención · 10% Alarma)</small></div>
         <div class="card-body">
           <canvas id="chemChart" height="220"></canvas>
@@ -338,7 +341,7 @@ $initialChem = $modoFicticio ? $_SESSION['tec_chem'] : [];
         return;
       }
       tbody.innerHTML = t.map(row => {
-        const estado = row.resolved ? '<span class="badge bg-success">Resuelto</span>' : '<span class="badge bg-danger">Abierto</span>';
+        const estado = row.resolved ? '<span class="badge status-ok">Resuelto</span>' : '<span class="badge status-alarm">Abierto</span>';
         const acc = row.resolved ? '' : `<button data-id="${row.id}" class="btn btn-sm btn-outline-success openTicket">Abrir</button>`;
         return `<tr>
           <td>${row.id}</td>
@@ -446,7 +449,7 @@ $initialChem = $modoFicticio ? $_SESSION['tec_chem'] : [];
       const list = document.getElementById('chemList');
       list.innerHTML = names.map(n => {
         const v = chem[n];
-        const cls = (v <= THRESH_ALARM) ? 'badge bg-danger' : (v <= THRESH_ATT ? 'badge bg-warning text-dark' : 'badge bg-success');
+        const cls = (v <= THRESH_ALARM) ? 'badge status-alarm' : (v <= THRESH_ATT ? 'badge status-att' : 'badge status-ok');
         return `<div class="d-flex justify-content-between align-items-center mb-1">
           <div class="chem-label">${escapeHtml(n)}</div>
           <div><span class="${cls} badge-threshold">${v}%</span></div>

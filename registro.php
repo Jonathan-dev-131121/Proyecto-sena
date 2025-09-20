@@ -15,21 +15,32 @@ if ($usuario === '' || $clave === '') {
 try {
     $dbresult = dbConnect();
 
-    // MODO FICTICIO: dbConnect() devuelve un array o usamos la sesion existente
+    // MODO FICTICIO: si dbConnect devuelve array o ya existen usuarios en sesión
     if (is_array($dbresult) || isset($_SESSION['sim_usuarios'])) {
-        if (!isset($_SESSION['sim_usuarios']) || !is_array($_SESSION['sim_usuarios'])) {
-            // Inicializar desde el array por defecto si lo hay, sino vacio
-            $_SESSION['sim_usuarios'] = is_array($dbresult) ? $dbresult : [];
-        }
+        // Asegurar que la sesión tenga cargados los usuarios desde archivo si corresponde
+        ensureSimUsersInSession();
 
         if (isset($_SESSION['sim_usuarios'][$usuario])) {
             echo "El usuario ya existe (modo ficticio).";
             exit;
         }
 
-        // Agregar usuario a la sesion
+        // Agregar usuario a la sesión y persistir en archivo JSON
         $_SESSION['sim_usuarios'][$usuario] = ['clave' => $clave, 'rol' => $tipo];
-        echo "Registro ficticio exitoso. <a href='Inicio_de_sesion.html'>Iniciar sesi\u00f3n</a>";
+
+        // Reconstruir listado indexado para la UI
+        $_SESSION['sim_users'] = [];
+        $i = 1;
+        foreach ($_SESSION['sim_usuarios'] as $k => $v) {
+            $_SESSION['sim_users'][] = ['id' => $i++, 'username' => $k, 'password' => $v['clave'] ?? '', 'rol' => $v['rol'] ?? 'operario'];
+        }
+
+        saveSimUsers($_SESSION['sim_usuarios']);
+
+        // Log y redirección a panel de simulación
+        error_log(date('[Y-m-d H:i:s] ') . "Usuario ficticio agregado: {$usuario} (rol={$tipo})" . PHP_EOL, 3, __DIR__ . '/seguridad/db_error.log');
+        $token = defined('SIM_USERS_TOKEN') ? SIM_USERS_TOKEN : '';
+        header('Location: scripts/sim_usuarios.php?token=' . urlencode($token));
         exit;
     }
 
