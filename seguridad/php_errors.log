@@ -1,0 +1,13 @@
+[21-Sep-2025 22:45:53 America/Bogota] PHP Warning:  require_once(conf.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\proyecto sena\operario.php on line 7
+[21-Sep-2025 22:45:53 America/Bogota] PHP Fatal error:  Uncaught Error: Failed opening required 'conf.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\proyecto sena\operario.php:7
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\proyecto sena\operario.php on line 7
+[21-Sep-2025 23:02:47 America/Bogota] Audit log failed: SQLSTATE[42P01]: Undefined table: 7 ERROR:  no existe la relación «user_audit»
+LINE 1: INSERT INTO user_audit (usuario_id, accion, detalles, realiz...
+                    ^
+[21-Sep-2025 23:56:25 America/Bogota] PHP Warning:  require_once(conf.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\proyecto sena\tecnico.php on line 6
+[21-Sep-2025 23:56:25 America/Bogota] PHP Fatal error:  Uncaught Error: Failed opening required 'conf.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\proyecto sena\tecnico.php:6
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\proyecto sena\tecnico.php on line 6

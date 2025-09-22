@@ -13,7 +13,7 @@
     <html lang="es">
     <head>
         <meta charset="UTF-8">
-        <title>Dashboard | SmartAqua Pro</title>
+        <title>Dashboard | TU EMPRESA</title>
         <link rel="stylesheet" href="css/estilos.css">
     </head>
     <body>
@@ -25,7 +25,7 @@
 
         <main>
             <section class="bienvenida">
-                <h1>Bienvenido, <?php echo $usuario; ?> a SmartAqua Pro</h1>
+                <h1>Bienvenido, <?php echo $usuario; ?> a TU EMPRESA</h1>
                 <p>Tu rol es: <strong><?php echo $rol; ?></strong></p>
                 <a href="cerrar_sesion.php" class="boton-salir">Cerrar sesión</a>
             </section>

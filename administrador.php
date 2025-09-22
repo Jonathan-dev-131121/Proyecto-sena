@@ -6,6 +6,214 @@ if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'administrador') {
     exit;
 }
 
+// API: acciones para frontend
+if (isset($_GET['api']) && $_GET['api'] == '1') {
+    $action = $_GET['action'] ?? 'status';
+    header('Content-Type: application/json; charset=UTF-8');
+    
+    if ($action === 'status') {
+        echo json_encode(['status' => 'ok', 'user' => $_SESSION['usuario'], 'role' => $_SESSION['tipo']]);
+        exit;
+    }
+    
+    if ($action === 'users') {
+        // Obtener lista de usuarios
+        require_once 'seguridad/conexion.php';
+        require_once 'seguridad/funciones.php';
+        
+        $usuarios = [];
+        if (defined('MODO_FICTICIO') && MODO_FICTICIO) {
+            ensureSimUsersInSession();
+            foreach ($_SESSION['sim_users'] as $u) {
+                $usuarios[] = [
+                    'id' => $u['id'] ?? 0,
+                    'usuario' => $u['username'] ?? ($u['usuario'] ?? ''),
+                    'tipo_usuario' => $u['rol'] ?? ($u['tipo_usuario'] ?? 'usuario'),
+                ];
+            }
+        } else {
+            $pdo = dbConnect();
+            if ($pdo instanceof PDO) {
+                $usuarios = obtenerUsuarios($pdo);
+            }
+        }
+        echo json_encode(['users' => $usuarios]);
+        exit;
+    }
+    
+    if ($action === 'create_user' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+        require_once 'seguridad/conexion.php';
+        require_once 'seguridad/funciones.php';
+        
+        $json = json_decode(file_get_contents('php://input'), true);
+        $user = limpiar($json['username'] ?? '');
+        $pass = $json['password'] ?? '';
+        $role = $json['role'] ?? '';
+        
+        if ($user === '' || $pass === '' || $role === '') {
+            echo json_encode(['status' => 'error', 'message' => 'Usuario, contraseña y rol son obligatorios.']);
+            exit;
+        }
+        
+        if (defined('MODO_FICTICIO') && MODO_FICTICIO) {
+            ensureSimUsersInSession();
+            
+            $exists = false;
+            foreach ($_SESSION['sim_users'] as $u) {
+                if (($u['username'] ?? '') === $user) { 
+                    $exists = true; 
+                    break; 
+                }
+            }
+            
+            if ($exists) {
+                echo json_encode(['status' => 'error', 'message' => 'El usuario ya existe.']);
+            } else {
+                $max = 0; 
+                foreach ($_SESSION['sim_users'] as $u) { 
+                    if (($u['id'] ?? 0) > $max) $max = $u['id']; 
+                }
+                $newId = $max + 1;
+                $new = ['id' => $newId, 'username' => $user, 'password' => $pass, 'rol' => $role];
+                $_SESSION['sim_users'][] = $new;
+                $_SESSION['sim_usuarios'][$user] = ['clave' => $pass, 'rol' => $role];
+                saveSimUsers($_SESSION['sim_usuarios']);
+                echo json_encode(['status' => 'ok', 'message' => 'Usuario creado correctamente.']);
+            }
+        } else {
+            $pdo = dbConnect();
+            if (usuarioExiste($pdo, $user)) {
+                echo json_encode(['status' => 'error', 'message' => 'El usuario ya existe.']);
+            } else {
+                $ok = registrarUsuario($pdo, $user, $pass, $role);
+                echo json_encode(['status' => $ok ? 'ok' : 'error', 'message' => $ok ? 'Usuario creado correctamente.' : 'Error al crear el usuario.']);
+            }
+        }
+        exit;
+    }
+    
+    if ($action === 'delete_user' && $_SERVER['REQUEST_METHOD'] === 'DELETE') {
+        require_once 'seguridad/conexion.php';
+        require_once 'seguridad/funciones.php';
+        
+        $json = json_decode(file_get_contents('php://input'), true);
+        $target = $json['id'] ?? $json['usuario'] ?? '';
+        
+        if ($target === '') {
+            echo json_encode(['status' => 'error', 'message' => 'ID o usuario no proporcionado.']);
+            exit;
+        }
+        
+        $isId = is_numeric($target);
+        
+        if (defined('MODO_FICTICIO') && MODO_FICTICIO) {
+            ensureSimUsersInSession();
+            
+            $idx = false;
+            foreach ($_SESSION['sim_users'] as $i => $u) {
+                if ($isId) {
+                    if ((int)($u['id'] ?? 0) === (int)$target) { $idx = $i; break; }
+                } else {
+                    if (($u['username'] ?? '') === (string)$target) { $idx = $i; break; }
+                }
+            }
+            
+            if ($idx === false) {
+                echo json_encode(['status' => 'error', 'message' => 'Usuario no encontrado.']);
+            } else {
+                if (($_SESSION['sim_users'][$idx]['username'] ?? '') === ($_SESSION['usuario'] ?? '')) {
+                    echo json_encode(['status' => 'error', 'message' => 'No puede eliminar su propia cuenta.']);
+                } else {
+                    $delUser = $_SESSION['sim_users'][$idx]['username'];
+                    array_splice($_SESSION['sim_users'], $idx, 1);
+                    if (isset($_SESSION['sim_usuarios'][$delUser])) unset($_SESSION['sim_usuarios'][$delUser]);
+                    saveSimUsers($_SESSION['sim_usuarios']);
+                    echo json_encode(['status' => 'ok', 'message' => 'Usuario eliminado correctamente.']);
+                }
+            }
+        } else {
+            $pdo = dbConnect();
+            $ok = eliminarUsuario($pdo, $isId ? (int)$target : (string)$target);
+            echo json_encode(['status' => $ok ? 'ok' : 'error', 'message' => $ok ? 'Usuario eliminado.' : 'No se pudo eliminar el usuario.']);
+        }
+        exit;
+    }
+    
+    if ($action === 'update_user' && $_SERVER['REQUEST_METHOD'] === 'PUT') {
+        require_once 'seguridad/conexion.php';
+        require_once 'seguridad/funciones.php';
+        
+        $json = json_decode(file_get_contents('php://input'), true);
+        $target = $json['id'] ?? $json['usuario'] ?? '';
+        $newRol = limpiar($json['tipo_usuario'] ?? $json['rol'] ?? '');
+        $newPass = $json['password'] ?? null;
+        
+        if ($target === '') {
+            echo json_encode(['status' => 'error', 'message' => 'ID o usuario no proporcionado.']);
+            exit;
+        }
+        
+        $isId = is_numeric($target);
+        
+        if (defined('MODO_FICTICIO') && MODO_FICTICIO) {
+            ensureSimUsersInSession();
+            
+            $idx = false;
+            foreach ($_SESSION['sim_users'] as $i => $u) {
+                if ($isId) {
+                    if ((int)($u['id'] ?? 0) === (int)$target) { $idx = $i; break; }
+                } else {
+                    if (($u['username'] ?? '') === (string)$target) { $idx = $i; break; }
+                }
+            }
+            
+            if ($idx === false) {
+                echo json_encode(['status' => 'error', 'message' => 'Usuario no encontrado.']);
+            } else {
+                if ($newRol !== '') $_SESSION['sim_users'][$idx]['rol'] = $newRol;
+                if ($newPass !== null && $newPass !== '') $_SESSION['sim_users'][$idx]['password'] = $newPass;
+                
+                $uname = $_SESSION['sim_users'][$idx]['username'];
+                if (!isset($_SESSION['sim_usuarios']) || !is_array($_SESSION['sim_usuarios'])) $_SESSION['sim_usuarios'] = [];
+                if ($newPass !== null && $newPass !== '') $_SESSION['sim_usuarios'][$uname]['clave'] = $newPass;
+                if ($newRol !== '') $_SESSION['sim_usuarios'][$uname]['rol'] = $newRol;
+                
+                saveSimUsers($_SESSION['sim_usuarios']);
+                echo json_encode(['status' => 'ok', 'message' => 'Usuario actualizado correctamente.']);
+            }
+        } else {
+            $pdo = dbConnect();
+            $idForUpdate = null;
+            if ($isId) {
+                $idForUpdate = (int)$target;
+            } else {
+                $stmt = $pdo->prepare('SELECT usuario FROM usuarios WHERE usuario = :usuario');
+                $stmt->bindParam(':usuario', $target, PDO::PARAM_STR);
+                $stmt->execute();
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                $idForUpdate = $row['usuario'] ?? null;
+            }
+            
+            if ($idForUpdate === null) {
+                echo json_encode(['status' => 'error', 'message' => 'Usuario no encontrado.']);
+            } else {
+                if ($newPass === '') $newPass = null;
+                if ($newRol !== '' && !validarRol($newRol)) {
+                    echo json_encode(['status' => 'error', 'message' => 'Rol no válido.']);
+                } else {
+                    $ok = updateUsuario($pdo, $idForUpdate, $newPass, $newRol !== '' ? $newRol : null);
+                    echo json_encode(['status' => $ok ? 'ok' : 'error', 'message' => $ok ? 'Usuario actualizado.' : 'No se pudo actualizar el usuario.']);
+                }
+            }
+        }
+        exit;
+    }
+    
+    // Si no coincide ninguna acción válida
+    echo json_encode(['status' => 'error', 'message' => 'Acción no válida.']);
+    exit;
+}
+
 require_once 'seguridad/conexion.php';
 require_once 'seguridad/funciones.php';
 
@@ -42,7 +250,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 if (defined('MODO_FICTICIO') && MODO_FICTICIO) {
                     // Inicializar estructuras si no existen
-                    require_once __DIR__ . '/seguridad/funciones.php';
                     ensureSimUsersInSession();
 
                     // Verificar existencia por username
@@ -83,7 +290,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // si target es numérico usar id, si no usar username
                 $isId = is_numeric($target);
                 if (defined('MODO_FICTICIO') && MODO_FICTICIO) {
-                    require_once __DIR__ . '/seguridad/funciones.php';
                     ensureSimUsersInSession();
                     $idx = false;
                     foreach ($_SESSION['sim_users'] as $i => $u) {
@@ -241,11 +447,13 @@ if (defined('MODO_FICTICIO') && MODO_FICTICIO) {
     <title>Panel del Administrador</title>
     <link rel="stylesheet" href="css/comun.css">
     <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/administrador.css">
+
     <!-- Bootstrap CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="css/admin.css">    
+     
 
 </head>
 <body class="has-hero">

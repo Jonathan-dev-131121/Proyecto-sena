@@ -1,0 +1,81 @@
+/* Variables CSS específicas para la vista de administrador */
+:root {
+  /* Colores temáticos del administrador */
+  --accent: #2563eb;                  /* Azul principal para elementos administrativos */
+  --accent-2: #7c3aed;                /* Morado secundario para variaciones */
+  
+  /* Efectos visuales específicos */
+  --glass-blur: 8px;                  /* Intensidad de desenfoque para efectos cristal */
+  --radius: 12px;                     /* Radio de borde estándar para componentes */
+}
+
+/* Contenedor principal de la aplicación administrativa */
+.app-container {
+  max-width: 1100px;                  /* Ancho máximo responsivo */
+  margin: 28px auto;                  /* Centrado automático con margen superior */
+  padding: 10px;                      /* Relleno interno mínimo */
+}
+
+/* Tarjetas destacadas con sombra pronunciada */
+.card-spot {
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 1); /* Sombra fuerte para destacar */
+  border-radius: 12px;                /* Bordes redondeados */
+}
+
+/* Marca/logo del sistema administrativo */
+.brand {
+  font-weight: 700;                   /* Peso bold para prominencia */
+  color: var(--accent);               /* Color de acento azul */
+  font-size: 1.3rem;                  /* Tamaño de fuente grande */
+  letter-spacing: 1px;                /* Espaciado entre letras para elegancia */
+  background: #ffffffc0;              /* Fondo blanco semi-transparente para legibilidad */
+  border: 3px solid rgba(6, 58, 121, 0.53); /* Borde azul semitransparente */
+  border-radius: var(--radius);       /* Bordes redondeados usando variable */
+  box-shadow: 3px 5px 5px rgba(6, 9, 23, 0.54); /* Sombra para profundidad */
+  padding: 3px 6px;                   /* Relleno interno compacto */
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%); /* Efecto cristal Safari */
+  backdrop-filter: blur(var(--glass-blur)) saturate(180%); /* Efecto cristal estándar */
+  text-transform: uppercase;          /* Texto en mayúsculas */
+  font-family: 'Inter', roboto, poppins, montserrat, averta; /* Stack de fuentes modernas */
+  margin-bottom: 5px;                 /* Margen inferior para separación */
+}
+
+/* Insignias de rol específicas por tipo de usuario */
+
+/* Insignia para rol de administrador */
+.role-badge.administrador {
+  background: #ff6b6b;               /* Fondo rojo distintivo */
+  color: #fff;                       /* Texto blanco para contraste */
+}
+
+/* Insignia para rol de técnico */
+.role-badge.tecnico {
+  background: #ffd166;               /* Fondo amarillo distintivo */
+  color: #000a3b;                    /* Texto azul oscuro para contraste */
+}
+
+/* Insignia para rol de operario */
+.role-badge.operario {
+  background: #6ee7b7;               /* Fondo verde distintivo */
+  color: #084c41;                    /* Texto verde oscuro para contraste */
+}
+
+/* Inputs para creación con ancho limitado */
+.create-input {
+  max-width: 300px;                  /* Ancho máximo para mantener proporción */
+}
+
+/* Estilo para texto descriptivo en secciones administrativas */
+.texto {
+  color: rgba(0,0,0,0.55);           /* Color gris semi-transparente */
+  font-size: 1rem;                   /* Tamaño de fuente estándar */
+  font-style: italic;                /* Estilo cursiva para diferenciación */
+  margin-top: 4px;                   /* Margen superior mínimo */
+  margin-bottom: 4px;                /* Margen inferior mínimo */
+  font-weight: 700;                  /* Peso bold para legibilidad */
+  font-family: 'Inter', roboto, poppins, montserrat, averta; /* Stack de fuentes */
+  display: inline-block;             /* Para que el padding funcione correctamente */
+  border-radius: 40px;               /* Bordes muy redondeados tipo píldora */
+  padding: 4px 15px;                 /* Relleno interno para crear cápsula */
+  margin-top: 10px;                  /* Margen superior adicional para separación */
+}

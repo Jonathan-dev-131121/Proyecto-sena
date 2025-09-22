@@ -4,7 +4,8 @@ session_start();
 
 require_once 'seguridad/conexion.php';
 require_once 'seguridad/funciones.php';
-require_once 'conf.php';
+require_once 'config_mejorado.php';
+
 
 // Comprobación de sesión y rol
 if (!isset($_SESSION['usuario']) || ($_SESSION['tipo'] ?? '') !== 'operario') {
@@ -124,7 +125,7 @@ if (isset($_GET['api']) && ($_GET['api'] == '1')) {
             }
         }
 
-        // optional small simulation on GET non-full
+        // simular cambios leves si no se pide full
         if (!$wantFull) {
             $s = &$_SESSION['sim_sensores'];
             $s['nivel'] = $clamp($s['nivel'] + rand(-3,3), 0, 120);
@@ -311,8 +312,8 @@ $initialPh = [];
                 <div class="card-body d-flex flex-column">
                     <h6 class="card-title">Acciones</h6>
                     <div class="mt-auto">
-                        <button id="btnRegistro" class="btn btn-primary w-100 mb-2" data-bs-toggle="modal" data-bs-target="#modalRegistro"><i class="bi bi-journal-plus"></i> Registrar</button>
-                        <button id="btnHistFull" class="btn btn-outline-secondary w-100" data-bs-toggle="modal" data-bs-target="#modalHistFull"><i class="bi bi-clock-history"></i> Histórico</button>
+                        <button id="btnRegistro" class="btn-3d" data-bs-toggle="modal" data-bs-target="#modalRegistro"><i class="bi bi-journal-plus"></i> Registrar</button>
+                        <button id="btnHistFull" class="btn-3d" data-bs-toggle="modal" data-bs-target="#modalHistFull"><i class="bi bi-clock-history"></i> Histórico</button>
                     </div>
                 </div>
             </div>

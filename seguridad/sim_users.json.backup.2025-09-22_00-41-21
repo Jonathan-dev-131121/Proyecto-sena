@@ -1,0 +1,63 @@
+{
+    "_metadata": {
+        "version": "2.1",
+        "created": "2025-09-20T00:00:00Z",
+        "updated": "2025-09-22T00:19:51+02:00",
+        "description": "Usuarios simulados para SmartAqua Pro - Modo de desarrollo",
+        "password_encryption": "enabled"
+    },
+    "admin": {
+        "clave": "$2y$10$ZN2TxOwNRvri3E6e8jpQlu9LglNyqWZPeOo7n22AmkFwcXAr3P8FG",
+        "clave_original": "1234",
+        "rol": "administrador",
+        "created_at": "2025-09-20T00:00:00Z",
+        "last_login": null,
+        "login_attempts": 0,
+        "account_status": "active",
+        "permissions": [
+            "create",
+            "read",
+            "update",
+            "delete",
+            "manage_users"
+        ],
+        "email": "admin@smartaqua.local",
+        "password_encrypted": true,
+        "encryption_date": "2025-09-22 00:19:51"
+    },
+    "tecnico": {
+        "clave": "$2y$10$u.t9EunDHIdkKZq7kwcuCu5yrxK9kOtHzvdET3WSKHOk5mHjlJ6Ty",
+        "clave_original": "abcd",
+        "rol": "tecnico",
+        "created_at": "2025-09-20T00:00:00Z",
+        "last_login": null,
+        "login_attempts": 0,
+        "account_status": "active",
+        "permissions": [
+            "read",
+            "update",
+            "manage_tickets",
+            "view_reports"
+        ],
+        "email": "tecnico@smartaqua.local",
+        "password_encrypted": true,
+        "encryption_date": "2025-09-22 00:19:51"
+    },
+    "operario": {
+        "clave": "$2y$10$ToJvV\/QHFpveGRKAKVJc0eUc6rvXxbWDOAnmeHWkYImB9TEMKd6gC",
+        "clave_original": "xyz",
+        "rol": "operario",
+        "created_at": "2025-09-20T00:00:00Z",
+        "last_login": null,
+        "login_attempts": 0,
+        "account_status": "active",
+        "permissions": [
+            "read",
+            "create_readings",
+            "view_sensors"
+        ],
+        "email": "operario@smartaqua.local",
+        "password_encrypted": true,
+        "encryption_date": "2025-09-22 00:19:51"
+    }
+}

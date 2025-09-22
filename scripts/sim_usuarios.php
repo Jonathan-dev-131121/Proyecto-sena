@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once __DIR__ . '/../conf.php';
+require_once __DIR__ . '/../config_mejorado.php';
 require_once __DIR__ . '/../seguridad/funciones.php';
 
 // Verificar token de protección: puede venir por GET o POST

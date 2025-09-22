@@ -3,7 +3,7 @@
     <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>BIENVENIDO A SMARTAQUA PRO</title>
+            <title>BIENVENIDO A TU EMPRESA</title>
             <!-- Bootstrap CSS -->
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
             <link rel="stylesheet" href="css/comun.css">
@@ -35,10 +35,16 @@
                         <!-- Modo ficticio: ahora dentro del form y enviará 'true' cuando esté marcado -->
                         <div class="form-check form-switch mt-3">
                             <input class="form-check-input" type="checkbox" id="modoFicticio" name="modo_ficticio" value="true">
-                            <label class="form-check-label" for="modoFicticio">Activar modo ficticio</label>
-                            <div class="form-text">Si activas esto, el sistema usará datos ficticios en vez de la base de datos.</div>
+                            <label class="form-check-label" for="modoFicticio">
+                                <span id="labelModoFicticio">Estado de Modo ficticio</span>
+                                <span id="estadoModo" class="badge ms-2"></span>
+                            </label>
+                            <div class="form-text">
+                                <span id="descripcionModo">Cargando estado...</span>
+                            </div>
                         </div>
                         </section>
+                        
                         <button type="submit">Iniciar sesión</button>
                         <div id="logout-msg" style="color:green; display:none; margin-top:10px;">Has cerrado sesión correctamente.</div>
                 </form>
@@ -48,6 +54,192 @@
         </div>  
     </main>
     <script>
+        // === FUNCIONES PARA MODO FICTICIO ===
+        async function cargarEstadoModoFicticio() {
+            try {
+                const response = await fetch('estado_modo_ficticio.php');
+                
+                // Verificar que la respuesta sea exitosa
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status} ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                const checkbox = document.getElementById('modoFicticio');
+                const estadoBadge = document.getElementById('estadoModo');
+                const descripcion = document.getElementById('descripcionModo');
+                
+                // Actualizar checkbox
+                checkbox.checked = data.modo_ficticio;
+                
+                // Actualizar badge de estado
+                if (data.modo_ficticio) {
+                    estadoBadge.textContent = 'ACTIVO';
+                    estadoBadge.className = 'badge ms-2 bg-success';
+                } else {
+                    estadoBadge.textContent = 'INACTIVO';
+                    estadoBadge.className = 'badge ms-2 bg-secondary';
+                }
+                
+                // Actualizar descripción
+                descripcion.textContent = data.estado_descripcion;
+                
+                console.log('Estado modo ficticio cargado:', data);
+            } catch (error) {
+                console.error('Error al cargar estado:', error);
+                
+                // Manejo de errores más específico
+                const descripcion = document.getElementById('descripcionModo');
+                const estadoBadge = document.getElementById('estadoModo');
+                
+                if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                    descripcion.textContent = 'No se pudo conectar al servidor. Verifique que XAMPP esté ejecutándose.';
+                } else if (error.message.includes('HTTP:')) {
+                    descripcion.textContent = `Error del servidor: ${error.message}`;
+                } else {
+                    descripcion.textContent = `Error: ${error.message}`;
+                }
+                
+                estadoBadge.textContent = 'ERROR';
+                estadoBadge.className = 'badge ms-2 bg-danger';
+                
+                // Valores por defecto en caso de error
+                document.getElementById('modoFicticio').checked = true; // Asumir modo ficticio por defecto
+            }
+        }
+        
+        async function toggleModoFicticio(nuevoEstado) {
+    const checkbox = document.getElementById('modoFicticio');
+    const estadoBadge = document.getElementById('estadoModo');
+    const descripcion = document.getElementById('descripcionModo');
+    
+    // Guardar estado anterior por si hay que revertir
+    const estadoAnterior = checkbox.checked;
+    
+    try {
+        // Mostrar estado "cargando"
+        estadoBadge.textContent = 'CAMBIANDO...';
+        estadoBadge.className = 'badge ms-2 bg-warning';
+        descripcion.textContent = 'Actualizando configuración...';
+        
+        const response = await fetch('toggle_modo_ficticio.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ modo_ficticio: nuevoEstado })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Actualizar interfaz con el estado REAL del servidor
+            checkbox.checked = data.modo_ficticio; // Usar el estado que devuelve el servidor
+            
+            if (data.modo_ficticio) {
+                estadoBadge.textContent = 'ACTIVO';
+                estadoBadge.className = 'badge ms-2 bg-success';
+            } else {
+                estadoBadge.textContent = 'INACTIVO';
+                estadoBadge.className = 'badge ms-2 bg-secondary';
+            }
+            
+            descripcion.textContent = data.mensaje || data.descripcion || 'Modo actualizado correctamente';
+            
+            // Mostrar notificación de éxito
+            mostrarNotificacion(data.mensaje || 'Modo actualizado correctamente', 'success');
+            
+        } else {
+            throw new Error(data.error || 'Error desconocido del servidor');
+        }
+        
+    } catch (error) {
+        console.error('Error al cambiar modo:', error);
+        
+        // IMPORTANTE: Revertir el checkbox al estado anterior
+        checkbox.checked = estadoAnterior;
+        
+        // Mostrar estado de error
+        estadoBadge.textContent = 'ERROR';
+        estadoBadge.className = 'badge ms-2 bg-danger';
+        descripcion.textContent = 'Error: ' + error.message;
+        
+        // Mostrar notificación de error
+        mostrarNotificacion('Error al cambiar modo: ' + error.message, 'error');
+        
+        // Recargar estado real del servidor después de un momento
+        setTimeout(() => {
+            cargarEstadoModoFicticio();
+        }, 1000);
+    }
+}
+
+// Modificar el event listener para prevenir cambios hasta que se complete la operación
+document.addEventListener('DOMContentLoaded', function() {
+    // Cargar estado inicial
+    cargarEstadoModoFicticio();
+    
+    // Manejar cambios del checkbox
+    const checkbox = document.getElementById('modoFicticio');
+    let cambiandoEstado = false;
+    
+    checkbox.addEventListener('change', async function(e) {
+        // Prevenir múltiples cambios simultáneos
+        if (cambiandoEstado) {
+            e.preventDefault();
+            return false;
+        }
+        
+        cambiandoEstado = true;
+        checkbox.disabled = true; // Deshabilitar mientras se procesa
+        
+        try {
+            await toggleModoFicticio(this.checked);
+        } finally {
+            cambiandoEstado = false;
+            checkbox.disabled = false; // Re-habilitar
+        }
+    });
+});
+
+function mostrarNotificacion(mensaje, tipo = 'info') {
+    // Crear elemento de notificación
+    const notif = document.createElement('div');
+    notif.className = `alert alert-${tipo === 'success' ? 'success' : 'danger'} alert-dismissible fade show position-fixed`;
+    notif.style.cssText = 'top: 20px; right: 20px; z-index: 9999; max-width: 400px;';
+            notif.innerHTML = `
+                ${mensaje}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.body.appendChild(notif);
+            
+            // Auto-remover después de 4 segundos
+            setTimeout(() => {
+                if (notif && notif.parentNode) {
+                    notif.remove();
+                }
+            }, 4000);
+        }
+        
+        // === EVENTOS Y INICIALIZACIÓN ===
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cargar estado inicial
+            cargarEstadoModoFicticio();
+            
+            // Manejar cambios del checkbox
+            const checkbox = document.getElementById('modoFicticio');
+            checkbox.addEventListener('change', function() {
+                toggleModoFicticio(this.checked);
+            });
+        });
+        
+        // === VALIDACIÓN ORIGINAL DEL FORMULARIO ===
         // Validación cliente: evita enviar formulario si usuario o contraseña están vacíos
         (function(){
             const form = document.getElementById('loginForm');
@@ -66,30 +258,34 @@
             });
         })();
 
-                    const params = new URLSearchParams(window.location.search);
-                    if (params.get("logout") === "1") {
-                            const el = document.getElementById("logout-msg");
-                            if (el) { el.style.display = "block"; setTimeout(() => { el.style.display = "none"; }, 4000); }
-                    }
-                    if (params.get("error") === "credenciales") {
-                            const errorEl = document.getElementById('error-msg');
-                            errorEl.textContent = "Usuario o contraseña incorrectos.";
-                            errorEl.style.display = 'block';
-                            setTimeout(() => { errorEl.style.display = 'none'; }, 4000);
-                    }
-                    if (params.get("error") === "noregistrado") {
-                            const errorEl = document.getElementById('error-msg');
-                            errorEl.textContent = "Usuario no registrado.";
-                            errorEl.style.display = 'block';
-                            setTimeout(() => { errorEl.style.display = 'none'; }, 4000);
-                    }
-                    if (params.get("error") === "conexion") {
-                            const errorEl = document.getElementById('error-msg');
-                            errorEl.textContent = "Error de conexión. Por favor, inténtalo más tarde.";
-                            errorEl.style.display = 'block';
-                            setTimeout(() => { errorEl.style.display = 'none'; }, 4000);
-                    }
-            </script>
+        // === MANEJO DE PARÁMETROS URL ===
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("logout") === "1") {
+                const el = document.getElementById("logout-msg");
+                if (el) { el.style.display = "block"; setTimeout(() => { el.style.display = "none"; }, 4000); }
+        }
+        if (params.get("error") === "credenciales") {
+                const errorEl = document.getElementById('error-msg');
+                errorEl.textContent = "Usuario o contraseña incorrectos.";
+                errorEl.style.display = 'block';
+                setTimeout(() => { errorEl.style.display = 'none'; }, 4000);
+        }
+        if (params.get("error") === "noregistrado") {
+                const errorEl = document.getElementById('error-msg');
+                errorEl.textContent = "Usuario no registrado.";
+                errorEl.style.display = 'block';
+                setTimeout(() => { errorEl.style.display = 'none'; }, 4000);
+        }
+        if (params.get("error") === "conexion") {
+                const errorEl = document.getElementById('error-msg');
+                errorEl.textContent = "Error de conexión. Por favor, inténtalo más tarde.";
+                errorEl.style.display = 'block';
+                setTimeout(() => { errorEl.style.display = 'none'; }, 4000);
+        }
+    </script>
+    
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
                 
     </body>
     </html>

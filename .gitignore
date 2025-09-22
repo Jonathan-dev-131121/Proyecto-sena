@@ -8,3 +8,5 @@ sim_users.json
 .env
 usuario_administrador.php
 scripts/usuario_administrador.php
+sim_usuarios.php
+debug_session.php

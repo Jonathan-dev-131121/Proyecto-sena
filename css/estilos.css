@@ -1,455 +1,1091 @@
-/* El fondo grande se aplica solo cuando el body tiene la clase has-hero
-   (evita que el tema oscuro afecte a páginas que solo cargan comun.css) */
 
+/* Variables CSS modernas para consistencia de diseño */
+:root {
+  /* Colores principales del tema SmartAqua */
+  --primary-blue: #06ebeb;           /* color primario */
+  --secondary-teal: #06b6d4;         /* color secundario */
+  --accent-orange: #f59e0b;          /* color de acento */
+  --success-green: #16a34a;          /* color de éxito */
+  --warning-yellow: #f59e0b;         /* color de advertencia */
+  --danger-red: #ef4444;             /* color de peligro */
+  
+  /* Fondos y superficies */
+  --bg-primary: #0f1724;             /* Fondo principal oscuro */
+  --bg-secondary: #1e293b;           /* Fondo secundario */
+  --bg-glass: rgba(255,255,255,0.1); /* Efecto cristal */
+  --bg-card: rgba(255,255,255,0.95); /* Fondo de tarjetas */
+  
+  /* Tipografía y textos */
+  --text-primary: #1f2937;           /* Texto principal oscuro */
+  --text-secondary: #6b7280;         /* Texto secundario */
+  --text-light: #f8fafc;             /* Texto claro */
+  --text-muted: #9ca3af;             /* Texto atenuado */
+  
+  /* Espaciado y dimensiones */
+  --spacing-xs: 0.25rem;             /* 4px - Espaciado extra pequeño */
+  --spacing-sm: 0.5rem;              /* 8px - Espaciado pequeño */
+  --spacing-md: 1rem;                /* 16px - Espaciado medio */
+  --spacing-lg: 1.5rem;              /* 24px - Espaciado grande */
+  --spacing-xl: 2rem;                /* 32px - Espaciado extra grande */
+  --spacing-2xl: 3rem;               /* 48px - Espaciado muy grande */
+  
+  /* Bordes y sombras */
+  --border-radius: 0.75rem;          /* Bordes redondeados estándar */
+  --border-radius-lg: 1.5rem;        /* Bordes redondeados grandes */
+  --border-radius-full: 50px;        /* Bordes completamente redondeados */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);           /* Sombra pequeña */
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);         /* Sombra media */
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);       /* Sombra grande */
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);       /* Sombra extra grande */
+  
+  /* Transiciones y animaciones */
+  --transition-fast: 150ms ease-in-out;     /* Transición rápida */
+  --transition-normal: 300ms ease-in-out;   /* Transición normal */
+  --transition-slow: 500ms ease-in-out;     /* Transición lenta */
+  
+  /* Filtros y efectos */
+  --blur-sm: blur(4px);              /* Desenfoque pequeño */
+  --blur-md: blur(8px);              /* Desenfoque medio */
+  --blur-lg: blur(16px);             /* Desenfoque grande */
+}
+
+/* Reset y configuración base mejorada */
+* {
+  box-sizing: border-box; /* Incluye padding y border en el tamaño total */
+  margin: 0;              /* Elimina márgenes por defecto */
+  padding: 0;             /* Elimina relleno por defecto */
+}
+
+/* Configuración del body para el fondo de la planta de tratamiento */
 body.has-hero {
-  background-image: url('img/planta_tratamiento_de_agua.jpg'); /* Ruta de tu imagen */
-  background-size: cover;              /* Escala para que cubra toda la pantalla */
-  background-position: center center;  /* Centra la imagen */
-  background-repeat: no-repeat;        /* Evita que se repita */
-  min-height: 100vh; /* Asegura que cubra toda la altura del viewport */
-  margin: 0; /* Elimina el margen por defecto */
-  background-attachment: fixed;  /* Fija la imagen de fondo al hacer scroll */
-  padding: 0; /* Elimina el padding por defecto */
-  margin-left: 10rem;  /* centra horizontalmente */
-  margin-right: 12rem; /* centra horizontalmente */
+  background-image: url('img/planta_tratamiento_de_agua.jpg'); /* Imagen de fondo principal */
+  background-size: cover;              /* Escala para cubrir toda la pantalla */
+  background-position: center center;  /* Centra la imagen perfectamente */
+  background-repeat: no-repeat;        /* Evita repetición de la imagen */
+  background-attachment: fixed;        /* Fija la imagen durante el scroll */
+  min-height: 100vh;                   /* Altura mínima de viewport completo */
+  font-family: 'Inter', 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; /* Stack de fuentes modernas */
+  line-height: 1.6;                    /* Altura de línea para mejor legibilidad */
+  color: var(--text-primary);          /* Color de texto por defecto */
+  overflow-x: hidden;                  /* Previene scroll horizontal */
 }
 
+/* Navegación principal mejorada con Bootstrap */
 .navegacion {
-     display:inline-flex; /* Utiliza flexbox para el diseño */
-     flex-direction: row; /* Alinea los elementos en fila */
-     justify-content: flex-end; /* Alinea los elementos al centro horizontalmente */
-     margin-left: auto; /* Empuja la barra de navegación a la derecha */
-     position: absolute;  /* Posiciona la barra de navegación */
-     top: 1rem; /* Espacio desde la parte superior */
-     right: 1rem; /* Espacio desde la parte derecha */
-     gap: 0.8rem;  /* Espacio entre los enlaces */
-     background: rgba(216, 207, 240, 1); /* Fondo blanco con transparencia */
-     padding: 20px; /* Espacio interno */
-     border-radius: 50px; /* Hace el fondo circular */
-     box-shadow: 0.1rem 0.2rem 0.2rem rgba(6, 6, 6, 0.5); /* Sombra para dar profundidad */
-     z-index: 9999; /* Asegura que la barra esté por encima del fondo */
-     font-style: italic; /* Mejora la carga de la fuente */
-     font-weight: 600; /* Negrita para el texto */
-     font-size:medium; /* Tamaño del texto */
-     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; /* Fuente legible */
-     text-shadow: 0.1rem 0.1rem 0.2rem rgba(255, 255, 255, 0.5); /* Sombra para mejorar la legibilidad */
-  }
-      
-.navegacion a{ 
-    color: #000; /* Color del texto */
-    text-decoration: none; /* Elimina el subrayado */
-    padding: 0.3rem 0.3rem; /* Espacio interno */
-    border-radius: 4px; /* Bordes redondeados */
-    transition: background-color 0.3s, color 0.3s; /* Transición suave */
+  display: flex;                       /* Contenedor flexbox */
+  flex-wrap: wrap;                     /* Permite envolver elementos */
+  justify-content: flex-end;           /* Alinea elementos a la derecha */
+  align-items: center;                 /* Centra verticalmente */
+  position: absolute;                  /* Posición absoluta para sticky nav */
+  top: var(--spacing-md);              /* Separación desde arriba */
+  right: var(--spacing-md);            /* Separación desde la derecha */
+  z-index: 1050;                       /* Z-index alto para estar encima */
+  gap: var(--spacing-sm);              /* Espacio entre enlaces */
+  background:linear-gradient(180deg, rgba(4, 199, 213, 0.574), rgba(6, 214, 79, 0.689)); /* fondo con degradado muy sutil */
+  backdrop-filter: var(--blur-md) saturate(180%); /* Efecto cristal moderno */
+  -webkit-backdrop-filter: var(--blur-md) saturate(180%); /* Soporte Safari */
+  padding: var(--spacing-md) var(--spacing-lg); /* Relleno interno generoso */
+  border-radius: var(--border-radius-full); /* Bordes completamente redondeados */
+  box-shadow: var(--shadow-lg);        /* Sombra elegante */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Borde sutil */
+  font-weight: 900;                    /* Peso de fuente bolder */
+  font-size: 0.95rem;                  /* Tamaño de fuente optimizado */
+  transition: all var(--transition-normal); /* Transición suave */
+  animation: slideInFromRight 0.8s ease-out; /* Animación desde la derecha */
+  font-style: italic;                /* Estilo de fuente cursiva */
 }
 
-.navegacion a:hover{ 
-  text-decoration: underline; /* Subraya el texto al pasar el mouse */
-  color: #1b06d6c3; /* Color del texto */
-  background-color: #f0ebe9c7; /* Fondo al pasar el mouse */
-  border-radius: 8px; /* Bordes redondeados */
+/* Efecto hover para la navegación */
+.navegacion:hover {
+  transform: translateY(-2px);         /* Elevación sutil al hover */
+  box-shadow: var(--shadow-xl);        /* Sombra más pronunciada */
 }
 
- .noticias {
-    display: flex; /* Utiliza flexbox para el diseño */
-    flex-direction: row; /* Alinea los elementos en fila */
-    gap: 30px; /* Espacio entre columnas */
-    justify-content: center; /* Centra horizontalmente */
-    align-items: flex-start; /* Alinea arriba */
-    margin-bottom: 20px; /* Espacio entre filas */
-    position: relative; /* Posiciona el contenedor relativo al fondo */
+/* Enlaces de navegación mejorados */
+.navegacion a {
+  color: #0f1010;          /* Color de texto principal */
+  text-decoration: none;               /* Sin subrayado */
+  padding: var(--spacing-sm) var(--spacing-md); /* Relleno para área de click */
+  border-radius: var(--border-radius); /* Bordes redondeados */
+  transition: all var(--transition-fast); /* Transición rápida */
+  font-weight: 500;                    /* Peso de fuente medio */
+  position: relative;                  /* Para efectos de pseudo-elementos */
+  overflow: hidden;                    /* Oculta desbordamiento para efectos */
+}
+
+/* Efecto hover de enlaces mejorado */
+.navegacion a:hover {
+  color: #0f1010;          /* Color azul al hover */
+  background: rgba(219, 63, 5, 0.511); /* Fondo sutil */
+  transform: translateY(-1px);         /* Elevación sutil */
+  text-decoration: none;               /* Mantiene sin subrayado */
+}
+
+/* Efecto de ondulación al hacer click */
+.navegacion a::before {
+  content: '';                         /* Contenido vacío para pseudo-elemento */
+  position: relative;                  /* Posición relativa */
+  top: 50%;                           /* Centrado vertical */
+  left: 50%;                          /* Centrado horizontal */
+  width: 0;                           /* Ancho inicial cero */
+  height: 0;                          /* Alto inicial cero */
+  background: rgba(14, 165, 164, 0.2); /* Color de la ondulación */
+  border-radius: 50%;                 /* Forma circular */
+  transform: translate(-50%, -50%);    /* Centrado perfecto */
+  transition: width 0.6s, height 0.6s; /* Transición de la ondulación */
+  
+}
+
+/* Activación del efecto ondulación */
+.navegacion a:active::before {
+  width: 300px;                       /* Ancho máximo de ondulación */
+  height: 300px;                      /* Alto máximo de ondulación */
+}
+
+/* Contenedor de noticias con Grid moderno */
+.noticias {
+  display: grid;                      /* Diseño de cuadrícula */
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Columnas responsivas */
+  gap: var(--spacing-xl);             /* Espacio entre tarjetas */
+  max-width: 1400px;                  /* Ancho máximo del contenedor */
+  margin: 0 auto;                     /* Centrado horizontal */
+  padding: var(--spacing-xl) var(--spacing-md); /* Relleno del contenedor */
+  animation: slideInFromLeft 0.8s ease-out; /* Animación desde la izquierda */
+}
+
+/* Tarjetas de noticias mejoradas */
+.noticias > div {
+  background: var(--bg-card);         /* Fondo de tarjeta */
+  backdrop-filter: var(--blur-sm) saturate(120%); /* Efecto cristal sutil */
+  -webkit-backdrop-filter: var(--blur-sm) saturate(120%); /* Soporte Safari */
+  border-radius: var(--border-radius-lg); /* Bordes redondeados grandes */
+  padding: var(--spacing-xl);         /* Relleno generoso */
+  box-shadow: var(--shadow-md);       /* Sombra media */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Borde sutil */
+  transition: all var(--transition-normal); /* Transición suave */
+  position: relative;                 /* Para efectos adicionales */
+  overflow: hidden;                   /* Oculta desbordamiento */
+}
+
+/* Efecto hover para tarjetas de noticias */
+.noticias > div:hover {
+  transform: translateY(-8px);        /* Elevación al hover */
+  box-shadow: var(--shadow-xl);       /* Sombra más grande */
+}
+
+/* Efecto de brillo en tarjetas */
+.noticias > div::before {
+  content: '';                        /* Contenido vacío */
+  position: absolute;                 /* Posición absoluta */
+  top: 0;                            /* Desde arriba */
+  left: -100%;                       /* Fuera del contenedor */
+  width: 100%;                       /* Ancho completo */
+  height: 100%;                      /* Alto completo */
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); /* Gradiente de brillo */
+  transition: left 0.7s;             /* Transición del movimiento */
+}
+
+/* Activación del efecto brillo */
+.noticias > div:hover::before {
+  left: 100%;                        /* Se mueve a través de la tarjeta */
+}
+
+/* Títulos de noticias mejorados */
+.noticia-local, .noticia-nacional, .noticia-global {
+  font-size: 1.25rem;                /* Tamaño de fuente */
+  font-weight: 700;                  /* Peso bold */
+  color: var(--text-primary);        /* Color de texto principal */
+  margin-bottom: var(--spacing-md);  /* Espacio inferior */
+  text-align: center;                /* Centrado */
+  line-height: 1.4;                  /* Altura de línea optimizada */
+}
+
+/* Título principal de página mejorado */
+.titulo {
+  font-size: clamp(1.75rem, 4vw, 3rem); /* Tamaño responsivo */
+  font-weight: 800;                  /* Peso extra bold */
+  color: var(--text-primary);        /* Color de texto */
+  text-align: center;                /* Centrado */
+  background: radial-gradient(circle at top left, #04d5ca, #029104); /* Fondo con gradiente radial */
+  backdrop-filter: var(--blur-md) saturate(180%); /* Efecto cristal */
+  -webkit-backdrop-filter: var(--blur-md) saturate(180%); /* Soporte Safari */
+  padding: var(--spacing-xl) var(--spacing-2xl); /* Relleno generoso */
+  border-radius: var(--border-radius-full); /* Bordes redondeados */
+  box-shadow: var(--shadow-lg);       /* Sombra elegante */
+  margin: calc(var(--spacing-2xl) * 2) auto var(--spacing-xl) auto; /* Márgenes */
+  width: fit-content;                 /* Ancho ajustado al contenido */
+  min-width: min(600px, 90vw);        /* Ancho mínimo responsivo */
+  position: relative;                 /* Para efectos adicionales */
+  overflow: hidden;                   /* Oculta desbordamiento */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Borde sutil */
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra de texto sutil */
+  animation: slideInFromTop 0.8s ease-out; /* Animación de entrada */
+  transform: translateY(0);         /* Posición inicial */
+  opacity: 1;                       /* Opacidad inicial */
+}
+
+/* Animación de entrada desde arriba */
+@keyframes slideInFromTop {
+  0% {
+    opacity: 0;                       /* Invisible inicialmente */
+    transform: translateY(-50px);     /* Desplazado hacia arriba */
   }
-
-  .noticias > div {
-    min-width: 400px; /* Ancho mínimo para cada columna */
-    max-width: 480px; /* Ancho máximo para cada columna */
-    background: rgba(255, 255, 255, 0.8); /* Fondo blanco con transparencia */
-    padding: 20px; /* Espacio interno */
-    flex: 1 1 250px; /* Permite que las columnas se ajusten */
-    border-radius: 10px; /* Bordes redondeados */
-    background-color: #D8CFF0; /* Opcional: fondo suave */
+  100% {
+    opacity: 1;                       /* Completamente visible */
+    transform: translateY(0);         /* Posición final */
   }
+}
 
-  .noticia-local, .noticia-nacional, .noticia-global {
-      font-size: 1.5em; /* Tamaño del texto */
-      margin-top: 10px; /* Espacio entre el título y el contenido */
-      text-align: center; /* Centra el texto */
-    }
+/* Sección de diferenciadores mejorada */
+.diferenciadores {
+  font-size: clamp(1.25rem, 3vw, 1.75rem); /* Tamaño responsivo */
+  font-weight: 700;                   /* Peso bold */
+  color: var(--text-primary);         /* Color de texto */
+  text-align: center;                 /* Centrado */
+  background: radial-gradient(circle at top left, #04d57a, #029104); /* Fondo con gradiente radial */
+  backdrop-filter: var(--blur-md) saturate(180%); /* Efecto cristal */
+  -webkit-backdrop-filter: var(--blur-md) saturate(180%); /* Soporte Safari */
+  padding: var(--spacing-xl) var(--spacing-2xl); /* Relleno */
+  border-radius: var(--border-radius-full); /* Bordes redondeados */
+  box-shadow: var(--shadow-lg);        /* Sombra */
+  margin: var(--spacing-2xl) auto;     /* Márgenes */
+  width: fit-content;                  /* Ancho ajustado */
+  min-width: min(600px, 90vw);         /* Ancho mínimo responsivo */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Borde sutil */
+  animation: fadeInUp 0.8s ease-out 0.2s both; /* Animación retrasada */
+  transform: translateY(0);         /* Posición inicial */
+  opacity: 1;                       /* Opacidad inicial */
+}
 
-  .titulo{
-    position: relative; /* Posiciona el texto relativo al contenedor */
-    z-index: 10; /* Asegura que el texto esté por encima del fondo */
-    color: #000; /* Color del texto */
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3); /* Sombra para mejorar la legibilidad */
-    text-align: center; /* Centra el texto */
-    font-size: 2em; /* Tamaño del texto */
-    background: rgb(248, 248, 248); /* Fondo blanco con transparencia */
-    padding: 20px; /* Espacio interno */
-    border-radius: 50px; /* Hace el fondo circular */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* Sombra para dar profundidad */
-    margin-top: 110px; /* Centra verticalmente */
-    margin-bottom: 40px; /* Espacio debajo del título */
-    width:fit-content; /* Ajusta el ancho al contenido */
-    margin: 110px auto 40px auto; /* Centra horizontalmente */
-    min-width: 600px; /* Ancho mínimo */
+/* Animación de aparición desde abajo */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;                       /* Invisible inicialmente */
+    transform: translateY(30px);      /* Desplazado hacia abajo */
+  }
+  100% {
+    opacity: 1;                       /* Completamente visible */
+    transform: translateY(0);         /* Posición final */
+  }
+}
+
+/* Contenedor de columnas con Flexbox mejorado */
+.contenedor-columnas {
+  display: flex;                      /* Contenedor flexbox */
+  flex-wrap: wrap;                    /* Permite envolver elementos */
+  justify-content: center;            /* Centra horizontalmente */
+  align-items: stretch;               /* Estira elementos verticalmente */
+  gap: var(--spacing-2xl);            /* Espacio entre columnas */
+  max-width: 1200px;                  /* Ancho máximo del contenedor */
+  margin: 0 auto;                     /* Centrado horizontal */
+  padding: var(--spacing-xl) var(--spacing-md); /* Relleno del contenedor */
+  font-size: clamp(1rem, 2.5vw, 1.25rem); /* Tamaño de fuente responsivo */
+  position: relative;                 /* Para efectos de posicionamiento */
+  z-index: 10;                        /* Asegura que esté encima del fondo */
+  overflow: hidden;                   /* Oculta desbordamiento */
+}
+
+/* Columnas individuales mejoradas */
+.columna {
+  display: flex;                      /* Contenedor flexbox */
+  flex-direction: column;             /* Disposición en columna */
+  align-items: center;                /* Centra horizontalmente */
+  justify-content: center;            /* Centra verticalmente */
+  gap: var(--spacing-md);             /* Espacio entre elementos */
+  padding: var(--spacing-xl);         /* Relleno interno */
+  background: var(--bg-card);         /* Fondo de tarjeta */
+  backdrop-filter: var(--blur-md) saturate(180%); /* Efecto cristal */
+  -webkit-backdrop-filter: var(--blur-md) saturate(180%); /* Soporte Safari */
+  border-radius: var(--border-radius-lg); /* Bordes redondeados */
+  box-shadow: var(--shadow-lg);       /* Sombra elegante */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Borde sutil */
+  min-width: 280px;                   /* Ancho mínimo */
+  flex: 1 1 300px;                    /* Flexibilidad para responsividad */
+  transition: all var(--transition-normal); /* Transición suave */
+  position: relative;                 /* Para efectos adicionales */
+  overflow: hidden;                   /* Oculta desbordamiento */
+  animation: fadeInUp 0.8s ease-out 0.6s both; /* Animación retrasada */
+  transform: translateY(0);         /* Posición inicial */
+  opacity: 1;                       /* Opacidad inicial */
+}
+
+/* Efecto hover para columnas */
+.columna:hover {
+  transform: translateY(-10px) scale(1.02); /* Elevación y escalado */
+  box-shadow: var(--shadow-xl);       /* Sombra más grande */
+}
+
+/* Iconos SVG mejorados */
+svg.icon {
+  border-radius: var(--border-radius); /* Bordes redondeados */
+  background: linear-gradient(135deg, var(--primary-blue), var(--secondary-teal)); /* Gradiente moderno */
+  padding: var(--spacing-md);         /* Relleno interno */
+  border: 3px solid rgba(255, 255, 255, 0.3); /* Borde sutil */
+  box-shadow: var(--shadow-md);       /* Sombra media */
+  transition: all var(--transition-normal); /* Transición suave */
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1)); /* Sombra de filtro */
+  transform: translateY(0);         /* Posición inicial */
+  opacity: 1;                       /* Opacidad inicial */
+}
+
+/* Efecto hover para iconos SVG */
+svg:hover {
+  transform: rotate(5deg) scale(1.1); /* Rotación y escalado */
+  box-shadow: var(--shadow-lg);       /* Sombra más grande */
+}
+
+/* Pie de página mejorado */
+ .finpagina {
+  text-align: center;                 /* Centrado del texto */
+  font-size: 1rem;                    /* Tamaño de fuente estándar */
+  color: var(--text-primary);         /* Color de texto principal */
+  background: linear-gradient(180deg, rgba(18, 224, 94, 0.9), rgba(7, 195, 220, 0.9)); /* Gradiente vibrante */
+  backdrop-filter: var(--blur-md) saturate(180%); /* Efecto cristal */
+  -webkit-backdrop-filter: var(--blur-md) saturate(180%); /* Soporte Safari */
+  padding: var(--spacing-xl);         /* Relleno interno */
+  border-radius: var(--border-radius-full); /* Bordes redondeados */
+  box-shadow: var(--shadow-md);       /* Sombra media */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Borde sutil */
+  width: fit-content;                 /* Ancho ajustado al contenido */
+  margin: var(--spacing-2xl) auto;    /* Márgenes automáticos */
+  position: relative;                 /* Para efectos adicionales */
+  z-index: 10;                        /* Asegura visibilidad */
+  overflow: hidden;                   /* Oculta desbordamiento */
+  font-weight: 600;                   /* Peso de fuente semi-bold */
+  transition: all var(--transition-normal); /* Transición suave */
+  animation: fadeInUp 0.8s ease-out 1s both; /* Animación retrasada */
+  transform: translateY(0);         /* Posición inicial */
+  opacity: 1;                       /* Opacidad inicial */
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; /* Stack de fuentes */
+  border-top: 1px solid rgba(255, 255, 255, 0.3); /* Borde superior sutil */
+}
+
+/* Sección "Quiénes Somos" mejorada */
+.somos {
+  font-size: clamp(1.5rem, 4vw, 2.5rem); /* Tamaño responsivo */
+  font-weight: 800;                   /* Peso extra bold */
+  color: var(--text-primary);         /* Color de texto principal */
+  text-align: center;                 /* Centrado */
+  background: linear-gradient(135deg, rgba(18, 224, 94, 0.9), rgba(7, 195, 220, 0.9)); /* Gradiente vibrante */
+  backdrop-filter: var(--blur-md) saturate(200%); /* Efecto cristal intenso */
+  -webkit-backdrop-filter: var(--blur-md) saturate(200%); /* Soporte Safari */
+  padding: var(--spacing-xl) var(--spacing-2xl); /* Relleno generoso */
+  border-radius: var(--border-radius-full); /* Bordes redondeados */
+  box-shadow: var(--shadow-xl);       /* Sombra extra grande */
+  border: 2px solid rgba(255, 255, 255, 0.4); /* Borde más visible */
+  width: fit-content;                 /* Ancho ajustado */
+  margin: calc(var(--spacing-2xl) * 2) auto var(--spacing-xl) auto; /* Márgenes */
+  min-width: min(600px, 90vw);        /* Ancho mínimo responsivo */
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra de texto */
+  position: relative;                 /* Para efectos adicionales */
+  animation: slideInFromLeft 0.8s ease-out; /* Animación desde la izquierda */
+}
+
+/* Animación desde la izquierda */
+@keyframes slideInFromLeft {
+  0% {
+    opacity: 0;                       /* Invisible inicialmente */
+    transform: translateX(-50px);     /* Desplazado hacia la izquierda */
+  }
+  100% {
+    opacity: 1;                       /* Completamente visible */
+    transform: translateX(0);         /* Posición final */
+  }
+}
+
+/* Sección de historia mejorada */
+.historia {
+  color: var(--text-primary);         /* Color de texto principal */
+  text-align: left;                   /* Alineación izquierda */
+  font-size: clamp(1.25rem, 3vw, 2rem); /* Tamaño responsivo */
+  background: var(--bg-card);         /* Fondo de tarjeta */
+  backdrop-filter: var(--blur-sm) saturate(150%); /* Efecto cristal suave */
+  -webkit-backdrop-filter: var(--blur-sm) saturate(150%); /* Soporte Safari */
+  padding: var(--spacing-xl);         /* Relleno interno */
+  border-radius: var(--border-radius-lg); /* Bordes redondeados */
+  box-shadow: var(--shadow-lg);       /* Sombra grande */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Borde sutil */
+  margin: var(--spacing-xl);          /* Márgenes externos */
+  position: relative;                 /* Para efectos adicionales */
+  overflow: hidden;                   /* Oculta desbordamiento */
+  background-image: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.7)), url('img/imagen_verde.jpg'); /* Superposición sobre imagen */
+  background-size: cover;             /* Cubre toda el área */
+  background-position: center;        /* Centrado */
+  animation: fadeInRight 0.8s ease-out 0.3s both; /* Animación retrasada */
+}
+
+/* Animación desde la derecha */
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;                       /* Invisible inicialmente */
+    transform: translateX(50px);      /* Desplazado hacia la derecha */
+  }
+  100% {
+    opacity: 1;                       /* Completamente visible */
+    transform: translateX(0);         /* Posición final */
+  }
+}
+
+/* Párrafo de historia con diseño mejorado */
+#parrafo_historia {
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; /* Stack de fuentes modernas */
+  font-size: 0.85em;                  /* Tamaño relativo al contenedor */
+  color: var(--text-primary);         /* Color de texto principal */
+  white-space: pre-wrap;              /* Preserva saltos de línea */
+  background: rgba(255, 255, 255, 0.95); /* Fondo casi opaco */
+  padding: var(--spacing-lg);         /* Relleno interno */
+  border-radius: var(--border-radius); /* Bordes redondeados */
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); /* Sombra interior */
+  border: 1px solid rgba(0,0,0,0.1);  /* Borde sutil */
+  line-height: 1.7;                   /* Altura de línea para legibilidad */
+  margin-top: var(--spacing-md);      /* Separación superior */
+  position: relative;                 /* Para efectos adicionales */
+  backdrop-filter: var(--blur-sm);    /* Desenfoque sutil */
+  -webkit-backdrop-filter: var(--blur-sm); /* Soporte Safari */
+}
+
+/* Título de párrafo mejorado */
+.titulo_parrafo {
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; /* Stack de fuentes */
+  font-size: 1.1em;                   /* Tamaño relativo */
+  color: var(--text-primary);         /* Color de texto */
+  text-align: left;                   /* Alineación izquierda */
+  margin: var(--spacing-lg) 0;        /* Márgenes verticales */
+  font-weight: 700;                   /* Peso bold */
+  position: relative;                 /* Para efectos adicionales */
+}
+
+/* Línea decorativa bajo títulos */
+.titulo_parrafo::after {
+  content: '';                        /* Contenido vacío */
+  position: absolute;                 /* Posición absoluta */
+  bottom: -5px;                       /* Debajo del título */
+  left: 0;                           /* Desde el inicio */
+  width: 60px;                       /* Ancho de la línea */
+  height: 3px;                       /* Grosor de la línea */
+  background: linear-gradient(90deg, var(--primary-blue), var(--secondary-teal)); /* Gradiente */
+  border-radius: 2px;                /* Bordes redondeados */
+}
+
+/* Sección "Así Somos" con estilos similares a historia */
+.asi_somos {
+  color: var(--text-primary);         /* Color de texto principal */
+  text-align: left;                   /* Alineación izquierda */
+  font-size: clamp(1.25rem, 3vw, 2rem); /* Tamaño responsivo */
+  background: var(--bg-card);         /* Fondo de tarjeta */
+  backdrop-filter: var(--blur-sm) saturate(150%); /* Efecto cristal */
+  -webkit-backdrop-filter: var(--blur-sm) saturate(150%); /* Soporte Safari */
+  padding: var(--spacing-xl);         /* Relleno interno */
+  border-radius: var(--border-radius-lg); /* Bordes redondeados */
+  box-shadow: var(--shadow-lg);       /* Sombra grande */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Borde sutil */
+  margin: var(--spacing-xl);          /* Márgenes externos */
+  background-image: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.7)), url('img/imagen_verde.jpg'); /* Superposición */
+  background-size: cover;             /* Cubre toda el área */
+  background-position: center;        /* Centrado */
+  animation: fadeInLeft 0.8s ease-out 0.4s both; /* Animación retrasada */
+}
+
+/* Animación desde la izquierda */
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;                       /* Invisible inicialmente */
+    transform: translateX(-50px);     /* Desplazado hacia la izquierda */
+  }
+  100% {
+    opacity: 1;                       /* Completamente visible */
+    transform: translateX(0);         /* Posición final */
+  }
+}
+
+/* Párrafo "Somos" con estilos consistentes */
+#parrafo_somos {
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; /* Stack de fuentes */
+  font-size: 0.85em;                  /* Tamaño relativo */
+  color: var(--text-primary);         /* Color de texto */
+  white-space: pre-wrap;              /* Preserva formato */
+  background: rgba(255, 255, 255, 0.95); /* Fondo casi opaco */
+  padding: var(--spacing-lg);         /* Relleno interno */
+  border-radius: var(--border-radius); /* Bordes redondeados */
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); /* Sombra interior */
+  border: 1px solid rgba(0,0,0,0.1);  /* Borde sutil */
+  line-height: 1.7;                   /* Altura de línea */
+  margin-top: var(--spacing-md);      /* Separación superior */
+  backdrop-filter: var(--blur-sm);    /* Desenfoque sutil */
+  -webkit-backdrop-filter: var(--blur-sm); /* Soporte Safari */
+}
+
+/* Sección de contacto mejorada */
+.contactanos {
+  color: var(--text-primary);         /* Color de texto principal */
+  text-align: center;                 /* Centrado del texto */
+  font-size: clamp(1.25rem, 3vw, 1.75rem); /* Tamaño responsivo */
+  background: var(--bg-card);         /* Fondo de tarjeta */
+  backdrop-filter: var(--blur-md) saturate(180%); /* Efecto cristal */
+  -webkit-backdrop-filter: var(--blur-md) saturate(180%); /* Soporte Safari */
+  padding: var(--spacing-xl);         /* Relleno interno */
+  border-radius: var(--border-radius-lg); /* Bordes redondeados */
+  box-shadow: var(--shadow-lg);       /* Sombra grande */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Borde sutil */
+  margin: var(--spacing-2xl) auto;    /* Márgenes automáticos */
+  width: fit-content;                 /* Ancho ajustado */
+  min-width: min(600px, 90vw);        /* Ancho mínimo responsivo */
+  animation: fadeInUp 0.8s ease-out 0.5s both; /* Animación retrasada */
+}
+
+/* Párrafos dentro de contacto */
+.contactanos p {
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; /* Stack de fuentes */
+  font-size: 0.9em;                   /* Tamaño relativo */
+  color: var(--text-secondary);       /* Color de texto secundario */
+  margin: var(--spacing-sm) 0;        /* Márgenes verticales */
+  line-height: 1.6;                   /* Altura de línea optimizada */
+}
+
+/* Formulario de contacto con Bootstrap integrado */
+.form-contacto {
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; /* Stack de fuentes */
+  font-size: 0.95rem;                 /* Tamaño de fuente estándar */
+  color: var(--text-primary);         /* Color de texto principal */
+  background: var(--bg-card);         /* Fondo de tarjeta */
+  backdrop-filter: var(--blur-sm) saturate(150%); /* Efecto cristal suave */
+  -webkit-backdrop-filter: var(--blur-sm) saturate(150%); /* Soporte Safari */
+  padding: var(--spacing-xl);         /* Relleno interno */
+  border-radius: var(--border-radius-lg); /* Bordes redondeados */
+  box-shadow: var(--shadow-lg);       /* Sombra grande */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Borde sutil */
+  max-width: 600px;                   /* Ancho máximo */
+  margin: 0 auto;                     /* Centrado horizontal */
+  position: relative;                 /* Para efectos adicionales */
+}
+
+/* Efecto primera letra en mayúscula mejorado */
+p::first-letter {
+  text-transform: uppercase;          /* Primera letra en mayúscula */
+  font-weight: 600;                   /* Peso semi-bold */
+  font-size: 1.1em;                   /* Tamaño ligeramente mayor */
+}
+
+/* Inputs mejorados con diseño moderno */
+input[type="text"], 
+input[type="email"], 
+input[type="password"], 
+input[type="tel"], 
+textarea {
+  width: 100%;                        /* Ancho completo */
+  padding: var(--spacing-md);         /* Relleno interno */
+  margin-top: var(--spacing-md);      /* Separación superior */
+  border: 2px solid rgba(14, 165, 164, 0.2); /* Borde con color de tema */
+  border-radius: var(--border-radius); /* Bordes redondeados */
+  background: rgba(255, 255, 255, 0.9); /* Fondo semitransparente */
+  backdrop-filter: var(--blur-sm);    /* Desenfoque sutil */
+  -webkit-backdrop-filter: var(--blur-sm); /* Soporte Safari */
+  box-sizing: border-box;             /* Incluye padding en el ancho */
+  display: block;                     /* Elemento de bloque */
+  font-family: inherit;               /* Hereda fuente */
+  font-size: 1rem;                    /* Tamaño de fuente estándar */
+  color: var(--text-primary);         /* Color de texto */
+  box-shadow: var(--shadow-sm);       /* Sombra sutil */
+  transition: all var(--transition-normal); /* Transición suave */
+  outline: none;                      /* Sin outline por defecto */
+}
+
+/* Estados de focus para inputs */
+input[type="text"]:focus, 
+input[type="email"]:focus, 
+input[type="password"]:focus, 
+input[type="tel"]:focus, 
+textarea:focus {
+  border-color: var(--primary-blue);  /* Borde azul al enfocar */
+  box-shadow: 0 0 0 3px rgba(14, 165, 164, 0.1), var(--shadow-md); /* Sombra de enfoque */
+  transform: translateY(-2px);        /* Elevación sutil */
+  background: rgba(255, 255, 255, 0.95); /* Fondo más opaco */
+}
+
+/* Botones modernos con gradientes */
+button, 
+.btn {
+  margin-top: var(--spacing-md);      /* Separación superior */
+  margin-bottom: var(--spacing-md);   /* Separación inferior */
+  display: inline-block;              /* Elemento en línea */
+  padding: var(--spacing-md) var(--spacing-xl); /* Relleno interno */
+  background: linear-gradient(135deg, var(--primary-blue), var(--secondary-teal)); /* Gradiente */
+  color: white;                       /* Color de texto blanco */
+  border: none;                       /* Sin borde */
+  border-radius: var(--border-radius); /* Bordes redondeados */
+  cursor: pointer;                    /* Cursor de puntero */
+  font-family: inherit;               /* Hereda fuente */
+  font-size: 1rem;                    /* Tamaño de fuente */
+  font-weight: 600;                   /* Peso semi-bold */
+  text-decoration: none;              /* Sin decoración de texto */
+  text-align: center;                 /* Centrado del texto */
+  transition: all var(--transition-normal); /* Transición suave */
+  box-shadow: var(--shadow-md);       /* Sombra media */
+  position: relative;                 /* Para efectos adicionales */
+  overflow: hidden;                   /* Oculta desbordamiento */
+  transform: translateY(0);           /* Posición inicial */
+  margin-left: auto;                  /* Centrado horizontal */
+  margin-right: auto;                 /* Centrado horizontal */
+}
+
+/* Efecto hover para botones */
+button:hover, 
+.btn:hover {
+  background: linear-gradient(135deg, var(--secondary-teal), var(--primary-blue)); /* Gradiente invertido */
+  transform: translateY(-3px);        /* Elevación */
+  box-shadow: var(--shadow-lg);       /* Sombra más grande */
+}
+
+/* Efecto activo para botones */
+button:active, 
+.btn:active {
+  transform: translateY(-1px);        /* Menor elevación al presionar */
+  box-shadow: var(--shadow-sm);       /* Sombra reducida */
+}
+
+/* Efecto de ondulación en botones */
+button::before, 
+.btn::before {
+  content: '';                        /* Contenido vacío */
+  position: absolute;                 /* Posición absoluta */
+  top: 50%;                          /* Centrado vertical */
+  left: 50%;                         /* Centrado horizontal */
+  width: 0;                          /* Ancho inicial */
+  height: 0;                         /* Alto inicial */
+  background: rgba(255, 255, 255, 0.3); /* Color de ondulación */
+  border-radius: 50%;                /* Forma circular */
+  transform: translate(-50%, -50%);   /* Centrado perfecto */
+  transition: width 0.6s, height 0.6s; /* Transición de expansión */
+}
+
+/* Activación de ondulación al hacer click */
+button:active::before, 
+.btn:active::before {
+  width: 300px;                      /* Ancho máximo */
+  height: 300px;                     /* Alto máximo */
+}
+
+/* Textarea con altura específica */
+textarea {
+  min-height: 120px;                 /* Altura mínima */
+  resize: vertical;                  /* Solo redimensión vertical */
+  font-family: inherit;              /* Hereda fuente */
+  line-height: 1.5;                  /* Altura de línea optimizada */
+}
+
+/* Sistema de notificaciones moderno */
+.notificacion {
+  opacity: 0;                        /* Invisible inicialmente */
+  visibility: hidden;                /* No visible inicialmente */
+  position: fixed;                   /* Posición fija */
+  bottom: var(--spacing-xl);         /* Separación desde abajo */
+  right: var(--spacing-xl);          /* Separación desde la derecha */
+  padding: var(--spacing-md) var(--spacing-lg); /* Relleno interno */
+  border-radius: var(--border-radius); /* Bordes redondeados */
+  box-shadow: var(--shadow-xl);      /* Sombra extra grande */
+  z-index: 9999;                     /* Z-index muy alto */
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; /* Stack de fuentes */
+  color: white;                      /* Color de texto blanco */
+  transform: translateY(30px) scale(0.95); /* Posición y escala inicial */
+  transition: all var(--transition-normal); /* Transición suave */
+  max-width: 400px;                  /* Ancho máximo */
+  backdrop-filter: var(--blur-sm);   /* Desenfoque de fondo */
+  -webkit-backdrop-filter: var(--blur-sm); /* Soporte Safari */
+}
+
+/* Animación de entrada para notificaciones */
+@keyframes slideInNotification {
+  0% {
+    transform: translateY(30px) scale(0.95); /* Posición inicial */
+    opacity: 0;                      /* Invisible */
+  }
+  100% {
+    transform: translateY(0) scale(1); /* Posición final */
+    opacity: 1;                      /* Completamente visible */
+  }
+}
+
+/* Estado activo de notificación */
+.notificacion.activa {
+  opacity: 1;                        /* Visible */
+  visibility: visible;               /* Visible */
+  animation: slideInNotification 0.5s ease-out forwards; /* Animación de entrada */
+  transform: translateY(0) scale(1); /* Posición final */
+}
+
+/* Icono de notificación */
+.notificacion .icono {
+  font-size: 24px;                   /* Tamaño del icono */
+  margin-right: var(--spacing-sm);   /* Separación derecha */
+  display: inline-block;             /* Elemento en línea */
+  vertical-align: middle;            /* Alineación vertical */
+}
+
+/* Texto de notificación */
+.notificacion p {
+  display: inline-block;             /* Elemento en línea */
+  margin: 0;                         /* Sin márgenes */
+  vertical-align: middle;            /* Alineación vertical */
+  font-size: 1rem;                   /* Tamaño de fuente */
+  font-weight: 500;                  /* Peso medio */
+}
+
+/* Botón de cerrar notificación */
+.cerrar-notificacion {
+  position: absolute;                /* Posición absoluta */
+  top: var(--spacing-sm);            /* Separación superior */
+  right: var(--spacing-sm);          /* Separación derecha */
+  font-size: 20px;                   /* Tamaño de fuente */
+  cursor: pointer;                   /* Cursor de puntero */
+  color: rgba(255, 255, 255, 0.8);   /* Color semitransparente */
+  transition: color var(--transition-fast); /* Transición de color */
+}
+
+/* Hover del botón cerrar */
+.cerrar-notificacion:hover {
+  color: white;                      /* Color opaco al hover */
+}
+
+/* Tipos de notificación con colores específicos */
+.notificacion.exito {
+  background: linear-gradient(135deg, var(--success-green), #22c55e); /* Verde de éxito */
+}
+
+.notificacion.error {
+  background: linear-gradient(135deg, var(--danger-red), #f87171); /* Rojo de error */
+}
+
+.notificacion.advertencia {
+  background: linear-gradient(135deg, var(--warning-yellow), #fbbf24); /* Amarillo de advertencia */
+  color: var(--text-primary);        /* Texto oscuro para contraste */
+}
+
+.notificacion.info {
+  background: linear-gradient(135deg, var(--primary-blue), var(--secondary-teal)); /* Azul de información */
+}
+
+.notificacion.error {
+  background: linear-gradient(135deg, var(--danger-red), #f87171); /* Rojo de error */
+}
+
+/* Animaciones mejoradas y optimizadas */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;                       /* Invisible */
+    transform: translateY(40px);      /* Desplazado hacia abajo */
+  }
+  100% {
+    opacity: 1;                       /* Completamente visible */
+    transform: translateY(0);         /* Posición final */
+  }
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;                       /* Invisible */
+    transform: translateY(-40px);     /* Desplazado hacia arriba */
+  }
+  100% {
+    opacity: 1;                       /* Completamente visible */
+    transform: translateY(0);         /* Posición final */
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;                       /* Invisible */
+    transform: translateX(-60px);     /* Desplazado hacia la izquierda */
+  }
+  100% {
+    opacity: 1;                       /* Completamente visible */
+    transform: translateX(0);         /* Posición final */
+  }
+}
+
+@keyframes slideInRight {
+  0% {
+    opacity: 0;                       /* Invisible */
+    transform: translateX(60px);      /* Desplazado hacia la derecha */
+  }
+  100% {
+    opacity: 1;                       /* Completamente visible */
+    transform: translateX(0);         /* Posición final */
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    opacity: 0;                       /* Invisible inicialmente */
+    transform: translateX(20px);      /* Desplazado hacia la derecha */
+  }
+  100% {
+    opacity: 1;                       /* Completamente visible */
+    transform: translateX(0);         /* Posición final */
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);              /* Escala normal */
+  }
+  50% {
+    transform: scale(1.05);           /* Escala aumentada */
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;    /* Posición inicial */
+  }
+  100% {
+    background-position: calc(200px + 100%) 0; /* Posición final */
+  }
+}
+
+/* Efecto de brillo para elementos interactivos */
+.shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  background-size: 200px 100%;        /* Tamaño del efecto */
+  animation: shimmer 2s infinite;     /* Animación infinita */
+}
+
+/* Animaciones de entrada escalonadas */
+.fade-in-1 { animation: fadeInUp 0.8s ease-out 0.1s both; }
+.fade-in-2 { animation: fadeInUp 0.8s ease-out 0.2s both; }
+.fade-in-3 { animation: fadeInUp 0.8s ease-out 0.3s both; }
+.fade-in-4 { animation: fadeInUp 0.8s ease-out 0.4s both; }
+.fade-in-5 { animation: fadeInUp 0.8s ease-out 0.5s both; }
+
+/* Media queries responsivas optimizadas */
+@media only screen and (max-width: 1200px) {
+  .contenido {
+    max-width: 95%;                   /* Ancho reducido para pantallas medianas */
+    padding: var(--spacing-lg);       /* Relleno reducido */
   }
   
-  .diferenciadores {
-    text-align: center; /* Centra el texto */
-    font-size: 1.5em; /* Tamaño del texto */
-    font-weight: 600; /* Negrita para el texto */
-    background: rgb(248, 248, 248); /* Fondo blanco con transparencia */
-    padding: 20px; /* Espacio interno */
-    border-radius: 50px; /* Hace el fondo circular */
-    position: relative; /* Posiciona el texto relativo al contenedor */
-    z-index: 10; /* Asegura que el texto esté por encima del fondo */
-    color: #000; /* Color del texto */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* Sombra para dar profundidad */
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3); /* Sombra para mejorar la legibilidad */
-    width:fit-content; /* Ajusta el ancho al contenido */
-    margin: 110px auto 40px auto; /* Centra horizontalmente */
-    min-width: 600px; /* Ancho mínimo */
-    margin-top: 50px; /* Centra verticalmente */
-    margin-bottom: 40px; /* Espacio debajo del título */
-  }
-
-  .contenedor-columnas {
-   position: relative; /* Posiciona el texto relativo al contenedor */
-   z-index: 10; /* Asegura que el texto esté por encima del fondo */
-   color: #000; /* Color del texto */
-   text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3); /* Sombra para mejorar la legibilidad */   
-   gap: 100px; /* Espacio entre columnas */
-   display: flex; /* Utiliza flexbox para el diseño */
-   justify-content: center; /* Centra horizontalmente */
-   font-size: 1.5em; /* Tamaño del texto */
-  }
-
-  .columna {
-   position: relative; /* Posiciona el texto relativo al contenedor */
-   z-index: 10; /* Asegura que el texto esté por encima del fondo */
-   display: flex; /* Utiliza flexbox para el diseño */
-   flex-direction: column; /* Alinea los elementos en columna */
-   align-items: center; /* Centra los elementos horizontalmente */
-   gap: 10px; /* Espacio entre elementos */
-   padding: 20px; /* Espacio interno */
-   border-radius: 50px; /* Hace el fondo circular */
-   background: rgba(216, 207, 240, 1); /* Fondo blanco con transparencia */ 
-   box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* Sombra para dar profundidad */
-   width: fit-content; /* Ajusta el ancho al contenido */
-  }
-
-  svg {
-    border-radius: 1px; /* Bordes redondeados para el SVG */
-    border-radius: 1px; /* Bordes redondeados para el SVG */
-    background: rgb(119, 92, 195, 0.3); /* Fondo blanco con transparencia */
-    top: 10px; /* Espacio desde la parte superior */
-    border-radius: 20px;  /* Bordes redondeados */
-    border-style: solid;  /* Borde sólido */
-    border-width: 3px; /* Grosor del borde */
-    border-color: #000; /* Color del borde */
-  }
-
-   .finpagina {
-    text-align: center; /* Centra el texto */
-    font-size: 1em; /* Tamaño del texto */
-    position: relative; /* Posiciona el texto relativo al contenedor */
-    z-index: 10; /* Asegura que el texto esté por encima del fondo */
-    color: #000; /* Color del texto */
-    background: rgba(216, 207, 240, 1); /* Fondo blanco con transparencia */
-    padding: 20px; /* Espacio interno */
-    border-radius: 50px; /* Hace el fondo circular */
-    width:fit-content; /* Ajusta el ancho al contenido */
-    margin: 4em auto 2em auto; /* Centra horizontalmente */
-  }
-
-  .somos{
-    position: relative; /* Posiciona el texto relativo al contenedor */
-    z-index: 10; /* Asegura que el texto esté por encima del fondo */
-    color: #000; /* Color del texto */
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3); /* Sombra para mejorar la legibilidad */
-    text-align: center; /* Centra el texto */
-    font-size: 2em; /* Tamaño del texto */
-    background: rgba(216, 207, 240, 1); /* Fondo blanco con transparencia */
-    padding: 20px; /* Espacio interno */
-    border-radius: 50px; /* Hace el fondo circular */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* Sombra para dar profundidad */
-    width:fit-content; /* Ajusta el ancho al contenido */
-    margin: 110px auto 40px auto; /* Centra horizontalmente */
-    min-width: 600px; /* Ancho mínimo */
-    backdrop-filter: blur(8px) saturate(180%); /* efecto vidrio */
-    -webkit-backdrop-filter: blur(8px) saturate(180%); /* efecto vidrio para Safari */
-    background: linear-gradient(90deg, rgba(18, 224, 94, 0.567), rgba(7, 195, 220, 0.507)); /* Fondo degradado */
-  }
-
-  .historia {
-    position: relative; /* Posiciona el texto relativo al contenedor */
-    z-index: 10; /* Asegura que el texto esté por encima del fondo */
-    color: #000; /* Color del texto */
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3); /* Sombra para mejorar la legibilidad */
-    text-align: left; /* Centra el texto */
-    font-size: 2em; /* Tamaño del texto */
-    background: rgba(255,255,255,0.8); /* Fondo blanco con transparencia */  
-    padding: 20px; /* Espacio interno */
-    border-radius: 50px; /* Hace el fondo circular */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* Sombra para dar profundidad */
-    margin-top: 110px; /* Centra verticalmente */
-    margin-bottom: 40px; /* Espacio debajo del título */
-    width:fit-content; /* Ajusta el ancho al contenido */
-    margin: 1em 1em 1em 1em; /* Centra horizontalmente */
-    background-image: url('img/imagen_verde.jpg'); /* Ruta de tu imagen */
+  .navbar {
+    padding: var(--spacing-md) var(--spacing-lg); /* Relleno reducido */
   }
   
-  #parrafo_historia {
-    font-family: 'Montserrat', sans-serif; /* Fuente legible */
-    font-size: 0.5em; /* Tamaño del texto */
-    color: #000; /* Color del texto */
-    white-space: pre-wrap; /* Mantiene los saltos de línea */
-    background-color: #f4f4f4; /* Fondo claro para mejorar la legibilidad */
-    padding: 10px; /* Espacio interno */
-    border-radius: 10px; /* Bordes redondeados */
-    background-image: url('img/imagen_azul.jpg'); /* Ruta de tu imagen */
-    background-repeat: no-repeat; /* Evita que la imagen se repita */
-    background-size: cover; /* Ajusta la imagen para cubrir el área */
-    background-position: center; /* Centra la imagen */
-    height:auto; /* Ajusta la altura automáticamente */
-    width: auto; /* Ajusta el ancho automáticamente */
-    font-style: oblique; /* Mejora la carga de la fuente */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    line-height: 1.6; /* Mejora la lectura */
-    backdrop-filter: blur(2px); /* Suaviza la imagen de fondo */
+  .navbar .nav-brand {
+    font-size: 1.3rem;               /* Tamaño de fuente reducido */
   }
+}
 
-  .titulo_parrafo {
-    font-family: 'Poppins', helvetica; /* Fuente legible */
-    font-size: 1em; /* Tamaño del texto */
-    color: #000; /* Color del texto */
-    text-align: left; /* Centra el texto */
-    margin-bottom: 1em; /* Espacio debajo del título */
-    font-weight: 900; /* Negrita para el título */
-    margin-top: 1em; /* Espacio encima del título */
-  }
-
-  .asi_somos {
-    position: relative; /* Posiciona el texto relativo al contenedor */
-    z-index: 10; /* Asegura que el texto esté por encima del fondo */
-    color: #000; /* Color del texto */
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3); /* Sombra para mejorar la legibilidad */
-    text-align: left; /* Centra el texto */
-    font-size: 2em; /* Tamaño del texto */
-    background: rgba(255,255,255,0.8); /* Fondo blanco con transparencia */ 
-    padding: 20px; /* Espacio interno */
-    border-radius: 50px; /* Hace el fondo circular */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* Sombra para dar profundidad */
-    margin-top: 110px; /* Centra verticalmente */
-    margin-bottom: 40px; /* Espacio debajo del título */
-    width:fit-content; /* Ajusta el ancho al contenido */
-    margin: 1em 1em 1em 1em; /* Centra horizontalmente */
-    background-image: url('img/imagen_verde.jpg'); /* Ruta de tu imagen */
+@media only screen and (max-width: 992px) {
+  /* Tablets y dispositivos medianos */
+  .navbar {
+    flex-direction: column;           /* Dirección vertical */
+    align-items: flex-start;          /* Alineación al inicio */
+    padding: var(--spacing-md);       /* Relleno uniforme */
   }
   
-  #parrafo_somos {
-    font-family: 'Montserrat', sans-serif; /* Fuente legible */
-    font-size: 0.5em; /* Tamaño del texto */
-    color: #000; /* Color del texto */
-    white-space: pre-wrap; /* Mantiene los saltos de línea */
-    background-color: #f4f4f4; /* Fondo claro para mejorar la legibilidad */
-    padding: 10px; /* Espacio interno */
-    border-radius: 10px; /* Bordes redondeados */
-    background-image: url('img/imagen_azul.jpg'); /* Ruta de tu imagen */
-    background-repeat: no-repeat; /* Evita que la imagen se repita */
-    background-size: cover; /* Ajusta la imagen para cubrir el área */
-    background-position: center; /* Centra la imagen */
-    height:auto; /* Ajusta la altura automáticamente */
-    width: auto; /* Ajusta el ancho automáticamente */
-    font-style: oblique; /* Mejora la carga de la fuente */
-    line-height: 1.6; /* Mejora la lectura */
-    backdrop-filter: blur(2px); /* Suaviza la imagen de fondo */
+  .navbar .nav-links {
+    margin-top: var(--spacing-md);    /* Separación superior */
+    width: 100%;                      /* Ancho completo */
+    flex-direction: column;           /* Dirección vertical */
   }
-
+  
+  .navbar .nav-links li {
+    margin: var(--spacing-sm) 0;      /* Márgenes verticales */
+    width: 100%;                      /* Ancho completo */
+  }
+  
+  .navbar .nav-links a {
+    padding: var(--spacing-md);       /* Relleno interno */
+    display: block;                   /* Elemento de bloque */
+    text-align: center;               /* Centrado del texto */
+  }
+  
   .contactanos {
-    position: relative; /* Posiciona el texto relativo al contenedor */
-    z-index: 10; /* Asegura que el texto esté por encima del fondo */
-    color: #000; /* Color del texto */
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3); /* Sombra para mejorar la legibilidad */
-    text-align: center; /* Centra el texto */
-    font-size: 1.5em; /* Tamaño del texto */
-    background: rgba(255,255,255,0.8); /* Fondo blanco con transparencia */ 
-    padding: 20px; /* Espacio interno */
-    border-radius: 50px; /* Hace el fondo circular */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* Sombra para dar profundidad */
-    margin-top: auto; /* Centra verticalmente */
-    margin-bottom: 40px; /* Espacio debajo del título */
-    width:fit-content; /* Ajusta el ancho al contenido */
-    margin: 2em auto 2em auto; /* Centra horizontalmente */
-    min-width: 600px; /* Ancho mínimo */
+    min-width: auto;                  /* Ancho automático */
+    width: 90%;                       /* Ancho responsivo */
+    margin: var(--spacing-xl) auto;   /* Márgenes reducidos */
+    padding: var(--spacing-lg);       /* Relleno reducido */
+    font-size: clamp(1rem, 4vw, 1.5rem); /* Tamaño ultra responsivo */
   }
-
-  .contactanos p {
-    font-family: 'Montserrat', sans-serif; /* Fuente legible */
-    font-size: 0.8em; /* Tamaño del texto */
-    color: #000; /* Color del texto */
-    margin: 5px 0; /* Espacio entre párrafos */
-  }
-
+  
   .form-contacto {
-    font-family: 'Montserrat', sans-serif; /* Fuente legible */
-    font-size: 0.8em; /* Tamaño del texto */
-    color: #000; /* Color del texto */
-    background: rgba(255, 255, 255, 0.8); /* Fondo blanco con transparencia */
-    padding: 20px; /* Espacio interno */
-    border-radius: 10px; /* Bordes redondeados */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    max-width: 600px; /* Ancho máximo del formulario */
-    margin: 0 auto; /* Centra el formulario horizontalmente */
+    padding: var(--spacing-lg);       /* Relleno reducido */
   }
+}
 
-    p::first-letter {
-      text-transform: uppercase; /* Primera letra en mayúscula */
-    }
-
-  input {
-    width: 100%; /* Hace que el input ocupe todo el ancho del contenedor */
-    padding: 0.5em; /* Espacio interno */
-    margin-top: 2em; /* Espacio encima del input */
-    border: 1px solid #ccc; /* Borde gris claro */
-    border-radius: 10px; /* Bordes redondeados */
-    box-sizing: border-box; /* Incluye el padding en el ancho total */
-    display: block; /* Hace que los inputs sean bloques */
-    box-shadow: 0.2em 0.2em 0.8em rgba(14, 0, 0, 0.874); /* Sombra para dar profundidad */
-    }
-
-  button {
-    margin-top: 1em; /* Espacio encima del botón */
-    margin-bottom: 1em; /* Espacio debajo del botón */
-    display: block; /* Hace que el botón sea un bloque */
-    padding: 0.5em 1em; /* Espacio interno */
-    background-color: #3e046bfd; /* Color de fondo */
-    color: white; /* Color del texto */
-    border: none; /* Sin borde */
-    border-radius: 5px; /* Bordes redondeados */
-    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
-    margin-left: auto; /* Centra el botón horizontalmente */
-    margin-right: auto; /* Centra el botón horizontalmente */
-    }
-    
-  button:hover {
-    background-color: #5a0af7; /* Color de fondo al pasar el mouse */
-  }  
-
+@media only screen and (max-width: 768px) {
+  /* Dispositivos móviles */
+  .container {
+    padding: var(--spacing-sm);       /* Relleno mínimo */
+  }
+  
+  .navbar {
+    backdrop-filter: var(--blur-sm);  /* Desenfoque reducido */
+    -webkit-backdrop-filter: var(--blur-sm); /* Soporte Safari */
+    padding: var(--spacing-sm);       /* Relleno mínimo */
+  }
+  
+  .navbar .nav-brand {
+    font-size: 1.2rem;               /* Tamaño reducido */
+  }
+  
+  .navbar .nav-links a {
+    font-size: 0.9rem;               /* Tamaño de fuente reducido */
+    padding: var(--spacing-sm) var(--spacing-md); /* Relleno reducido */
+  }
+  
+  .contactanos {
+    padding: var(--spacing-md);       /* Relleno reducido */
+    margin: var(--spacing-lg) var(--spacing-sm); /* Márgenes ajustados */
+    font-size: clamp(0.9rem, 5vw, 1.3rem); /* Tamaño muy responsivo */
+  }
+  
+  .form-contacto {
+    padding: var(--spacing-md);       /* Relleno reducido */
+    margin: var(--spacing-md) var(--spacing-sm); /* Márgenes ajustados */
+  }
+  
+  input[type="text"], 
+  input[type="email"], 
+  input[type="password"], 
+  input[type="tel"], 
   textarea {
-    width: 100%; /* Hace que el textarea ocupe todo el ancho del contenedor */
-    height: 100px; /* Altura del textarea */
-    padding: 0.5em; /* Espacio interno */
-    margin-top: 0.5em; /* Espacio encima del textarea */
-    border: 1px solid #ccc; /* Borde gris claro */
-    border-radius: 10px; /* Bordes redondeados */
-    box-sizing: border-box; /* Incluye el padding en el ancho total */
-    display: block; /* Hace que los textarea sean bloques */
-    box-shadow: 0.2em 0.2em 0.8em rgba(14, 0, 0, 0.874); /* Sombra para dar profundidad */
-    }
-   
+    padding: var(--spacing-sm);       /* Relleno reducido */
+    font-size: 0.9rem;               /* Tamaño de fuente reducido */
+  }
+  
+  button, 
+  .btn {
+    padding: var(--spacing-sm) var(--spacing-md); /* Relleno reducido */
+    font-size: 0.9rem;               /* Tamaño de fuente reducido */
+  }
+  
   .notificacion {
-  opacity: 0; /* Inicialmente invisible */
-  visibility: hidden; /* Inicialmente no visible */
-  position: fixed; /* Fija la notificación en la pantalla */
-  bottom: 30px; /* Espacio desde la parte inferior */
-  right: 30px; /* Espacio desde la parte derecha */
-  padding: 16px 24px; /* Espacio interno */
-  border-radius: 8px; /* Bordes redondeados */
-  box-shadow: 0 0 10px rgba(0,0,0,0.2); /* Sombra para dar profundidad */
-  z-index: 9999; /* Asegura que la notificación esté por encima de otros elementos */
-  font-family: 'Segoe UI', sans-serif; /* Fuente legible */
-  color: white; /* Color del texto */
-  transform: translateY(30px);  /* Posición inicial para la animación */
-  transition: opacity 0.5s ease, transform 0.5s ease; /* Transición suave */
+    bottom: var(--spacing-md);        /* Posición ajustada */
+    right: var(--spacing-md);         /* Posición ajustada */
+    left: var(--spacing-md);          /* También a la izquierda */
+    max-width: none;                  /* Sin ancho máximo */
+    padding: var(--spacing-sm) var(--spacing-md); /* Relleno reducido */
   }
-
-  @keyframes fadeInUp {
-    from { transform: translateY(30px); opacity: 0; } 
-    to { transform: translateY(0); opacity: 1; }
+  
+  .finpagina {
+    padding: var(--spacing-lg) var(--spacing-sm); /* Relleno ajustado */
+    font-size: 0.8rem;               /* Tamaño de fuente reducido */
   }
+}
 
-  .notificacion.activa {
-  opacity: 1; /* Hace la notificación visible */
-  visibility: visible; /* Hace la notificación visible */
-  animation: fadeInUp 0.5s forwards; /* Aplica la animación */
-  transform: translateY(0); /* Posición final */
+@media only screen and (max-width: 480px) {
+  /* Dispositivos móviles pequeños */
+  :root {
+    --spacing-xs: 0.25rem;            /* Espaciado extra pequeño */
+    --spacing-sm: 0.5rem;             /* Espaciado pequeño reducido */
+    --spacing-md: 0.75rem;            /* Espaciado medio reducido */
+    --spacing-lg: 1rem;               /* Espaciado grande reducido */
+    --spacing-xl: 1.5rem;             /* Espaciado extra grande reducido */
+    --spacing-2xl: 2rem;              /* Espaciado 2x reducido */
   }
-
-  .notificacion .icono {
-    font-size: 24px;  /* Tamaño del icono */
-    margin-right: 10px; /* Espacio entre el icono y el texto */
-    display: inline-block; /* Hace que el icono sea un bloque en línea */
-    vertical-align: middle; /* Alinea el icono verticalmente con el texto */
+  
+  .navbar .nav-brand {
+    font-size: 1rem;                 /* Tamaño muy reducido */
   }
-
-  .notificacion p {
-    display: inline-block; /* Hace que el texto sea un bloque en línea */
-    margin: 0; /* Elimina el margen por defecto */
-    vertical-align: middle; /* Alinea el texto verticalmente con el icono */
-    font-size: 16px; /* Tamaño del texto */
+  
+  .navbar .nav-links a {
+    font-size: 0.8rem;               /* Tamaño muy reducido */
   }
-
-  .cerrar-notificacion {
-    position: absolute; /* Posiciona el botón dentro de la notificación */
-    top: 6px; /* Espacio desde la parte superior */
-    right: 10px; /* Espacio desde la parte derecha */
-    font-size: 20px; /* Tamaño del botón */
-    cursor: pointer;  /* Cambia el cursor al pasar sobre el botón */
+  
+  .contactanos {
+    font-size: clamp(0.8rem, 6vw, 1.1rem); /* Tamaño extremadamente responsivo */
   }
-
-  /* Tipos de notificación */
-  .notificacion.exito {
-    background-color: #28a745; /* Verde para éxito */
+  
+  input[type="text"], 
+  input[type="email"], 
+  input[type="password"], 
+  input[type="tel"], 
+  textarea {
+    font-size: 0.8rem;               /* Tamaño muy reducido */
   }
-
-  .notificacion.error {
-    background-color: #dc3545; /* Rojo para error */
+  
+  button, 
+  .btn {
+    font-size: 0.8rem;               /* Tamaño muy reducido */
   }
+}
 
-  .notificacion.advertencia {
-    background-color: #ffc107; /* Amarillo para advertencia */
-    color: #333;  /* Texto oscuro para mejor contraste */
+/* Mejoras para dispositivos con hover */
+@media (hover: hover) and (pointer: fine) {
+  .navbar .nav-links a:hover {
+    transform: translateY(-2px);      /* Elevación sutil */
   }
-
-  .notificacion.info {
-    background-color: #007bff; /* Azul para información */
+  
+  button:hover, 
+  .btn:hover {
+    transform: translateY(-3px) scale(1.02); /* Elevación y escala */
   }
-
-  .error-mensaje {
-  color: red;
-  font-size: 0.9em;
-  margin-top: 4px;
-  display: block;
+  
+  input[type="text"]:hover, 
+  input[type="email"]:hover, 
+  input[type="password"]:hover, 
+  input[type="tel"]:hover, 
+  textarea:hover {
+    border-color: rgba(14, 165, 164, 0.4); /* Borde más visible */
+    box-shadow: var(--shadow-md);     /* Sombra en hover */
   }
+}
 
-  .campo-error {
-  border-color: red !important;
-  box-shadow: 0 0 0.5em rgba(255,0,0,0.3);
- }
+/* Mejoras para modo oscuro preferido */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: rgba(15, 23, 42, 0.95); /* Fondo oscuro */
+    --bg-secondary: rgba(30, 41, 59, 0.9); /* Fondo secundario oscuro */
+    --bg-card: rgba(51, 65, 85, 0.8);  /* Fondo de tarjeta oscuro */
+    --text-primary: #f1f5f9;          /* Texto claro */
+    --text-secondary: #cbd5e1;        /* Texto secundario claro */
+    --border-color: rgba(71, 85, 105, 0.5); /* Borde oscuro */
+  }
+  
+  input[type="text"], 
+  input[type="email"], 
+  input[type="password"], 
+  input[type="tel"], 
+  textarea {
+    background: rgba(30, 41, 59, 0.9); /* Fondo oscuro para inputs */
+    color: var(--text-primary);        /* Texto claro */
+    border-color: rgba(71, 85, 105, 0.5); /* Borde oscuro */
+  }
+  
+  input[type="text"]:focus, 
+  input[type="email"]:focus, 
+  input[type="password"]:focus, 
+  input[type="tel"]:focus, 
+  textarea:focus {
+    background: rgba(30, 41, 59, 0.95); /* Fondo más opaco al enfocar */
+  }
+}
 
- .campo-valido {
-  border-color: green !important;
-  box-shadow: 0 0 0.5em rgba(0,128,0,0.2);
- }
+/* Mejoras para reducción de movimiento */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important; /* Animaciones muy rápidas */
+    animation-iteration-count: 1 !important; /* Una sola iteración */
+    transition-duration: 0.01ms !important; /* Transiciones muy rápidas */
+    scroll-behavior: auto !important; /* Scroll sin animación */
+  }
+}
 
- #error-msg {
-  display: flex; /* Oculto por defecto */
-  position: fixed; /* Fijo en la pantalla */
-  top: 20px; /* Espacio desde la parte superior */    
-  background-color: #f44336; /* Rojo para error */
-  color: white; /* Color del texto */
-  padding: 12px 20px; /* Espacio interno */
-  border-radius: 6px; /* Bordes redondeados */
-  font-weight: bold;  /* Negrita para el texto */
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);  /* Sombra para dar profundidad */
-  transition: opacity 0.5s ease, transform 0.5s ease; /* Transición suave */
-  opacity: 1; /* Inicialmente invisible */
-  transform: translateY(-10px); /* Posición inicial para la animación */
-  position: relative; /* Posiciona el texto relativo al contenedor */
-  z-index: 1000;  /* Asegura que el texto esté por encima del fondo */
-  text-align: center; /* Centra el texto */
-  justify-content: center; /* Centra horizontalmente */
+/* Utilidades de accesibilidad */
+.sr-only {
+  position: absolute;                 /* Posición absoluta */
+  width: 1px;                        /* Ancho mínimo */
+  height: 1px;                       /* Alto mínimo */
+  padding: 0;                        /* Sin relleno */
+  margin: -1px;                      /* Margen negativo */
+  overflow: hidden;                  /* Oculto */
+  clip: rect(0, 0, 0, 0);            /* Recortado */
+  white-space: nowrap;               /* Sin salto de línea */
+  border: 0;                         /* Sin borde */
+}
+
+/* Enfoque visible para accesibilidad */
+*:focus-visible {
+  outline: 2px solid var(--primary-blue); /* Outline visible */
+  outline-offset: 2px;               /* Separación del outline */
 }
 
 /* Estilos dashboard - Gestión Planta de Tratamiento de Agua */
@@ -634,9 +1270,9 @@ button{font:inherit;border:0;cursor:pointer; /* Hereda fuente, sin borde, cursor
   font-size:12px; /* Tamaño de fuente */
   color:#012026; /* Color de texto */
 }
-.badge.green{background:var(--success);color:white} /* Fondo verde */
-.badge.warn{background:var(--warning);color:#08101a} /* Fondo amarillo */
-.badge.red{background:var(--danger);color:white} /* Fondo rojo */
+.badge.green{background:var(--success);color:rgb(15, 233, 7)} /* Fondo verde */
+.badge.warn{background:var(--warning);color:#d1db08} /* Fondo amarillo */
+.badge.red{background:var(--danger);color:rgb(246, 6, 6)} /* Fondo rojo */
 
 /* Responsivo */
 @media (max-width:900px){
@@ -843,7 +1479,7 @@ button{font:inherit;border:0;cursor:pointer; /* Hereda fuente, sin borde, cursor
 } /* fin .stat-card */
 
 .operario-actions .btn-primary{ /* botón primario dentro de acciones */ 
-  background:linear-gradient(90deg,#06b6d4,#0ea5a4); /* degradado horizontal vibrante */ 
+  background:linear-gradient(90deg,#06d433c2,#0ea516b8); /* degradado horizontal vibrante */ 
   box-shadow:0rem 1rem 1rem rgba(6,182,212,0.12); /* sombra para destacar el botón */ 
   border-radius:10px; /* bordes redondeados */ 
 } /* fin .operario-actions .btn-primary */
@@ -870,3 +1506,25 @@ button{font:inherit;border:0;cursor:pointer; /* Hereda fuente, sin borde, cursor
   .operario-top{flex-direction:column;align-items:flex-start} /* apila la cabecera del operario en columna y alinea al inicio */ 
   .stat-grid{grid-template-columns:1fr} /* una columna para la grid de estadísticas */ 
 } /* fin media query */
+
+.btn-3d {
+  background: linear-gradient(to bottom, #4a90e2, #357ABD);
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 6px 0 #2c5aa0, 0 10px 20px rgba(0,0,0,0.3);
+  transition: all 0.2s ease;
+  width: 100%;
+  font-weight: bold;
+}
+
+.btn-3d:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 #2c5aa0, 0 12px 24px rgba(0,0,0,0.4);
+}
+
+.btn-3d:active {
+  transform: translateY(2px);
+  box-shadow: 0 4px 0 #2c5aa0, 0 6px 12px rgba(0,0,0,0.2);
+}

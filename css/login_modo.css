@@ -1,108 +1,327 @@
-:root  {
-  --bg:#0f1724;
-  /* Nuevo degradado: aqua -> cálido naranja para empatar con seccion_formulario */
-  --pill-from: rgba(10,188,188,1); /* aqua */
-  --pill-to: rgba(188,84,10,0.95);  /* naranja cálido */
-  --muted:#93c5fd;
-  --text:#ffffff;
-  --muted-text: rgba(17, 17, 18, 0.838);
+/* Variables CSS para el sistema de modo de login moderno */
+:root {
+  /* Colores principales del tema */
+  --primary-blue: #0ea5a4;           /* Azul principal del sistema */
+  --secondary-teal: #06b6d4;         /* Verde azulado secundario */
+  --accent-gradient: linear-gradient(135deg, var(--primary-blue), var(--secondary-teal)); /* Gradiente principal */
+  
+  /* Colores de fondo y transparencias */
+  --bg-dark: #0f1724;                /* Fondo oscuro principal */
+  --bg-glass: rgba(255, 255, 255, 0.1); /* Efecto cristal claro */
+  --bg-glass-darker: rgba(255, 255, 255, 0.05); /* Efecto cristal oscuro */
+  
+  /* Colores de texto */
+  --text-primary: #ffffff;           /* Texto principal blanco */
+  --text-secondary: #93c5fd;         /* Texto secundario azulado */
+  --text-muted: rgba(17, 17, 18, 0.8); /* Texto tenue con opacidad */
+  --text-dark: #012026;              /* Texto oscuro para contraste */
+  
+  /* Gradientes específicos para el toggle */
+  --pill-gradient: linear-gradient(135deg, rgba(10, 188, 188, 1), rgba(188, 84, 10, 0.95)); /* Gradiente del toggle */
+  --pill-active: linear-gradient(135deg, var(--primary-blue), var(--secondary-teal)); /* Gradiente activo */
+  --pill-inactive: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7)); /* Gradiente inactivo */
+  
+  /* Efectos y sombras */
+  --blur-sm: blur(8px);              /* Desenfoque suave */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra pequeña */
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.15); /* Sombra media */
+  --shadow-lg: 0 8px 32px rgba(12, 38, 48, 0.35); /* Sombra grande */
+  --shadow-glow: 0 0 20px rgba(14, 165, 164, 0.3); /* Brillo de acento */
+  --shadow-inset: inset 0 4px 12px rgba(2, 6, 23, 0.35); /* Sombra interior */
+  
+  /* Espaciado responsivo */
+  --spacing-xs: 0.25rem;             /* 4px */
+  --spacing-sm: 0.5rem;              /* 8px */
+  --spacing-md: 1rem;                /* 16px */
+  --spacing-lg: 1.5rem;              /* 24px */
+  --spacing-xl: 2rem;                /* 32px */
+  
+  /* Bordes y radios */
+  --border-radius: 12px;             /* Radio estándar */
+  --border-radius-full: 50px;        /* Radio completo para píldoras */
+  --border-radius-circle: 50%;       /* Radio circular completo */
+  
+  /* Transiciones */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1); /* Transición rápida suave */
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Transición normal */
+  --transition-spring: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Transición con rebote */
 }
 
-/* Contenedor centrado para el control */
+/* Contenedor principal del control de modo con centrado perfecto */
 .form-check {
-  display:flex; /* usar flexbox para centrar */
-  flex-direction:column; 
-  align-items:center;
-  justify-content:center;
-  margin: 0 auto 0 auto;
-  width: 100%;
-  max-width: 520px;
-  position: relative;
+  display: flex;                       /* Flexbox para centrado */
+  flex-direction: column;              /* Dirección vertical */
+  align-items: center;                 /* Centrado horizontal */
+  justify-content: center;             /* Centrado vertical */
+  margin: 0 auto;                      /* Centrado automático */
+  width: 100%;                         /* Ancho completo */
+  max-width: 600px;                    /* Ancho máximo responsivo */
+  position: relative;                  /* Para posicionamiento de elementos hijos */
+  padding: var(--spacing-lg);          /* Relleno interno */
+  min-height: 120px;                   /* Altura mínima para espacio */
 }
 
-/* Ocultar el checkbox nativo pero mantener accesibilidad */
+/* Input checkbox oculto pero accesible para lectores de pantalla */
 .form-check-input {
-  position: absolute !important;
-  left: -9999px !important;
-  width: 1px; height: 1px; overflow: hidden;
-  opacity: 0;
+  position: absolute !important;       /* Posición absoluta fuera de vista */
+  left: -9999px !important;            /* Muy fuera de la pantalla */
+  width: 1px;                          /* Ancho mínimo */
+  height: 1px;                         /* Alto mínimo */
+  overflow: hidden;                    /* Contenido oculto */
+  opacity: 0;                          /* Completamente transparente */
+  clip: rect(0, 0, 0, 0);              /* Recortado para accesibilidad */
 }
 
-/* Etiqueta grande tipo 'pill' */
+/* Etiqueta principal del toggle con diseño tipo píldora moderno */
 .form-check-label {
-  display: inline-block;
-  cursor: pointer;
-  padding: 14px 34px;
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--text);
-  border-radius: 999px;
-  /* Degradado armonioso con la sección principal */
-  background: linear-gradient(90deg, var(--pill-from), var(--pill-to));
-  box-shadow: 0 12px 28px rgba(12,38,48,0.35); /* más sutil, sin sobresalto al activar */
-  text-shadow: 0 2px 6px rgba(0,0,0,0.18);
-  transition: transform 160ms ease, box-shadow 160ms ease;
+  display: inline-block;               /* Elemento de bloque en línea */
+  cursor: pointer;                     /* Cursor de puntero */
+  padding: var(--spacing-md) var(--spacing-xl); /* Relleno interno generoso */
+  font-size: clamp(1.2rem, 4vw, 1.6rem); /* Tamaño de fuente responsivo */
+  font-weight: 800;                    /* Peso extra bold */
+  color: var(--text-primary);          /* Color de texto principal */
+  background: var(--pill-gradient);    /* Gradiente de fondo */
+  border-radius: var(--border-radius-full); /* Bordes completamente redondeados */
+  box-shadow: var(--shadow-lg);        /* Sombra grande */
+  text-shadow: 0 2px 6px rgba(0,0,0,0.2); /* Sombra de texto */
+  transition: all var(--transition-normal); /* Transición suave */
+  position: relative;                  /* Para elementos pseudo */
+  user-select: none;                   /* No seleccionable */
+  border: 2px solid rgba(255, 255, 255, 0.2); /* Borde sutil */
+  backdrop-filter: var(--blur-sm);     /* Efecto cristal */
+  -webkit-backdrop-filter: var(--blur-sm); /* Soporte Safari */
+  text-align: center;                  /* Centrado del texto */
+  min-width: 200px;                    /* Ancho mínimo */
+  text-transform: uppercase;           /* Texto en mayúsculas */
+  letter-spacing: 1px;                 /* Espaciado entre letras */
 }
 
-.form-check-label:hover{ transform: translateY(-3px); }
-
-/* Decorative circular dot to the left of the pill */
-.form-check-label::before{
-  content: '';
-  position: absolute;
-  left: -56px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  /* estado por defecto (no marcado): tono tenue */
-  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.75));
-  box-shadow: 0 8px 18px rgba(2,6,23,0.35) inset;
+/* Efecto hover para la etiqueta del toggle */
+.form-check-label:hover {
+  transform: translateY(-4px) scale(1.02); /* Elevación y escala */
+  box-shadow: var(--shadow-lg), var(--shadow-glow); /* Sombra con brillo */
+  background: linear-gradient(135deg, rgba(10, 188, 188, 1), rgba(188, 84, 10, 1)); /* Gradiente más vibrante */
 }
 
-/* checkmark dentro del dot: se muestra cuando está activo */
-.form-check-label::after{
-  content: '';
-  position: absolute;
-  left: -46px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 28px; height: 28px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:16px;
-  color: transparent;
+/* Indicador circular decorativo a la izquierda del toggle */
+.form-check-label::before {
+  content: '';                         /* Contenido vacío */
+  position: absolute;                  /* Posición absoluta */
+  left: -60px;                         /* Posición a la izquierda */
+  top: 50%;                           /* Centrado vertical */
+  transform: translateY(-50%);         /* Ajuste para centrado perfecto */
+  width: 48px;                        /* Ancho del círculo */
+  height: 48px;                       /* Alto del círculo */
+  border-radius: var(--border-radius-circle); /* Forma circular */
+  background: var(--pill-inactive);   /* Gradiente inactivo por defecto */
+  box-shadow: var(--shadow-inset), var(--shadow-md); /* Sombra interior y exterior */
+  border: 2px solid rgba(255, 255, 255, 0.3); /* Borde sutil */
+  transition: all var(--transition-spring); /* Transición con rebote */
+  backdrop-filter: var(--blur-sm);     /* Efecto cristal */
+  -webkit-backdrop-filter: var(--blur-sm); /* Soporte Safari */
 }
 
-/* Show a subtle active state when checkbox is checked */
-.form-check-input:checked + .form-check-label{
-  transform: translateY(-2px) scale(1.01);
-  /* quitar sombra fuerte al activarse: mantener solo un leve resplandor */
-  box-shadow: 0 12px 30px rgba(12,38,48,0.32);
+/* Ícono de verificación dentro del círculo indicador */
+.form-check-label::after {
+  content: '';                         /* Contenido vacío por defecto */
+  position: absolute;                  /* Posición absoluta */
+  left: -48px;                         /* Posición centrada en el círculo */
+  top: 50%;                           /* Centrado vertical */
+  transform: translateY(-50%);         /* Ajuste para centrado perfecto */
+  width: 32px;                        /* Ancho del área del ícono */
+  height: 32px;                       /* Alto del área del ícono */
+  display: flex;                       /* Flexbox para centrado */
+  align-items: center;                 /* Centrado vertical */
+  justify-content: center;             /* Centrado horizontal */
+  font-size: 18px;                     /* Tamaño del ícono */
+  font-weight: 900;                    /* Peso extra bold */
+  color: transparent;                  /* Color transparente por defecto */
+  transition: all var(--transition-fast); /* Transición rápida */
+  border-radius: var(--border-radius-circle); /* Forma circular */
 }
 
-/* cambiar apariencia del dot cuando está activo: color vibrante y check */
-.form-check-input:checked + .form-check-label::before{
-  background: linear-gradient(180deg, rgba(10,188,188,0.95), rgba(188,84,10,0.95));
-  box-shadow: 0 8px 18px rgba(12,38,48,0.38);
-}
-.form-check-input:checked + .form-check-label::after{
-  content: '✓';
-  color: #ffffff;
+/* Estado activo cuando el checkbox está marcado */
+.form-check-input:checked + .form-check-label {
+  transform: translateY(-2px) scale(1.02); /* Elevación y escala reducida */
+  background: var(--pill-active);      /* Gradiente activo */
+  box-shadow: var(--shadow-lg), var(--shadow-glow); /* Sombra con brillo */
+  color: var(--text-dark);             /* Texto oscuro para contraste */
 }
 
-.form-text{
-  margin-top: 0.6rem;
-  color: var(--muted-text);
-  font-size: 0.92rem;
-  text-align: center;
-  max-width: 420px;
+/* Indicador circular en estado activo */
+.form-check-input:checked + .form-check-label::before {
+  background: var(--pill-active);      /* Gradiente activo */
+  box-shadow: var(--shadow-glow), var(--shadow-md); /* Sombra con brillo */
+  transform: translateY(-50%) scale(1.1); /* Escala aumentada */
 }
 
-/* Responsive: reduce pill size on small screens */
-@media (max-width: 480px){
-  .form-check-label{ padding: 10px 22px; font-size: 1.1rem }
-  .form-check-label::before{ left: -46px; width:36px; height:36px }
+/* Ícono de verificación visible en estado activo */
+.form-check-input:checked + .form-check-label::after {
+  content: '✓';                        /* Marca de verificación */
+  color: var(--text-dark);             /* Color oscuro para contraste */
+  transform: translateY(-50%) scale(1.2); /* Escala aumentada */
+  animation: checkmark-pop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Animación de aparición */
+}
+
+/* Animación de aparición para la marca de verificación */
+@keyframes checkmark-pop {
+  0% {
+    transform: translateY(-50%) scale(0); /* Escala inicial cero */
+    opacity: 0;                          /* Invisible */
+  }
+  50% {
+    transform: translateY(-50%) scale(1.3); /* Escala máxima */
+    opacity: 0.8;                        /* Semi-visible */
+  }
+  100% {
+    transform: translateY(-50%) scale(1.2); /* Escala final */
+    opacity: 1;                          /* Completamente visible */
+  }
+}
+
+/* Texto descriptivo debajo del control */
+.form-text {
+  margin-top: var(--spacing-md);       /* Separación superior */
+  color: var(--text-muted);            /* Color tenue */
+  font-size: 0.95rem;                  /* Tamaño de fuente */
+  text-align: center;                  /* Centrado del texto */
+  max-width: 480px;                    /* Ancho máximo */
+  line-height: 1.5;                    /* Altura de línea */
+  font-weight: 500;                    /* Peso medio */
+  background: var(--bg-glass-darker);  /* Fondo de cristal oscuro */
+  padding: var(--spacing-sm) var(--spacing-md); /* Relleno interno */
+  border-radius: var(--border-radius); /* Bordes redondeados */
+  backdrop-filter: var(--blur-sm);     /* Efecto cristal */
+  -webkit-backdrop-filter: var(--blur-sm); /* Soporte Safari */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Borde sutil */
+}
+
+/* Estados de enfoque para accesibilidad */
+.form-check-input:focus + .form-check-label {
+  outline: 3px solid rgba(14, 165, 164, 0.5); /* Outline visible */
+  outline-offset: 3px;                 /* Separación del outline */
+}
+
+/* Animación de pulso para llamar la atención */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: var(--shadow-lg);      /* Sombra normal */
+  }
+  50% {
+    box-shadow: var(--shadow-lg), var(--shadow-glow); /* Sombra con brillo */
+  }
+}
+
+/* Clase para activar animación de pulso */
+.form-check-label.pulse {
+  animation: pulse-glow 2s infinite;   /* Animación infinita */
+}
+
+/* Media queries para diseño responsivo */
+@media (max-width: 768px) {
+  .form-check {
+    max-width: 100%;                   /* Ancho completo en móviles */
+    padding: var(--spacing-md);        /* Relleno reducido */
+  }
+  
+  .form-check-label {
+    padding: var(--spacing-sm) var(--spacing-lg); /* Relleno reducido */
+    font-size: clamp(1rem, 4vw, 1.3rem); /* Tamaño más pequeño */
+    min-width: 180px;                  /* Ancho mínimo reducido */
+  }
+  
+  .form-check-label::before {
+    left: -50px;                       /* Posición ajustada */
+    width: 40px;                       /* Tamaño reducido */
+    height: 40px;                      /* Tamaño reducido */
+  }
+  
+  .form-check-label::after {
+    left: -42px;                       /* Posición ajustada */
+    width: 24px;                       /* Tamaño reducido */
+    height: 24px;                      /* Tamaño reducido */
+    font-size: 14px;                   /* Fuente reducida */
+  }
+}
+
+@media (max-width: 480px) {
+  .form-check-label {
+    padding: var(--spacing-xs) var(--spacing-md); /* Relleno muy reducido */
+    font-size: clamp(0.9rem, 4vw, 1.2rem); /* Tamaño muy pequeño */
+    min-width: 160px;                  /* Ancho mínimo muy reducido */
+  }
+  
+  .form-check-label::before {
+    left: -45px;                       /* Posición muy ajustada */
+    width: 36px;                       /* Tamaño muy reducido */
+    height: 36px;                      /* Tamaño muy reducido */
+  }
+  
+  .form-check-label::after {
+    left: -39px;                       /* Posición muy ajustada */
+    width: 20px;                       /* Tamaño muy reducido */
+    height: 20px;                      /* Tamaño muy reducido */
+    font-size: 12px;                   /* Fuente muy reducida */
+  }
+  
+  .form-text {
+    font-size: 0.85rem;                /* Fuente reducida */
+    padding: var(--spacing-xs) var(--spacing-sm); /* Relleno reducido */
+  }
+}
+
+/* Mejoras para dispositivos con hover */
+@media (hover: hover) and (pointer: fine) {
+  .form-check-label:not(:hover) {
+    transition: all var(--transition-normal); /* Transición normal cuando no hay hover */
+  }
+}
+
+/* Respeto por preferencias de reducción de movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .form-check-label,
+  .form-check-label::before,
+  .form-check-label::after {
+    transition: none !important;       /* Sin transiciones */
+    animation: none !important;        /* Sin animaciones */
+  }
+  
+  .form-check-label:hover,
+  .form-check-input:checked + .form-check-label {
+    transform: none !important;        /* Sin transformaciones */
+  }
+  
+  .form-check-input:checked + .form-check-label::before,
+  .form-check-input:checked + .form-check-label::after {
+    transform: translateY(-50%) !important; /* Solo centrado, sin escala */
+  }
+}
+
+/* Mejoras para modo oscuro preferido */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-muted: rgba(255, 255, 255, 0.6); /* Texto tenue más claro para modo oscuro */
+    --bg-glass: rgba(255, 255, 255, 0.05); /* Cristal más oscuro */
+    --bg-glass-darker: rgba(255, 255, 255, 0.02); /* Cristal muy oscuro */
+  }
+}
+
+/* Utilidades de accesibilidad */
+.sr-only {
+  position: absolute;                  /* Posición absoluta */
+  width: 1px;                         /* Ancho mínimo */
+  height: 1px;                        /* Alto mínimo */
+  padding: 0;                         /* Sin relleno */
+  margin: -1px;                       /* Margen negativo */
+  overflow: hidden;                   /* Oculto */
+  clip: rect(0, 0, 0, 0);             /* Recortado */
+  white-space: nowrap;                /* Sin salto de línea */
+  border: 0;                          /* Sin borde */
+}
+
+/* Enfoque visible mejorado */
+*:focus-visible {
+  outline: 2px solid var(--primary-blue); /* Outline visible */
+  outline-offset: 2px;                /* Separación del outline */
 }
 

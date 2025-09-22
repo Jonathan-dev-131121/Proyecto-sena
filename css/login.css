@@ -1,218 +1,462 @@
 
-:root{
-  --bg:#0f1724;
-  --accent:#06b6d4;
-  --accent-2:#0ea5a4;
-  --muted:#93c5fd;
-  --text:#e6eef6;
+/* Variables CSS para tema de Login moderno */
+:root {
+  /* Colores principales del sistema */
+  --primary-blue: #0ea5a4;           /* Azul principal */
+  --secondary-teal: #06b6d4;         /* Verde azulado secundario */
+  --accent-gradient: linear-gradient(135deg, var(--primary-blue), var(--secondary-teal)); /* Gradiente de acento */
+  
+  /* Colores de fondo con transparencias */
+  --bg-dark: #0f1724;                /* Fondo oscuro */
+  --bg-glass: rgba(255, 255, 255, 0.1); /* Cristal claro */
+  --bg-glass-darker: rgba(255, 255, 255, 0.05); /* Cristal más oscuro */
+  --bg-card: rgba(255, 255, 255, 0.15); /* Fondo de tarjeta */
+  
+  /* Colores de texto */
+  --text-primary: #050505;           /* Texto principal claro */
+  --text-secondary: #93c5fd;         /* Texto secundario azulado */
+  --text-muted: rgba(230, 238, 246, 0.7); /* Texto tenue */
+  --text-dark: #012026;              /* Texto oscuro para contraste */
+  
+  /* Efectos y sombras */
+  --blur-sm: blur(8px);              /* Desenfoque suave */
+  --blur-md: blur(12px);             /* Desenfoque medio */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra pequeña */
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.15); /* Sombra media */
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.2); /* Sombra grande */
+  --shadow-glow: 0 0 20px rgba(14, 165, 164, 0.3); /* Brillo de acento */
+  
+  /* Espaciado responsivo */
+  --spacing-xs: 0.25rem;             /* 4px */
+  --spacing-sm: 0.5rem;              /* 8px */
+  --spacing-md: 1rem;                /* 16px */
+  --spacing-lg: 1.5rem;              /* 24px */
+  --spacing-xl: 2rem;                /* 32px */
+  --spacing-2xl: 3rem;               /* 48px */
+  
+  /* Bordes y radios */
+  --border-radius: 12px;             /* Radio estándar */
+  --border-radius-lg: 20px;          /* Radio grande */
+  --border-radius-full: 50px;        /* Radio completo */
+  
+  /* Transiciones */
+  --transition-fast: 0.2s ease-out;  /* Transición rápida */
+  --transition-normal: 0.3s ease-out; /* Transición normal */
+  --transition-slow: 0.5s ease-out;   /* Transición lenta */
 }
 
- .seccion_formulario{
-  min-height: 30rem; /* Contenedor principal con altura mínima */
-  max-width: 30rem; /* ancho máximo */
-  display: flex; /* usa flexbox para el contenedor */
-  flex-direction: column; /* apila los elementos en columna */
-  align-items: center; /* centra verticalmente */
-  justify-content: center; /* centra horizontalmente */
-  position: relative; /* necesario para posicionar elementos hijos absolutamente */
-  margin-left: 30rem;  /* centra horizontalmente */
-  margin-right: 30rem; /* centra horizontalmente */
-  margin-top: 8rem;  /* espacio superior */
-  margin-bottom: 20rem; /* espacio inferior */
-  padding: 20px; /* espacio interno */
-  border-radius: 50px; /* Hace el fondo circular */
-  background: linear-gradient(90deg, rgba(10, 188, 188, 0.489), rgba(188, 84, 10, 0.489)); /* efecto vidrio */
-  backdrop-filter: blur(5px) saturate(100%); /* efecto vidrio */
-  -webkit-backdrop-filter: blur(5px) saturate(100%); /* efecto vidrio para Safari */
+/* Configuración del cuerpo con imagen de fondo */
+body {
+  background-image: url('img/planta_tratamiento_de_agua.jpg'); /* Imagen de fondo principal */
+  background-size: cover;              /* Escala para cubrir toda la pantalla */
+  background-position: center center;  /* Centrado de la imagen */
+  background-repeat: no-repeat;        /* Evita repetición */
+  background-attachment: fixed;        /* Imagen fija al hacer scroll */
+  min-height: 100vh;                   /* Altura mínima del viewport */
+  margin: 0;                           /* Sin márgenes */
+  padding: 0;                          /* Sin relleno */
+  font-family: 'Inter', 'Segoe UI', 'Roboto', system-ui, sans-serif; /* Stack de fuentes modernas */
+  overflow-x: hidden;                  /* Evita scroll horizontal */
 }
 
+/* Contenedor principal del formulario con diseño centrado */
+.seccion_formulario {
+  min-height: 100vh;                   /* Altura mínima completa */
+  display: flex;                       /* Flexbox para centrado */
+  flex-direction: column;              /* Dirección vertical */
+  align-items: center;                 /* Centrado horizontal */
+  justify-content: center;             /* Centrado vertical */
+  padding: var(--spacing-lg);          /* Relleno responsive */
+  position: relative;                  /* Para efectos adicionales */
+  backdrop-filter: var(--blur-sm);     /* Desenfoque de fondo */
+  -webkit-backdrop-filter: var(--blur-sm); /* Soporte Safari */
+}
+
+/* Sección interna del formulario */
 .seccion_formulario section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
+  display: flex;                       /* Flexbox */
+  flex-direction: column;              /* Dirección vertical */
+  align-items: center;                 /* Centrado horizontal */
+  justify-content: center;             /* Centrado vertical */
+  width: 100%;                         /* Ancho completo */
+  max-width: 500px;                    /* Ancho máximo responsive */
 }
 
-.acceso_usuario{
-  max-width:1100px; /* ancho máximo */
-  width:80%; /* ancho completo */
-  border-radius:30px; /* bordes redondeados */
-  margin-top: 3rem;  /* espacio superior */
-  box-shadow:0 6px 18px rgba(6,182,212,0.12); /* sombra para profundidad */
-  padding:12px; /* espacio interno */
-  text-align:center; /* centra el texto */
-  backdrop-filter: blur(5px) saturate(100%); /* efecto vidrio */
-  background: linear-gradient(90deg, rgba(188, 84, 10, 0.489), rgba(16, 178, 207, 0.499)); /* efecto vidrio */
-  -webkit-backdrop-filter: blur(5px) saturate(100%); /* efecto vidrio para Safari */
-  border:1px solid rgba(6,182,212,0.06); /* borde sutil */
-  font-family: 'Inter', roboto, poppins, montserrat, averta; /* fuente legible */
-  color:var(--text); /* color del texto */
-  box-sizing: border-box; /* incluye padding y border en el ancho total */
-  /* Animación de entrada: pequeño desplazamiento y fade-in (más sutil) */
-  opacity: 0;
-  transform: translateY(6px);
-  animation: fadeSlideIn 420ms ease-out 1 both;
+/* Tarjeta de acceso del usuario con efectos de cristal modernos */
+.acceso_usuario {
+  width: 100%;                         /* Ancho completo */
+  max-width: 450px;                    /* Ancho máximo */
+  background: var(--bg-card);          /* Fondo de tarjeta */
+  backdrop-filter: var(--blur-md) saturate(180%); /* Efecto cristal intenso */
+  -webkit-backdrop-filter: var(--blur-md) saturate(180%); /* Soporte Safari */
+  border-radius: var(--border-radius-lg); /* Bordes redondeados grandes */
+  padding: var(--spacing-2xl) var(--spacing-xl); /* Relleno generoso */
+  box-shadow: var(--shadow-lg), var(--shadow-glow); /* Sombra múltiple */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Borde sutil */
+  text-align: center;                  /* Centrado del texto */
+  position: relative;                  /* Para efectos adicionales */
+  transform: translateY(0);            /* Posición inicial */
+  transition: all var(--transition-normal); /* Transición suave */
+  animation: fadeSlideIn 0.6s ease-out both; /* Animación de entrada */
+  margin: 8rem auto 1rem auto;               /* Márgenes automáticos */
+  background:linear-gradient(180deg, rgba(4, 199, 213, 0.574), rgba(6, 214, 79, 0.689)); /* fondo con degradado muy sutil */
 }
 
+/* Efecto hover para la tarjeta de acceso */
+.acceso_usuario:hover {
+  transform: translateY(-4px);         /* Elevación sutil */
+  box-shadow: var(--shadow-lg), 0 0 30px rgba(14, 165, 164, 0.4); /* Sombra aumentada */
+}
+
+/* Animación de entrada suave y moderna */
 @keyframes fadeSlideIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* Respetar preferencia de reducir movimiento */
-@media (prefers-reduced-motion: reduce) {
-  .acceso_usuario {
-    animation: none !important;
-    transition: none !important;
-    transform: none !important;
-    opacity: 1 !important;
+  0% {
+    opacity: 0;                        /* Invisible */
+    transform: translateY(30px) scale(0.95); /* Desplazado y escalado */
+    filter: blur(4px);                 /* Desenfoque inicial */
+  }
+  100% {
+    opacity: 1;                        /* Completamente visible */
+    transform: translateY(0) scale(1); /* Posición y escala final */
+    filter: blur(0);                   /* Sin desenfoque */
   }
 }
 
+/* Branding del login con diseño moderno */
+.login-brand {
+  display: flex;                       /* Flexbox */
+  align-items: center;                 /* Alineación vertical */
+  justify-content: center;             /* Centrado horizontal */
+  gap: var(--spacing-md);              /* Espacio entre elementos */
+  margin-bottom: var(--spacing-lg);    /* Separación inferior */
+  animation: fadeSlideIn 0.6s ease-out 0.2s both; /* Animación retrasada */
+}
 
+/* Logo del login con gradiente moderno */
+.login-logo {
+  width: 64px;                         /* Ancho del logo */
+  height: 64px;                        /* Alto del logo */
+  border-radius: var(--border-radius); /* Bordes redondeados */
+  background: var(--accent-gradient);  /* Gradiente de acento */
+  display: flex;                       /* Flexbox */
+  align-items: center;                 /* Centrado vertical */
+  justify-content: center;             /* Centrado horizontal */
+  font-weight: 800;                    /* Peso extra bold */
+  color: var(--text-dark);             /* Texto oscuro */
+  font-size: 24px;                     /* Tamaño de fuente */
+  box-shadow: var(--shadow-md);        /* Sombra media */
+  transition: transform var(--transition-fast); /* Transición suave */
+}
+
+/* Efecto hover para el logo */
+.login-logo:hover {
+  transform: rotate(5deg) scale(1.05); /* Rotación y escala */
+}
+
+/* Título del login con tipografía moderna */
+.login-title {
+  font-size: 1.5rem;                  /* Tamaño de fuente */
+  font-weight: 800;                    /* Peso extra bold */
+  color: var(--text-primary);         /* Color principal */
+  margin: 0;                           /* Sin márgenes */
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3); /* Sombra de texto */
+}
+
+/* Subtítulo del login */
+.login-sub {
+  color: var(--text-muted);            /* Color tenue */
+  font-size: 0.95rem;                  /* Tamaño de fuente */
+  margin-bottom: var(--spacing-lg);    /* Separación inferior */
+  font-weight: 400;                    /* Peso normal */
+}
+
+/* Contenedor del formulario con animaciones escalonadas */
 .formulario {
-  opacity: 0; /* invisible por defecto */
-  transform: translateY(6px); /* pequeño desplazamiento hacia abajo */
-  animation: fadeSlideIn 420ms ease-out 1 both; /* misma animación que el contenedor */
-  animation-delay: 0ms; /* sin retraso */
+  width: 100%;                         /* Ancho completo */
+  margin: 0 auto;                      /* Centrado horizontal */
+  animation: fadeSlideIn 0.6s ease-out 0.4s both; /* Animación retrasada */
+  transition: all var(--transition-normal); /* Transición suave */
 }
 
+.formulario input {
+  color:#050505;                         /* Color del texto */
+}
+
+/* Labels del formulario con diseño moderno */
 .formulario label {
-  display: block; /* asegurar que sea bloque para animar correctamente */
-  opacity: 0; /* invisible por defecto */
-  transform: translateY(6px); /* pequeño desplazamiento hacia abajo */
-  animation: fadeSlideIn 420ms ease-out 1 both; /* misma animación que el contenedor */
-  animation-delay: 80ms; /* pequeño stagger */
+  display: block;                      /* Elemento de bloque */
+  margin-bottom: var(--spacing-sm);    /* Separación inferior */
+  font-weight: 600;                    /* Peso semi-bold */
+  font-size: 1.1rem;                   /* Tamaño de fuente */
+  color: var(--text-primary);          /* Color principal */
+  text-align: center;                  /* Centrado del texto */
+  background: var(--accent-gradient);  /* Gradiente de fondo */
+  padding: var(--spacing-md) var(--spacing-lg); /* Relleno interno */
+  border-radius: var(--border-radius-full); /* Bordes redondeados completos */
+  box-shadow: var(--shadow-md);        /* Sombra media */
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3); /* Sombra de texto */
+  margin-bottom: var(--spacing-md);    /* Separación inferior */
+  animation: fadeSlideIn 0.6s ease-out 0.6s both; /* Animación más retrasada */
+  transition: all var(--transition-normal); /* Transición suave */
+  margin-top: 10px;                   /* Margen superior para separación */
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .formulario, 
+/* Efecto hover para labels */
+.formulario label:hover {
+  transform: translateY(-2px);         /* Elevación sutil */
+  box-shadow: var(--shadow-lg);        /* Sombra aumentada */
+}
+
+/* Controles de formulario modernos con Bootstrap integrado */
+.form-control {
+  background: var(--bg-glass);         /* Fondo de cristal */
+  backdrop-filter: var(--blur-sm);     /* Desenfoque sutil */
+  -webkit-backdrop-filter: var(--blur-sm); /* Soporte Safari */
+  border: 2px solid rgba(255, 255, 255, 0.2); /* Borde sutil */
+  color: var(--text-primary);          /* Color de texto */
+  border-radius: var(--border-radius); /* Bordes redondeados */
+  padding: var(--spacing-md);          /* Relleno interno */
+  font-size: 1rem;                     /* Tamaño de fuente */
+  font-weight: 500;                    /* Peso medio */
+  width: 100%;                         /* Ancho completo */
+  margin-bottom: var(--spacing-md);    /* Separación inferior */
+  box-shadow: var(--shadow-sm);        /* Sombra pequeña */
+  transition: all var(--transition-normal); /* Transición suave */
+  outline: none;                       /* Sin outline por defecto */
+}
+
+/* Placeholder styling para inputs */
+.form-control::placeholder {
+  color: var(--text-muted);            /* Color tenue */
+  font-style: italic;                  /* Estilo cursiva */
+}
+
+/* Estado de enfoque para controles */
+.form-control:focus {
+  border-color: var(--primary-blue);   /* Borde de color primario */
+  box-shadow: 0 0 0 3px rgba(14, 165, 164, 0.2), var(--shadow-md); /* Sombra de enfoque */
+  background: rgba(255, 255, 255, 0.15); /* Fondo más opaco */
+  transform: translateY(-2px);         /* Elevación sutil */
+}
+
+/* Botón de login moderno con gradiente y efectos */
+.btn-login {
+  background: var(--accent-gradient);  /* Gradiente de acento */
+  border: none;                        /* Sin borde */
+  color: var(--text-dark);             /* Texto oscuro */
+  width: 100%;                         /* Ancho completo */
+  padding: var(--spacing-md) var(--spacing-lg); /* Relleno interno */
+  margin-top: var(--spacing-md);       /* Separación superior */
+  border-radius: var(--border-radius); /* Bordes redondeados */
+  font-size: 1.1rem;                   /* Tamaño de fuente */
+  font-weight: 700;                    /* Peso bold */
+  cursor: pointer;                     /* Cursor de puntero */
+  box-shadow: var(--shadow-md);        /* Sombra media */
+  transition: all var(--transition-normal); /* Transición suave */
+  position: relative;                  /* Para efectos adicionales */
+  overflow: hidden;                    /* Oculta desbordamiento */
+  text-transform: uppercase;           /* Texto en mayúsculas */
+  letter-spacing: 1px;                 /* Espaciado entre letras */
+}
+
+/* Efecto hover para botón de login */
+.btn-login:hover {
+  transform: translateY(-3px) scale(1.02); /* Elevación y escala */
+  box-shadow: var(--shadow-lg), var(--shadow-glow); /* Sombra aumentada con brillo */
+  background: linear-gradient(135deg, var(--secondary-teal), var(--primary-blue)); /* Gradiente invertido */
+}
+
+/* Efecto activo para botón de login */
+.btn-login:active {
+  transform: translateY(-1px) scale(1.01); /* Menor elevación al presionar */
+  box-shadow: var(--shadow-sm);        /* Sombra reducida */
+}
+
+/* Estado de enfoque para botón de login */
+.btn-login:focus {
+  outline: 3px solid rgba(14, 165, 164, 0.3); /* Outline visible */
+  outline-offset: 2px;                 /* Separación del outline */
+}
+
+/* Efecto de ondulación en botón */
+.btn-login::before {
+  content: '';                         /* Contenido vacío */
+  position: absolute;                  /* Posición absoluta */
+  top: 50%;                           /* Centrado vertical */
+  left: 50%;                          /* Centrado horizontal */
+  width: 0;                           /* Ancho inicial */
+  height: 0;                          /* Alto inicial */
+  background: rgba(255, 255, 255, 0.3); /* Color de ondulación */
+  border-radius: 50%;                 /* Forma circular */
+  transform: translate(-50%, -50%);    /* Centrado perfecto */
+  transition: width 0.6s, height 0.6s; /* Transición de expansión */
+}
+
+/* Activación de ondulación al hacer click */
+.btn-login:active::before {
+  width: 300px;                       /* Ancho máximo */
+  height: 300px;                      /* Alto máximo */
+}
+
+/* Enlaces del login con diseño moderno */
+.login-links {
+  display: flex;                       /* Flexbox */
+  align-items: center;                 /* Alineación vertical */
+  justify-content: space-between;      /* Espacio entre elementos */
+  margin-top: var(--spacing-lg);       /* Separación superior */
+  font-size: 0.9rem;                   /* Tamaño de fuente */
+  gap: var(--spacing-md);              /* Espacio entre enlaces */
+}
+
+/* Estilo para enlaces */
+.login-links a {
+  color: var(--text-muted);            /* Color tenue */
+  text-decoration: none;               /* Sin subrayado */
+  padding: var(--spacing-sm) var(--spacing-md); /* Relleno interno */
+  border-radius: var(--border-radius); /* Bordes redondeados */
+  background: var(--bg-glass-darker);  /* Fondo de cristal oscuro */
+  backdrop-filter: var(--blur-sm);     /* Desenfoque sutil */
+  -webkit-backdrop-filter: var(--blur-sm); /* Soporte Safari */
+  transition: all var(--transition-fast); /* Transición rápida */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Borde sutil */
+}
+
+/* Efecto hover para enlaces */
+.login-links a:hover {
+  color: var(--text-primary);          /* Color principal */
+  background: var(--bg-glass);         /* Fondo más claro */
+  transform: translateY(-2px);         /* Elevación sutil */
+  box-shadow: var(--shadow-sm);        /* Sombra pequeña */
+}
+
+/* Alertas personalizadas modernas */
+.alert-custom {
+  border-radius: var(--border-radius); /* Bordes redondeados */
+  padding: var(--spacing-md) var(--spacing-lg); /* Relleno interno */
+  margin-top: var(--spacing-md);       /* Separación superior */
+  backdrop-filter: var(--blur-sm);     /* Desenfoque sutil */
+  -webkit-backdrop-filter: var(--blur-sm); /* Soporte Safari */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Borde sutil */
+  box-shadow: var(--shadow-sm);        /* Sombra pequeña */
+  font-weight: 500;                    /* Peso medio */
+}
+
+/* Alerta de error */
+.alert-custom.alert-danger {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.8), rgba(220, 38, 38, 0.8)); /* Gradiente rojo */
+  color: white;                        /* Texto blanco */
+  border-color: rgba(239, 68, 68, 0.5); /* Borde rojo */
+}
+
+/* Alerta de éxito */
+.alert-custom.alert-success {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.8), rgba(22, 163, 74, 0.8)); /* Gradiente verde */
+  color: white;                        /* Texto blanco */
+  border-color: rgba(34, 197, 94, 0.5); /* Borde verde */
+}
+
+/* Alerta de información */
+.alert-custom.alert-info {
+  background: var(--accent-gradient);  /* Gradiente de acento */
+  color: var(--text-dark);             /* Texto oscuro */
+  border-color: var(--primary-blue);   /* Borde azul */
+}
+
+/* Media queries para diseño responsivo */
+@media (max-width: 768px) {
+  .seccion_formulario {
+    padding: var(--spacing-md);         /* Relleno reducido */
+  }
+  
+  .acceso_usuario {
+    padding: var(--spacing-xl) var(--spacing-lg); /* Relleno reducido */
+    margin: var(--spacing-md);          /* Márgenes reducidos */
+  }
+  
+  .login-logo {
+    width: 56px;                        /* Tamaño reducido */
+    height: 56px;                       /* Tamaño reducido */
+    font-size: 20px;                    /* Fuente reducida */
+  }
+  
+  .login-title {
+    font-size: 1.3rem;                  /* Tamaño reducido */
+  }
+  
   .formulario label {
-    animation: none !important; /* desactivar animaciones */
-    transform: none !important; /* sin transformaciones */
-    opacity: 1 !important; /* visible */
+    font-size: 1rem;                    /* Tamaño reducido */
+    padding: var(--spacing-sm) var(--spacing-md); /* Relleno reducido */
+  }
+  
+  .form-control {
+    padding: var(--spacing-sm);         /* Relleno reducido */
+    font-size: 0.9rem;                  /* Fuente reducida */
+  }
+  
+  .btn-login {
+    padding: var(--spacing-sm) var(--spacing-md); /* Relleno reducido */
+    font-size: 1rem;                    /* Fuente reducida */
+  }
+  
+  .login-links {
+    flex-direction: column;             /* Dirección vertical */
+    gap: var(--spacing-sm);             /* Espacio reducido */
   }
 }
 
-  .formulario {
-    margin: 0 auto; /* Centra el formulario horizontalmente */
-    width: 300px; /* Ancho del formulario */
-    margin-bottom: 1em; /* Espacio debajo del formulario */
-    }
-
-    .formulario label {
-    display: block; /* Hace que los labels sean bloques */
-    margin-top: 1em; /* Espacio encima de cada label */
-    font-weight: bold;  /* Negrita para los labels */
-    text-align: center; /* Centra el texto */
-    font-size: 1.5em; /* Tamaño del texto */
-    background: rgba(195, 4, 119, 0.595); /* Fondo verde con transparencia */
-    padding: 10px; /* Espacio interno */
-    border-radius: 50px; /* Hace el fondo circular */
-    position: relative; /* Posiciona el texto relativo al contenedor */
-    z-index: 10; /* Asegura que el texto esté por encima del fondo */
-    min-width: 1em; /* Ancho mínimo */
-    margin-bottom: 1em; /* Espacio debajo del label */
-    box-shadow: 0.2em 0.2em 0.8em rgba(14, 0, 0, 0.874); /* Sombra para dar profundidad */
-    text-shadow: 0.1em 0.1em 0.3em rgba(11, 0, 0, 0.659); /* Sombra para mejorar la legibilidad */
-    color: #f4f4f4; /* Color del texto */
-    }
-
-.login-brand{
-  display:flex; /* usa flexbox para el contenedor */
-  align-items:center; /* centra verticalmente */
-  justify-content:space-between; /* espacio entre elementos */
-  margin-top:10px; /* margen superior */
-  font-size:.9rem; /* tamaño del texto */
+@media (max-width: 480px) {
+  .acceso_usuario {
+    padding: var(--spacing-lg) var(--spacing-md); /* Relleno muy reducido */
+    margin: var(--spacing-sm);          /* Márgenes mínimos */
+  }
+  
+  .login-logo {
+    width: 48px;                        /* Tamaño muy reducido */
+    height: 48px;                       /* Tamaño muy reducido */
+    font-size: 18px;                    /* Fuente muy reducida */
+  }
+  
+  .login-title {
+    font-size: 1.2rem;                  /* Tamaño muy reducido */
+  }
+  
+  .formulario label {
+    font-size: 0.9rem;                  /* Tamaño muy reducido */
+  }
 }
 
-.login-brand{
-  display:flex; /* usa flexbox para el contenedor */
-  align-items:center; /* centra verticalmente */
-  gap:12px; /* espacio entre elementos */
-  margin-bottom:8px; /* margen inferior */
+/* Mejoras para dispositivos con hover */
+@media (hover: hover) and (pointer: fine) {
+  .form-control:hover {
+    border-color: rgba(14, 165, 164, 0.4); /* Borde más visible */
+    background: rgba(255, 255, 255, 0.12); /* Fondo ligeramente más opaco */
+  }
 }
 
-.login-logo{
-  width:56px; /* ancho del logo */
-  height:56px; /* alto del logo */
-  border-radius:10px; /* esquinas redondeadas */
-  background:linear-gradient(90deg,var(--accent),var(--accent-2)); /* fondo degradado */
-  display:flex; /* usa flexbox para el contenedor */
-  align-items:center; /* centra verticalmente */
-  justify-content:center; /* centra horizontalmente */
-  font-weight:800; /* peso de fuente */
-  color:#012026; /* color del texto */
-  font-size:20px; /* tamaño del texto */
+/* Respeto por preferencias de reducción de movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .acceso_usuario,
+  .login-brand,
+  .formulario,
+  .formulario label {
+    animation: none !important;         /* Sin animaciones */
+    transition: none !important;       /* Sin transiciones */
+    transform: none !important;        /* Sin transformaciones */
+    opacity: 1 !important;             /* Completamente visible */
+  }
+  
+  .btn-login:hover,
+  .form-control:focus,
+  .login-logo:hover {
+    transform: none !important;        /* Sin transformaciones en hover */
+  }
 }
 
-.login-title{font-size:1.25rem;font-weight:800}
-.login-sub{color:rgba(230,238,246,0.7);font-size:.9rem;margin-bottom:16px}
-
-.form-control{
-  background:transparent; /* fondo transparente */
-  border:1px solid rgba(255,255,255,0.06);color:var(--text);border-radius:8px;padding:12px; /* espacio interno */
-  color:var(--text); /* color del texto */
-  border-radius:8px; /* bordes redondeados */
-  padding:12px; /* espacio interno */
-}
-
-.form-control:focus{
-  outline:none; /* elimina el contorno por defecto */
-  box-shadow:0 6px 18px rgba(6,182,212,0.08);border-color:var(--accent) !important; /* sombra para enfoque */
-  border-color:var(--accent) !important; /* color del borde al enfocar */
-}
-
-.btn-login{
-  background:linear-gradient(90deg,var(--accent),var(--accent-2)); /* fondo degradado */
-  border:none; /* sin borde */  
-  color:#012026; /* color del texto */
-  width:100%; /* ancho completo */
-  padding:10px 16px; /* espacio interno */
-  margin-top:12px; /* margen superior */
-  border-radius:10px; /* bordes redondeados */
-  box-shadow:0 6px 18px rgba(6,182,212,0.12); /* sombra para profundidad */
-  cursor:pointer; /* cursor de puntero */
-  font-weight:700; /* peso de fuente */
-}
-.btn-login:focus{
-  outline:3px solid rgba(6,182,212,0.12) !important; /* contorno al enfocar */
-  box-shadow:0 0 0 3px rgba(6,182,212,0.12); /* sombra al enfocar */
-}
-
-.login-links{
-  display:flex; /* usa flexbox para el contenedor */
-  align-items:center; /* centra verticalmente */
-  justify-content:space-between; /* espacio entre elementos */
-  margin-top:10px; /* margen superior */
-  font-size:.9rem; /* tamaño del texto */
-}
-
-.login-links a{
-  color:rgba(230,238,246,0.85); /* color del texto */
-  text-decoration:none; /* sin subrayado */
-}
-
-.alert-custom{
-  border-radius:8px; /* bordes redondeados */
-  padding:10px 12px; /* espacio interno */
-  margin-top:12px; /* margen superior */
-}
-
-@media (max-width:480px){
-  .login-card{padding:18px;margin:12px} /* ajustes para pantallas pequeñas */ 
-  .login-logo{width:48px;height:48px} /* tamaño del logo */
-  .login-title{font-size:1.1rem} /* tamaño del título */
-}
-
-body{
-  background-image: url('img/planta_tratamiento_de_agua.jpg'); /* Ruta de tu imagen */
-  background-size: cover;              /* Escala para que cubra toda la pantalla */
-  background-position: center center;  /* Centra la imagen */
-  background-repeat: no-repeat;        /* Evita que se repita */
-  min-height: 100vh; /* Asegura que cubra toda la altura del viewport */
-  margin: 0; /* Elimina el margen por defecto */
-  background-attachment: fixed;  /* Fija la imagen de fondo al hacer scroll */
-  padding: 0; /* Elimina el padding por defecto */
+/* Mejoras para modo oscuro preferido */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-card: rgba(255, 255, 255, 0.08); /* Fondo más oscuro */
+    --bg-glass: rgba(255, 255, 255, 0.05); /* Cristal más oscuro */
+    --text-primary: #f8fafc;           /* Texto más claro */
+  }
 }

@@ -3,7 +3,7 @@ session_start();
 
 require_once 'seguridad/conexion.php';
 require_once 'seguridad/funciones.php';
-require_once 'conf.php';
+require_once 'config_mejorado.php';
 
 // definir helper JSON solo si no existe (evita redeclare)
 if (!function_exists('json_out')) {
@@ -46,14 +46,14 @@ if ($modoFicticio) {
             ['id'=>2,'user'=>'operario2','title'=>'Fuga filtro A','desc'=>'Goteo en conexión','created'=>date('Y-m-d H:i:s',time()-3600*48),'resolved'=>true,'resolved_at'=>date('Y-m-d H:i:s',time()-3600*24)]
         ];
     }
-    if (!isset($_SESSION['tec_failures'])) {
-        $_SESSION['tec_failures'] = [
+    if (!isset($_SESSION['tec_fallas'])) {
+        $_SESSION['tec_fallas'] = [
             ['ts'=>date('Y-m-d H:i:s',time()-86400*7),'type'=>'bomba','what'=>'Bomba 1 bloqueo','note'=>'Causa: sello','duration_min'=>120],
             ['ts'=>date('Y-m-d H:i:s',time()-86400*2),'type'=>'filtro','what'=>'Filtro A obstrucción','note'=>'Limpieza realizada','duration_min'=>45],
         ];
     }
     if (!isset($_SESSION['tec_chem'])) {
-        // quantities in percentage (0..100)
+        // cantidades en porcentaje (0..100)
         $_SESSION['tec_chem'] = [
             'Coagulantes'=>80,
             'Floculantes'=>55,
@@ -128,17 +128,17 @@ if (isset($_GET['api']) && $_GET['api'] == '1') {
     }
 
     // fallos / historial
-    if ($action === 'failures') {
+    if ($action === 'fallas') {
         if ($modoFicticio) {
-            json_out(['modo'=>'ficticio','failures'=>$_SESSION['tec_failures']]);
+            json_out(['modo'=>'ficticio','fallas'=>$_SESSION['tec_fallas']]);
         } else {
-            $out = ['modo'=>'real','failures'=>[]];
+            $out = ['modo'=>'real','fallas'=>[]];
             if ($pdo instanceof PDO) {
                 try {
                     $stmt = $pdo->query("SELECT ts, tipo AS type, descripcion AS what, nota AS note, duracion_min AS duration_min FROM averias ORDER BY ts DESC LIMIT 1000");
                     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     foreach ($rows as $r) {
-                        $out['failures'][] = $r;
+                        $out['fallas'][] = $r;
                     }
                 } catch (Exception $e) { }
             }
@@ -182,11 +182,12 @@ if (isset($_GET['api']) && $_GET['api'] == '1') {
         }
     }
 
-    // default status
+    // estado defecto
     json_out(['modo'=>$modoFicticio ? 'ficticio':'real','ok'=>true]);
 }
 
-// --- RENDER HTML UI below ---
+// modo interfaz web normal
+// cargar datos iniciales para mostrar
 $initialChem = $modoFicticio ? $_SESSION['tec_chem'] : [];
 ?>
 <!doctype html>
@@ -214,7 +215,7 @@ $initialChem = $modoFicticio ? $_SESSION['tec_chem'] : [];
       <span class="badge <?php echo $modoFicticio ? 'status-att' : 'status-ok'; ?> me-2">
         <?php echo $modoFicticio ? 'MODO FICTICIO' : 'MODO REAL (BD)'; ?>
       </span>
-      <a href="cerrar_sesion.php" class="btn btn-outline-secondary btn-sm">Cerrar sesión</a>
+      <a href="cerrar_sesion.php" class="btn btn-primary-ghost btn-primary">Cerrar sesión</a>
     </div>
   </div>
 
@@ -246,7 +247,7 @@ $initialChem = $modoFicticio ? $_SESSION['tec_chem'] : [];
           <div class="table-responsive table-fixed">
             <table class="table table-sm">
               <thead><tr><th>Fecha</th><th>Tipo</th><th>Descripción</th><th>Duración (min)</th></tr></thead>
-              <tbody id="failuresBody">
+              <tbody id="fallasBody">
                 <tr><td colspan="4" class="text-center small text-muted">Cargando...</td></tr>
               </tbody>
             </table>
@@ -410,14 +411,14 @@ $initialChem = $modoFicticio ? $_SESSION['tec_chem'] : [];
     this.disabled = false;
   });
 
-  // failures
-  async function loadFailures() {
-    const tbody = document.getElementById('failuresBody');
+  // fallas
+  async function loadFallas() {
+    const tbody = document.getElementById('fallasBody');
     tbody.innerHTML = '<tr><td colspan="4" class="text-center small text-muted">Cargando...</td></tr>';
     try {
-      const res = await fetch(API + '&action=failures');
+      const res = await fetch(API + '&action=fallas');
       const data = await res.json();
-      const f = data.failures || [];
+      const f = data.fallas || [];
       if (!f.length) {
         tbody.innerHTML = '<tr><td colspan="4" class="text-center small text-muted">Sin registros</td></tr>';
         return;
@@ -466,7 +467,7 @@ $initialChem = $modoFicticio ? $_SESSION['tec_chem'] : [];
 
   // initial loads
   loadTickets();
-  loadFailures();
+  loadFallas();
   loadChemicals();
 
   // si modo ficticio, animar quimicos cada 4s; en modo real refresco más lento

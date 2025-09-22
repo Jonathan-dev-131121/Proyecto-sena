@@ -1,241 +1,285 @@
 
-:root{
-  --bg-dark: #071025; /* fondo oscuro */
-  --bg: #f9fafb; /* fondo claro */
-  --accent: #0ea5a4; /* color principal */
-  --accent-2: #06b6d4; /* color secundario */
-  --muted: #6b7280; /* texto atenuado */
-  --text: #0b1220;  /* texto principal */
-  --card-bg: rgba(255,255,255,0.66);  /* fondo de tarjeta */
-  --card-border: rgba(255,255,255,0.6); /* borde de tarjeta */
-  --glass-blur: 8px; /* desenfoque de vidrio */
-  --radius: 12px;   /* radio de borde */
-  --success: #16a34a; /* OK - verde */
-  --warning: #f59e0b; /* ATENCIÓN - naranja */
-  --danger: #ef4444;  /* ALARMA - rojo */
-  font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif; /* fuente legible */
+/* Variables CSS globales para el sistema SmartAqua Pro */
+:root {
+  /* Colores de fondo */
+  --bg-dark: #071025;                 /* Fondo oscuro principal */
+  --bg: #f9fafb;                      /* Fondo claro principal */
+  
+  /* Colores de acento y temáticos */
+  --accent: #0ea0a5;                  /* Color principal del sistema */
+  --accent-2: #06b5d4ea;                /* Color secundario complementario */
+  --muted: #6b7280;                   /* Color para texto atenuado */
+  --text: #0b1220;                    /* Color de texto principal */
+  
+  /* Colores para tarjetas y elementos de interfaz */
+  --card-bg: rgba(255,255,255,0.66);  /* Fondo de tarjeta con transparencia */
+  --card-border: rgba(255,255,255,0.6); /* Borde de tarjeta semitransparente */
+  
+  /* Efectos visuales */
+  --glass-blur: 8px;                  /* Intensidad del desenfoque para efecto cristal */
+  --radius: 12px;                     /* Radio de borde estándar */
+  
+  /* Colores de estado del sistema */
+  --success: #16a34a;                 /* Verde para estado OK */
+  --warning: #f59e0b;                 /* Naranja para estado de ATENCIÓN */
+  --danger: #ef4444;                  /* Rojo para estado de ALARMA */
+  
+  /* Stack de fuentes del sistema */
+  font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* fondo global: usa un solo pseudo-elemento en las páginas que optan a través de .has-hero */
-.has-hero{ 
-  position: relative; /* hace que el fondo sea fijo al hacer scroll */
-  display: flex; /* Utiliza flexbox para el diseño */
-  flex-direction: row; /* Alinea los elementos en fila */
-  justify-content: right; /* Alinea los elementos al centro horizontalmente */
-  position: relative; /* Posiciona la barra de navegación */
-  top: 20px; /* Espacio desde la parte superior */
-  right: 15px; /* Espacio desde la parte derecha */
-  gap: 0.8rem;  /* Espacio entre los enlaces */
-  margin: 0 auto; /* Centrado horizontal si fuera necesario */
+/* Contenedor principal con imagen de fondo para páginas hero */
+.has-hero { 
+  position: relative;                 /* Posicionamiento relativo para pseudo-elementos */
+  display: flex;                      /* Utiliza flexbox para el diseño */
+  flex-direction: row;                /* Alinea los elementos en fila */
+  justify-content: right;             /* Alinea los elementos a la derecha */
+  top: 20px;                          /* Espacio desde la parte superior */
+  right: 15px;                        /* Espacio desde la parte derecha */
+  gap: 0.8rem;                        /* Espacio entre los elementos de navegación */
+  margin: 0 auto;                     /* Centrado horizontal automático */
 }
 
-.has-hero::before{
-  content: ''; /* crea un pseudo-elemento para el fondo */
-  position: relative; /* Posiciona el fondo */
-  inset: 0; z-index: -2; /* ocupa toda la pantalla detrás del contenido */
-  background-image: url('img/planta_tratamiento_de_agua.jpg'); /* ruta de la imagen de fondo */
-  background-size: cover; /* cubre toda el área */
-  background-position: center center; /* centra la imagen */
-  background-repeat: no-repeat; /* no repite la imagen */
-  filter: saturate(0.95) contrast(0.95) brightness(0.82);/* ajusta saturación, contraste y brillo */
-  margin: 0 auto; /* Centrado horizontal si fuera necesario */
+/* Pseudo-elemento para la imagen de fondo de la planta de tratamiento */
+.has-hero::before {
+  content: '';                        /* Crea un pseudo-elemento vacío */
+  position: relative;                 /* Posicionamiento relativo */
+  inset: 0;                          /* Cubre toda el área del contenedor */
+  z-index: -2;                       /* Se coloca detrás del contenido */
+  background-image: url('img/planta_tratamiento_de_agua.jpg'); /* Imagen de la planta */
+  background-size: cover;             /* Cubre toda el área disponible */
+  background-position: center center; /* Centra la imagen */
+  background-repeat: no-repeat;       /* Evita repetición de la imagen */
+  filter: saturate(0.95) contrast(0.95) brightness(0.82); /* Ajustes de color */
+  margin: 0 auto;                    /* Centrado horizontal */
 }
 
-/* hacer transparente el fondo por defecto */
-body.has-hero { background-color: transparent !important; }
-
-
-/* estilo de tarjeta de vidrio */
-.card.glass{
-  /* hace las tarjetas semi-transparentes */
-  background: #ffffff5a; /*blanco solido para legibilidad*/
-  /* borde ligero y sombra sutil */
-  border: 1px solid rgba(9,14,20,0.06); /* borde sutil */
-  /* efecto vidrio */
-  border-radius: var(--radius); box-shadow: 0 10px 30px rgba(2,6,23,0.10); /* sombra para profundidad */
-  backdrop-filter: blur(var(--glass-blur)) saturate(180%); /* efecto vidrio */
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%); /* efecto vidrio para Safari */
-  background: linear-gradient(90deg, rgba(18, 224, 94, 0.567), rgba(7, 195, 220, 0.507)); /* Fondo degradado */
-
-  /* color del texto */
+/* Elimina el fondo por defecto del body en páginas hero */
+body.has-hero { 
+  background-color: transparent !important; /* Fondo transparente forzado */
 }
 
-/* utilidades comunes */
-.container.tecnico-inner, .operario-inner{ background: transparent; /* fondo transparente */ padding:0; margin:0 }
-
-.metric-row{ 
-  display:flex; /* usa flexbox para el contenedor */
-  align-items:center;  /* centra verticalmente */
-  gap:8px; /* espacio entre elementos */
+/* Estilo de tarjeta con efecto cristal moderno */
+.card.glass {
+  background: #ffffff5a;              /* Fondo blanco semitransparente para legibilidad */
+  border: 1px solid rgba(9,14,20,0.06); /* Borde sutil y delicado */
+  border-radius: var(--radius);       /* Bordes redondeados usando variable */
+  box-shadow: 0 10px 30px rgba(2,6,23,0.10); /* Sombra suave para profundidad */
+  backdrop-filter: blur(var(--glass-blur)) saturate(180%); /* Efecto cristal estándar */
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%); /* Soporte Safari */
+  background: linear-gradient(90deg, rgba(18, 224, 94, 0.567), rgba(7, 195, 220, 0.507)); /* Gradiente temático */
 }
 
-.card .metric-icon{ 
-  width:40px; /* ancho del icono */
-  height:40px; /* alto del icono */
-  display:inline-flex; /* usa flexbox para el contenedor */
-  align-items:center; /* centra verticalmente */
-  justify-content:center; /* centra horizontalmente */
-  border-radius:8px;margin-right:10px; /* bordes redondeados y margen derecho */
-  flex-shrink:0; /* evita que el icono se reduzca */
+/* Contenedores internos para técnico y operario */
+.container.tecnico-inner, 
+.operario-inner { 
+  background: transparent;            /* Fondo transparente */
+  padding: 0;                        /* Sin relleno interno */
+  margin: 0;                         /* Sin márgenes */
 }
 
-.card .metric-icon svg{ 
-  width:22px; /* ancho del icono SVG */
-  height:22px; /* alto del icono SVG */
-  fill:currentColor; /* usa el color actual */ 
+/* Fila de métricas con iconos alineados */
+.metric-row { 
+  display: flex;                      /* Flexbox para alineación */
+  align-items: center;                /* Centrado vertical */
+  gap: 8px;                          /* Espacio entre elementos */
 }
 
-/* insignias */
-.badge.role-admin{ 
-  background: linear-gradient(90deg,#ff6b6b,#ff5252); /* fondo degradado */
-  color: #fff; /* color del texto */
- }
-
-.badge.role-tecnico{ 
-  background: linear-gradient(90deg,#ffd166,#fbbf24); /* fondo degradado */
-  color: #000; /* color del texto */
+/* Estilo para iconos de métricas en tarjetas */
+.card .metric-icon { 
+  width: 40px;                       /* Ancho fijo del icono */
+  height: 40px;                      /* Alto fijo del icono */
+  display: inline-flex;              /* Flexbox en línea */
+  align-items: center;               /* Centrado vertical */
+  justify-content: center;           /* Centrado horizontal */
+  border-radius: 8px;                /* Bordes redondeados */
+  margin-right: 10px;                /* Margen derecho para separación */
+  flex-shrink: 0;                    /* Evita que el icono se reduzca */
 }
 
-.badge.role-operario{ 
-  background: linear-gradient(90deg,#6ee7b7,#059669); /* fondo degradado */
-  color: #042018; /* color del texto */
+/* Estilo específico para iconos SVG */
+.card .metric-icon svg { 
+  width: 22px;                       /* Ancho del SVG */
+  height: 22px;                      /* Alto del SVG */
+  fill: currentColor;                /* Usa el color actual del contexto */
 }
 
-/* Tabla pequeña */
-.table-fixed{
-  /* Contenedor que habilita el fondo hero. No convertir el <body> en flex
-     porque puede reordenar o ocultar elementos como la navegación. */
-  position: relative;
-  border-radius:8px; /* bordes redondeados */
+/* Insignias de roles con gradientes temáticos */
+.badge.role-admin { 
+  background: linear-gradient(90deg, #ff6b6b, #ff5252); /* Gradiente rojo para administrador */
+  color: #fff;                       /* Texto blanco */
 }
 
-/* botones */
-.btn-primary, .btn.btn-primary{
-  background: linear-gradient(90deg,var(--accent), var(--accent-2)); /* fondo degradado */
-  color: #fff; /* color del texto */
-  border: none; /* sin borde */ 
-  border-radius:10px; /* bordes redondeados */
+.badge.role-tecnico { 
+  background: linear-gradient(90deg, #ffd166, #fbbf24); /* Gradiente amarillo para técnico */
+  color: #000;                       /* Texto negro para contraste */
 }
 
-.btn-outline-secondary{
-   background: transparent; /* fondo transparente */
-    border-radius:10pX; /* bordes redondeados */
+.badge.role-operario { 
+  background: linear-gradient(90deg, #6ee7b7, #059669); /* Gradiente verde para operario */
+  color: #042018;                    /* Texto verde oscuro */
+}
+
+/* Contenedor de tabla con altura fija y scroll */
+.table-fixed {
+  position: relative;                /* Posicionamiento relativo */
+  border-radius: 8px;                /* Bordes redondeados */
+}
+
+/* Botones primarios con gradiente del sistema */
+.btn-primary, 
+.btn.btn-primary {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2)); /* Gradiente del tema */
+  color: #fff;                       /* Texto blanco */
+  border: none;                      /* Sin borde */
+  border-radius: 10px;               /* Bordes redondeados */
+}
+
+/* Botón secundario con estilo outline */
+.btn-outline-secondary {
+  background: transparent;           /* Fondo transparente */
+  border-radius: 10px;               /* Bordes redondeados */
+}
+
+/* Adaptaciones responsivas para dispositivos móviles */
+@media (max-width: 600px) { 
+  /* Pseudo-elemento de fondo para móviles con posición fija */
+  .has-hero::before {
+    content: '';                      /* Pseudo-elemento vacío */
+    position: fixed;                  /* Posición fija para cubrir toda la ventana */
+    inset: 0;                        /* Cubre toda la pantalla */
+    z-index: -2;                     /* Detrás del contenido */
+    background-image: url('img/planta_tratamiento_de_agua.jpg'); /* Imagen de fondo */
+    background-size: cover;           /* Cubre toda el área */
+    background-position: center center; /* Centrado */
+    background-repeat: no-repeat;     /* Sin repetición */
+    filter: saturate(0.95) contrast(0.95) brightness(0.82); /* Filtros de color */
+    pointer-events: none;             /* No intercepta eventos de click */
   }
 
-/* mejoras pequeñas */
-@media (max-width:600px){ 
-
-  .has-hero::before{
-  content: '';
-    position: fixed; inset: 0; z-index: -2; /* Usar fixed para cubrir siempre la ventana y quedarse detrás del contenido */
-  background-image: url('img/planta_tratamiento_de_agua.jpg'); /* ruta de la imagen de fondo */
-  background-size: cover; /* cubre toda el área */
-  background-position: center center; /* centra la imagen */
-  background-repeat: no-repeat; /* no repite la imagen */
-  filter: saturate(0.95) contrast(0.95) brightness(0.82); /* ajusta saturación, contraste y brillo */
-  pointer-events: none; /* que el fondo no intercepte clicks */
+  /* Overlay adicional para mejorar legibilidad en móviles */
+  .has-hero::after {
+    content: '';                      /* Pseudo-elemento para overlay */
+    position: fixed;                  /* Posición fija */
+    inset: 0;                        /* Cubre toda la pantalla */
+    z-index: -1;                     /* Entre el fondo y el contenido */
+    background: linear-gradient(180deg, rgba(2,6,23,0.28), rgba(2,6,23,0.12)); /* Gradiente oscuro */
+    pointer-events: none;             /* No intercepta clicks */
+  }
+  
+  /* Ajustes de iconos para móviles */
+  .card .metric-icon { 
+    width: 36px;                     /* Ancho reducido */
+    height: 36px;                    /* Alto reducido */
+  }
+  
+  /* Texto más grande para valores importantes en móviles */
+  #nivelValue, 
+  #caudalValue, 
+  #phValue { 
+    font-size: 1.3rem;               /* Tamaño aumentado para legibilidad */
+  }
 }
 
-.has-hero::after{
-  content: '';
-  position: fixed; inset: 0; z-index: -1;
-  background: linear-gradient(180deg, rgba(2,6,23,0.28), rgba(2,6,23,0.12));
-  pointer-events: none;
-}
-  .card .metric-icon{ width:36px;height:36px } #nivelValue, #caudalValue, #phValue{ font-size:1.3rem } /* texto más grande para móviles */
-}
-body.has-hero { background-color: transparent !important; }
-
-/* Notificaciones */
-.notificacion
-{ 
-  position:fixed; /* posición fija */
-  right:28px; /* distancia desde la derecha */
-  bottom:28px; /* distancia desde abajo */
-  z-index:9999; /* encima de otros elementos */
-  padding:12px 18px; /* espacio interno */
-  border-radius:8px; /* bordes redondeados */
-  color:#fff; /* color del texto */
-  display:flex; /* usa flexbox para el contenedor */
-  gap:8px; /* espacio entre elementos */
-  align-items:center; /* centra verticalmente */
-  box-shadow:0 8px 30px rgba(2,6,23,0.25); /* sombra para profundidad */
-  transform: translateY(10px); /* mueve hacia abajo */
-  opacity:0; /* invisible por defecto */
-  pointer-events:none; /* no interactuable */
-  transition:all .28s; /* transición suave */
+/* Confirma fondo transparente para páginas hero */
+body.has-hero { 
+  background-color: transparent !important; /* Forzar transparencia */
 }
 
-.notificacion.activa{ 
-  transform:none; /* restablece la transformación */
-  opacity:1; /* visible */
-  pointer-events:auto; /* interactuable */
+/* Sistema de notificaciones modernas */
+.notificacion { 
+  position: fixed;                   /* Posición fija en la pantalla */
+  right: 28px;                       /* Distancia desde el borde derecho */
+  bottom: 28px;                      /* Distancia desde el borde inferior */
+  z-index: 9999;                     /* Muy por encima de otros elementos */
+  padding: 12px 18px;                /* Relleno interno */
+  border-radius: 8px;                /* Bordes redondeados */
+  color: #fff;                       /* Texto blanco */
+  display: flex;                     /* Flexbox para layout interno */
+  gap: 8px;                         /* Espacio entre elementos */
+  align-items: center;               /* Centrado vertical */
+  box-shadow: 0 8px 30px rgba(2,6,23,0.25); /* Sombra para profundidad */
+  transform: translateY(10px);       /* Desplazamiento inicial para animación */
+  opacity: 0;                        /* Invisible por defecto */
+  pointer-events: none;              /* No interactuable inicialmente */
+  transition: all .28s;              /* Transición suave para todas las propiedades */
 }
 
-/* Formas: moderna, legible */
-.form-control{ 
-  border-radius:8px; /* bordes redondeados */
-  padding:.5rem .75rem; /* espacio interno */
+/* Estado activo de las notificaciones */
+.notificacion.activa { 
+  transform: none;                   /* Sin desplazamiento */
+  opacity: 1;                        /* Completamente visible */
+  pointer-events: auto;              /* Interactuable */
 }
 
-.form-label{ 
-  font-weight:600; /* peso de fuente */
-} 
-
-/* mejora de modal */
-.modal-content{ 
-  border-radius:12px; /* bordes redondeados */
-  overflow:hidden; /* evita desbordamiento */
-  background:#fff; /* fondo blanco */
+/* Controles de formulario modernos */
+.form-control { 
+  border-radius: 8px;                /* Bordes redondeados */
+  padding: .5rem .75rem;             /* Relleno interno estándar */
 }
 
-.modal-backdrop.show{ 
-  opacity:.32; /* opacidad del fondo */
+/* Etiquetas de formulario con peso medio */
+.form-label { 
+  font-weight: 600;                  /* Peso semi-bold */
 }
 
-.modal-content.glass{ 
-  background:#fff; /* fondo blanco */
+/* Contenido de modal con bordes redondeados */
+.modal-content { 
+  border-radius: 12px;               /* Bordes redondeados grandes */
+  overflow: hidden;                  /* Evita desbordamiento */
+  background: #fff;                  /* Fondo blanco sólido */
 }
 
-/* clases asistente */
-.text-muted-strong{ 
-  color: rgba(0,0,0,0.55); /* color del texto */
+/* Fondo de modal con opacidad reducida */
+.modal-backdrop.show { 
+  opacity: .32;                      /* Opacidad del overlay */
 }
 
+/* Modales con efecto cristal */
+.modal-content.glass { 
+  background: #fff;                  /* Fondo blanco para modales */
+}
+
+/* Texto atenuado con estilo distintivo */
+.text-muted-strong { 
+  color: rgba(0,0,0,0.55);           /* Color gris semi-transparente */
+}
+
+/* Estilo especial para texto descriptivo */
 .text-muted { 
-  color: rgba(0,0,0,0.55); /* color del texto */
-  font-size: 1rem; /* Tamaño pequeño */
-  font-style: italic; /* Cursiva */
-  margin-top: 4px; /* Espacio superior */
-  margin-bottom: 4px; /* Espacio inferior */
-  font-weight: 700; /* Negrita */
-  font-family: 'Inter', roboto, poppins, montserrat, averta; /* fuente legible */
-  background: #ffffffc7; /* fondo blanco para legibilidad */
-  display: inline-block; /* para que el padding funcione */
-  border-radius: 40px;  /* bordes redondeados */
-  padding: 4px 15px; /* espacio interno */
+  color: rgba(0,0,0,0.55);           /* Color base */
+  font-size: 1rem;                   /* Tamaño estándar */
+  font-style: italic;                /* Estilo cursiva */
+  margin-top: 4px;                   /* Margen superior */
+  margin-bottom: 4px;                /* Margen inferior */
+  font-weight: 700;                  /* Peso bold */
+  font-family: 'Inter', roboto, poppins, montserrat, averta; /* Stack de fuentes */
+  background: #ffffffc7;             /* Fondo blanco semi-transparente */
+  display: inline-block;             /* Para que el padding funcione correctamente */
+  border-radius: 40px;               /* Bordes muy redondeados tipo píldora */
+  padding: 4px 15px;                 /* Relleno interno */
 }
 
-/* utilidades de estado */
-.status-ok{ 
-  color: #fff; /* color del texto */
-  background: var(--success); /* fondo */
-  border-radius:8px; /* bordes redondeados */
-  padding:4px 8px; /* espacio interno */
+/* Indicadores de estado con colores del sistema */
+.status-ok { 
+  color: #fff;                       /* Texto blanco */
+  background: var(--success);        /* Fondo verde de éxito */
+  border-radius: 8px;                /* Bordes redondeados */
+  padding: 4px 8px;                  /* Relleno interno */
 }
 
-.status-att{ 
-  color: #000; /* color del texto */
-  background: var(--warning); /* fondo */
-  border-radius:8px; /* bordes redondeados */
-  padding:4px 8px; /* espacio interno */
+.status-att { 
+  color: #000;                       /* Texto negro para contraste */
+  background: var(--warning);        /* Fondo naranja de advertencia */
+  border-radius: 8px;                /* Bordes redondeados */
+  padding: 4px 8px;                  /* Relleno interno */
 }
 
-.status-alarm{ 
-  color: #fff; /* color del texto */
-  background: var(--danger); /* fondo */
-  border-radius:8px; /* bordes redondeados */
-  padding:4px 8px; /* espacio interno */
+.status-alarm { 
+  color: #fff;                       /* Texto blanco */
+  background: var(--danger);         /* Fondo rojo de alarma */
+  border-radius: 8px;                /* Bordes redondeados */
+  padding: 4px 8px;                  /* Relleno interno */
 }
 
 
